@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
 
   public onSubmit() {
     console.log(this.LoginForm.value.password);
+    localStorage.setItem('rut', this.LoginForm.value.username);
     this.router.navigate(['/home']);
     /*this.auth.login(this.LoginForm.value.username, this.LoginForm.value.password)
       .pipe(first())

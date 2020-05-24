@@ -1,20 +1,2 @@
-<app-navbar></app-navbar>  <!-- Para añadir navbar-->
 
-<div class="pricingdiv">
-    <div *ngFor="let paciente of pacientes$.data">  <!-- por cada paciente del resultado de la consulta-->
-    <ul class="theplan">
-        
-        <li class="title"><img  width="100px" height=" " src="./assets/images/logito.png"><br/><b>{{paciente.nombre}}</b> <br />{{paciente.apellidoP}} {{paciente.apellidoM}}</li>
-        
-        <li class="title2">
-            Rut: {{paciente.rut}} <br/>
-            </li>
-            <li >
-                <button class="button" >Modificar</button>
-                <button  class="button" >Eliminar</button>
-                    
-            </li>
-    </ul>
-</div>
-   
-</div>
+<app-navbar></app-navbar>  <!-- Para añadir navbar-->
