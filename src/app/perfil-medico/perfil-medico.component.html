@@ -1,0 +1,143 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<div class="grid-container container">
+    <div class="divmio" style="padding-left: 1;">
+        <form #formRef="ngForm">
+            <label style="font-size:large;">Datos generales</label>
+            <div class="row">
+               <!--ESTATURA-->
+                <div class="col" >
+                    <label for="estatura" style="font-size: medium;">Estatura:  <input type="number" pattern="[0-9]" *ngIf="editarEstatura" id ="estatura" name= "estatura" [(ngModel)]="general.estatura" class="form-control">  {{estatura_actual}} (cm)</label>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-warning" (click)="editEstatura()">Editar</button>
+                    <button type="button" class="btn btn-success" *ngIf="editarEstatura" (click)="guardarEstatura()">Guardar</button>
+                </div>      
+            </div>
+            <div class="row">
+                 <!--PESO-->
+                 <div class="col" >
+                    <label for="peso" style="font-size: medium;">Peso:  <input type="number" pattern="[0-9]" *ngIf="editarPeso" id ="peso" name= "peso" [(ngModel)]="general.peso" class="form-control">  {{peso_actual}} (kg)</label>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-warning" (click)="editPeso()">Editar</button>
+                    <button type="button" class="btn btn-success" *ngIf="editarPeso" (click) = "guardarPeso()">Guardar</button>
+                </div>
+            </div>
+            <div class="row">
+                <!--GRUPO SANGUINEO-->
+                <div class="col" >
+                    <label for="g_sanguineo" style="font-size: medium;">Grupo Sanguineo:  <select id="inputState" name="g_sanguineo" [(ngModel)]="general.g_sanguineo" class="form-control" *ngIf="editarGS">
+                        <option value="" disabled selected>{{gs_actual}}</option>
+                        <option >A-</option>
+                        <option >A+</option>
+                        <option >B-</option>
+                        <option >B+</option>
+                        <option >AB-</option>
+                        <option >AB+</option>
+                        <option >O-</option>
+                        <option >O+</option>
+                    </select>  {{gs_actual}} </label>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-warning" (click)="editGS()">Editar</button>
+                    <button type="button" class="btn btn-success" *ngIf="editarGS" (click)="guardarGS()">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="divmio" style="padding-left: 1;margin-top: 2%;">
+        <div class="row ">
+            <div class="col">
+                <table align="center">
+                    <tr>
+                      <th>Alergias</th>
+                      <th class="tmio"><button type="button" class="btn btn-secondary" (click)="aAlergia()">Agregar</button></th>
+                    </tr>
+                    <tr *ngIf="agregarAlergia">
+                        <td>
+                            <input type="text"  [(ngModel)]="newAlergia" id ="alergia" name= "alergia" class="form-control">
+                        </td>
+                        <td class="tmio">
+                            <button type="button" class="btn btn-success" (click)="saveAlergia()">Guardar</button>
+                        </td>
+                    </tr>
+                   
+                    <tr *ngFor="let i of _hay_alergias.data; let j = index">
+                        <td>{{i.nombre}} </td>
+                        <td class="tmio">
+                            <button type="button" class="btn btn-danger" style="align-content: flex-end;" *ngIf="borrarAlergia" (click) = "deleteAlergia(i.id,j)">Borrar</button>
+                        </td>
+                    </tr>
+                  </table>
+            </div>
+            <div class = "col">
+                <table align="center">
+                    <tr>
+                      <th>Intolerancias</th>
+                      <th class="tmio"><button type="button" class="btn btn-secondary" (click)="aIntolerancia()">Agregar</button></th>
+                    </tr>
+                    <tr *ngIf="agregarIntolerancia">
+                        <td>
+                            <input type="text"  [(ngModel)]="newIntolerancia" id ="intolerancia" name= "intolerancia" class="form-control">
+                        </td>
+                        <td class="tmio">
+                            <button type="button" class="btn btn-success" (click)="saveIntolerancia()">Guardar</button>
+                        </td>
+                    </tr>
+                   
+                    <tr *ngFor="let i of _hay_intolerancias.data; let j = index">
+                        <td>{{i.nombre}} </td>
+                        <td class="tmio">
+                            <button type="button" class="btn btn-danger" style="align-content: flex-end;" *ngIf="borrarIntolerancia" (click) = "deleteIntolerancia(i.id,j)">Borrar</button>
+                        </td>
+                    </tr>
+                  </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="divmio" style="padding-left: 1;margin-top: 2%;">
+        <label style="font-size:large;">Cirugias y Transplantes</label>
+        <table align="center">
+            <tr>
+                <th>Nombre</th>
+                <th>Fecha</th>
+                <th class="tmio"><button type="button" class="btn btn-secondary" (click)="aCirugia()" >Agregar</button></th>
+            </tr>
+
+            <tr *ngIf="agregarCirugia">
+                <td>
+                    <input type="text"  [(ngModel)]="newCirugia" id ="cirugia" name= "cirugia" class="form-control">
+                </td>
+                <td>
+                    <input type="date"  [(ngModel)]="newFecha" id ="date" name= "date" class="form-control">
+                </td>
+                <td class="tmio">
+                    <button type="button" class="btn btn-success" (click)="saveCirugia()">Guardar</button>
+                </td>
+            </tr>
+            
+            <tr *ngFor="let i of _hay_cirugias.data; let j = index">
+                <td>{{i.nombre}} </td>
+                <td>{{i.fecha}} </td>
+                <td class="tmio">
+                    <button type="button" class="btn btn-danger" style="align-content: flex-end;" *ngIf="borrarCirugia" (click) = "deleteCirugia(i.id,j)">Borrar</button>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+<!-- por si se quiere agregar otro
+             <div class="divmio" style="padding-left: 1;margin-top: 2%;">
+       
+    
+            </div>
+
+-->
+   
+
+
+</div>

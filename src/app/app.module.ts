@@ -9,6 +9,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegistroComponent } from './registro/registro.component';
+import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -17,6 +21,8 @@ import { RegistroComponent } from './registro/registro.component';
     HomeComponent,
     NavbarComponent,
     RegistroComponent,
+    PerfilMedicoComponent,
+    SidebarComponent,
     
   ],
   imports: [
@@ -26,7 +32,7 @@ import { RegistroComponent } from './registro/registro.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [CookieService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
