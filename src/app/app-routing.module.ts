@@ -3,18 +3,31 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegistroComponent } from './registro/registro.component';
+import { EspecialistasComponent } from './especialistas/especialistas.component';
+import { VerEspecialistaComponent } from './ver-especialista/ver-especialista.component';
+import { PerfilPacienteComponent } from './perfil-paciente/perfil-paciente.component';
 import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
+
 
 const routes: Routes = [
   {path:'', component: LoginComponent},
   {path: 'home', component: HomeComponent },
   {path: 'registro', component: RegistroComponent},
-  {path: 'perfil/perfil-medico', component: PerfilMedicoComponent},
+  {path: 'especialistas', component: EspecialistasComponent, pathMatch: 'full', runGuardsAndResolvers: 'always',},
+  {path: 'verEspecialista/:id', component: VerEspecialistaComponent},
+  {path: 'perfilPaciente', component: PerfilPacienteComponent},
+  {path: 'perfilMedico/:id', component: PerfilMedicoComponent},
+  
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes ,{
+      onSameUrlNavigation: 'reload'
+    } )
+  ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+}

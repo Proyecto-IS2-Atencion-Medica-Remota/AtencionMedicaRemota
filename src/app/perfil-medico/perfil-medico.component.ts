@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
+import { HttpClient ,HttpParams ,HttpHeaders} from '@angular/common/http';
 import { JsonPipe } from '@angular/common';
-import { Usuario } from 'src/app/modelos/usuario';
 import { Router } from '@angular/router';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
@@ -17,18 +15,11 @@ export class PerfilMedicoComponent implements OnInit {
   public peso_actual:any;
   public gs_actual:any;
 
-  public paciente: any = [];
+  paciente$: any ;
   public nombre:string;
   public apellido:string;
   
-  paciente2: Usuario = {
-    rut: '',
-    nombres: '',
-    apellidos: '',
-    contacto:'',
-    fechaderegistro:null,
-    password:'',
-  };
+
 
   public into: any = [];
 
@@ -142,19 +133,16 @@ g_sanguineo:''
   }
   public rut_usuario;
 
-  constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) {
+  constructor(private http: HttpClient,  private router: Router) {
+    this.rut_usuario=localStorage.getItem('rut');
     
-    this.cookieService.set("id_rut","19854123-6");
-    this.rut_usuario = this.cookieService.get("id_rut");
-    //DESCOMENTAR ESTO DE ABAJO Y COMENTAR O BORRAR LAS DOS LINEAS DE ARRIBA
-    // this.rut_usuario = localStorage.getItem('rut');
 
     this.datos_Usuario();
     this.hay_General();
     this.hay_Alergias();
     this.hay_Intolerancias();
     this.hay_Cirugias();
-
+    console.log(this.paciente$)
 
    }
    
@@ -268,12 +256,21 @@ hay_Cirugias(){
  });
 }
 
+
+
 datos_Usuario(){
-  this.http.get(`http://localhost:8000/getuser/${this.rut_usuario}/`).subscribe(
-    res => {
-      this.paciente = res as [];
-    }
-  );
+
+  let params = new HttpParams().set("rut", this.rut_usuario);
+  
+
+  this.http.get('http://localhost:8000/perfilPaciente',{headers: new HttpHeaders({
+    'Content-Type':'application/json'
+    }), params: params}).subscribe(resp =>
+    this.paciente$ = resp as []
+  )
+ 
+
+  
 }
 
 editEstatura(){
@@ -313,14 +310,16 @@ editAlergia(){
   this.borrarAlergia = !this.borrarAlergia;
 }
 deleteAlergia(s:string,i:number){
-this._hay_alergias.data.splice(i,1);
-this.http.post(`http://localhost:8000/deleteAlergia/`,[this.rut_usuario,s]).subscribe(
-  res=>{
-  },
-  err =>{
-  }
-);
+  if(confirm("¿Estás seguro de querer borrar esta alergia?")) {
+    this._hay_alergias.data.splice(i,1);
+    this.http.post(`http://localhost:8000/deleteAlergia/`,[this.rut_usuario,s]).subscribe(
+      res=>{
+      },
+      err =>{
+      }
+    );
 
+    }
 }
 
 aAlergia(){
@@ -341,13 +340,15 @@ saveAlergia(){
 }
 
 deleteIntolerancia(s:string,i:number){
-  this._hay_intolerancias.data.splice(i,1);
-  this.http.post(`http://localhost:8000/deleteIntolerancia/`,[this.rut_usuario,s]).subscribe(
-    res=>{
-    },
-    err =>{
-    }
-  );
+  if(confirm("¿Estás seguro de querer borrar esta intolerancia?")) {
+    this._hay_intolerancias.data.splice(i,1);
+    this.http.post(`http://localhost:8000/deleteIntolerancia/`,[this.rut_usuario,s]).subscribe(
+      res=>{
+      },
+      err =>{
+      }
+    );
+  }
 }
 aIntolerancia(){
  this.agregarIntolerancia = !this.agregarIntolerancia;
@@ -383,6 +384,7 @@ saveCirugia(){
 }
 
 deleteCirugia(s:string,i:number){
+  if(confirm("¿Estás seguro de querer borrar esta cirugia?")) {
   this._hay_cirugias.data.splice(i,1);
   this.http.post(`http://localhost:8000/deleteCirugia/`,[this.rut_usuario,s]).subscribe(
     res=>{
@@ -390,6 +392,7 @@ deleteCirugia(s:string,i:number){
     err =>{
     }
   );
+  }
 }
 
 }

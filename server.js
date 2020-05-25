@@ -36,14 +36,7 @@ con.connect(function (err) {
         res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
         res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-
-        //CLAUDIO
-        req.header('Access-Control-Allow-Origin', '*');
-        req.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-        req.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-        req.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-        //CLAUDIO
-
+        
         next();
     });
   
@@ -56,8 +49,97 @@ app.use(bodyParser.json());
 
 
 
-//CLAUDIO
 
+
+
+
+
+
+
+
+app.get('/especialistas', (req, res) => {
+    console.log("holaaaaaaaaaaa")
+       const select_query=`select u.nombres, u.apellidos, u.rut, e.especialidad, e.formacionacademica, e.experiencia, e.cantcitasrealizadas, e.horariodisponible, u.contacto from especialista as e, usuario as u where e.rut=u.rut;`
+    con.query(select_query, (err, result) => {
+        console.log(result);
+        if (err){
+          	return res.send(err)
+       	}else{
+           	return res.json({
+
+                   data: result
+
+           	})
+        }
+   	});
+});
+
+
+app.get('/perfilPaciente', (req, res) => {
+    console.log("llegueeeeeeeeeeeeeeeeeeeeeeeeee")
+    var id=req.param('rut');
+    console.log(id);
+
+    const select_query=`select *, DATE_FORMAT(u.fechaderegistro, '%Y-%m-%d') as fecharegistro, DATE_FORMAT(u.fechaderegistro, '%H:%i') as horaregistro from usuario as u, paciente as p where u.rut=p.rut and u.rut=?;`
+    con.query(select_query,id, (err, result) => {
+     console.log(result);
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+
+                data: result
+
+            })
+     }
+    });
+    
+});
+
+
+
+
+
+app.get('/verEspecialista', (req, res) => {
+    var id=req.param('rut');
+    console.log(id);
+
+    const select_query=`select * ,DATE_FORMAT(u.fechaderegistro, '%Y-%m-%d') as fecharegistro, DATE_FORMAT(u.fechaderegistro, '%H:%i') as horaregistro from especialista as e, usuario as u where e.rut =u.rut and e.rut=?`
+    con.query(select_query,id, (err, result) => {
+     console.log(result);
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+
+                data: result
+
+            })
+     }
+    });
+    
+});
+
+
+//claudio
+
+app.get('/esp/:e',(req,res)=>{
+    const {e} = req.params;
+    console.log(e);
+    con.query(`select u.nombres, u.apellidos, u.rut, e.especialidad, e.formacionacademica, e.experiencia, e.cantcitasrealizadas, e.horariodisponible, u.contacto from especialista as e, usuario as u where e.rut=u.rut and e.especialidad  LIKE ?;`,['%' + e + '%'],(err,result)=>{
+        console.log(result);
+        if (err){
+            return res.send(err)
+         }else{
+             return res.json({
+
+                 data: result
+
+             })
+      }
+
+    });
+});
 
 app.post('/pfmedico',(req,res) => {
     console.log("??");
@@ -345,28 +427,7 @@ app.get('/intolerancias',(req,res) => {
 });
 
 
-//FIN CLAUDIO
-
-
-app.get('/pacientes', (req, res) => {
-    console.log("holaaaaaaaaaaa")
-       const select_query=`SELECT * 
-       FROM paciente;`
-    con.query(select_query, (err, result) => {
-        console.log(result);
-        if (err){
-          	return res.send(err)
-       	}else{
-           	return res.json({
-
-                   data: result
-
-           	})
-        }
-   	});
-});
-
-
+//claudio
 
 
 

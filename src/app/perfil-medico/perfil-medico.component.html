@@ -1,6 +1,10 @@
 <app-navbar></app-navbar>
+<div id="container" *ngFor="let paciente of paciente$.data">
 
-<div class="grid-container container">
+    <h1>&bull;Paciente: {{paciente.nombres}} {{paciente.apellidos}}&bull;</h1>
+    <div class="underline">
+    </div>
+    <div class="tabla" >
     <div class="divmio" style="padding-left: 1;">
         <form #formRef="ngForm">
             <label style="font-size:large;">Datos generales</label>
@@ -134,9 +138,8 @@
        
     
             </div>
-
 -->
    
 
-
+</div>
 </div>

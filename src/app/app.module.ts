@@ -9,9 +9,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegistroComponent } from './registro/registro.component';
+import { EspecialistasComponent } from './especialistas/especialistas.component';
+import { VerEspecialistaComponent } from './ver-especialista/ver-especialista.component';
+import { PerfilPacienteComponent } from './perfil-paciente/perfil-paciente.component';
 import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
 
-import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,11 @@ import { CookieService } from 'ngx-cookie-service';
     HomeComponent,
     NavbarComponent,
     RegistroComponent,
-    PerfilMedicoComponent
+    EspecialistasComponent,
+    VerEspecialistaComponent,
+    PerfilPacienteComponent,
+    PerfilMedicoComponent,
+   
     
   ],
   imports: [
@@ -30,7 +36,7 @@ import { CookieService } from 'ngx-cookie-service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [CookieService ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
