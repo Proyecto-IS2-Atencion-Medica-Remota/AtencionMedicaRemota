@@ -1,0 +1,62 @@
+<app-navbar></app-navbar>
+
+<div id="container" *ngFor="let paciente of paciente$.data">
+    <h1>&bull;Paciente: {{paciente.nombres}} {{paciente.apellidos}}&bull;</h1>
+    <div class="underline">
+    </div>
+    <div class="tabla" >
+        <fieldset>
+            <legend>Datos Personales</legend>
+            <div class="row">
+                <div class="column" >
+                    <label >Nombres:</label> {{paciente.nombres}} 
+                 
+                </div>
+                <div class="column" >
+                  <label >Apellidos:</label> {{paciente.apellidos}}
+                 
+                </div>
+              </div>
+                
+            
+            <div class="row">
+                <div class="column" >
+                      <label >Rut:</label> {{paciente.rut}}
+                      
+                  </div>
+                <div class="column" >
+                      <label >Fecha de registro:</label> {{paciente.fecharegistro}} {{paciente.horaregistro}} 
+                     
+                      
+                     </div>
+                </div>
+                
+            
+            
+          </fieldset>
+       
+       
+
+        <fieldset>
+            <legend>Contacto</legend>
+            <div class="row">
+                <div class="column" >
+                    <label >Fono:</label> {{paciente.contacto}}
+                    
+                </div>
+                <div class="column" >
+                    <label >Correo:</label> asasasas
+                </div>
+              </div>
+              
+            </fieldset>  
+              
+            
+              <button class="button" [routerLink]="['/perfilMedico', paciente.rut]">Ver detalles médicos</button> 
+              <button class="button">Editar</button> 
+          
+             
+           
+        </div ><!-- // End form -->
+  </div><!-- // End #container -->
+>

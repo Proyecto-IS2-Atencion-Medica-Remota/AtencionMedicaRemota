@@ -9,6 +9,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegistroComponent } from './registro/registro.component';
+import { EspecialistasComponent } from './especialistas/especialistas.component';
+import { VerEspecialistaComponent } from './ver-especialista/ver-especialista.component';
+import { PerfilPacienteComponent } from './perfil-paciente/perfil-paciente.component';
+import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
+
 
 @NgModule({
   declarations: [
@@ -17,6 +22,11 @@ import { RegistroComponent } from './registro/registro.component';
     HomeComponent,
     NavbarComponent,
     RegistroComponent,
+    EspecialistasComponent,
+    VerEspecialistaComponent,
+    PerfilPacienteComponent,
+    PerfilMedicoComponent,
+   
     
   ],
   imports: [

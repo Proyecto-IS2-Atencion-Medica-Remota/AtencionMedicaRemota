@@ -1,16 +1,21 @@
 
-        <div class="form">
-            <a>
-              <img width="100px" src="assets/images/logito.png">
-            </a>
+	
+
+		
+			<div class="form" style="background-image: url('../../assets/images/fondo.jpg');">
+        <a>
+          <img width="100px" src="assets/images/logito.png">
+        </a>
+        
+        <form class="login-form" [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
+          <input type="text" placeholder="Rut" formControlName="username"/>
+          <input type="password" placeholder="Contraseña" formControlName="password"/>
+          
             
-            <form class="login-form" [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
-              <input type="text" placeholder="Rut" formControlName="username"/>
-              <input type="password" placeholder="Contraseña" formControlName="password"/>
-              
-                
-              <button [disabled]="!LoginForm.valid">Iniciar sesión</button>
-              <br> <br>
-              <p class="message">¿No estás registrado?</p> <a routerLink="/registro" >Registrate aquí</a>
-            </form>
-          </div>
+          <button [disabled]="!LoginForm.valid">Iniciar sesión</button>
+          <br> <br>
+          <p class="message">¿No estás registrado?</p> <a routerLink="/registro" >Registrate aquí</a>
+        </form>
+      </div>
+	
+
