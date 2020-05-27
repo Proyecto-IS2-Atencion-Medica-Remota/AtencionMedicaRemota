@@ -14,9 +14,9 @@ const expressJwt = require('express-jwt');
 
 const con = msql.createConnection({
 
-        user: 'root',
-        password: 'admin',
-        server: 'LAPTOP-AKALA047',
+        user: 'Nelsota',
+        password: 'Comida123',
+        server: 'sLs-Nelsota',
         database: 'atencionmedicaremota',
         insecureAuth : true
     });
