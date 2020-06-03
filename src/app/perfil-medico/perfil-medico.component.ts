@@ -327,16 +327,21 @@ aAlergia(){
 }
 
 saveAlergia(){
-  var newid = this.makeid(20);
-  this.http.post(`http://localhost:8000/newAlergia/`,[this.rut_usuario,newid,this.newAlergia]).subscribe(
-    res=>{
-    },
-    err =>{
-    }
-  );
-  this._hay_alergias.data.push({id:newid,nombre:this.newAlergia});
-  console.log(this._hay_alergias);
-  this.newAlergia = null;
+  if(this.newAlergia != null){
+
+    var newid = this.makeid(20);
+    this.http.post(`http://localhost:8000/newAlergia/`,[this.rut_usuario,newid,this.newAlergia]).subscribe(
+      res=>{
+      },
+      err =>{
+      }
+    );
+    this._hay_alergias.data.push({id:newid,nombre:this.newAlergia});
+    console.log(this._hay_alergias);
+    this.newAlergia = null;
+
+  }
+
 }
 
 deleteIntolerancia(s:string,i:number){
@@ -354,7 +359,9 @@ aIntolerancia(){
  this.agregarIntolerancia = !this.agregarIntolerancia;
 }
 saveIntolerancia(){
-  var newid = this.makeid(20);
+  if(this.newIntolerancia != null){
+
+    var newid = this.makeid(20);
   this.http.post(`http://localhost:8000/newIntolerancia/`,[this.rut_usuario,newid,this.newIntolerancia]).subscribe(
     res=>{
     },
@@ -363,6 +370,9 @@ saveIntolerancia(){
   );
   this._hay_intolerancias.data.push({id:newid,nombre:this.newIntolerancia});
   this.newIntolerancia = null;
+
+  }
+  
 }
 
 aCirugia(){
@@ -370,6 +380,8 @@ aCirugia(){
 }
 
 saveCirugia(){
+  if(this.newCirugia != null){
+
   var newid = this.makeid(20);
   this.http.post(`http://localhost:8000/newCirugia/`,[this.rut_usuario,newid,this.newCirugia,this.newFecha]).subscribe(
     res=>{
@@ -378,9 +390,11 @@ saveCirugia(){
     }
   );
   this._hay_cirugias.data.push({id:newid,fecha:this.newFecha,nombre:this.newCirugia});
-  console.log(this._hay_cirugias);
+  console.log(this._hay_cirugias.data);
   this.newCirugia = null;
   this.newFecha = null;
+  }
+  
 }
 
 deleteCirugia(s:string,i:number){
