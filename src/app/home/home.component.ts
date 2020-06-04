@@ -9,20 +9,17 @@ import { HttpClient ,HttpParams ,HttpHeaders} from '@angular/common/http';
 })
 export class HomeComponent implements OnInit {
 
-  pacientes$: any = [ ];
+  
 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    
+  }
 
   ngOnInit(): void {
 
-    this.getPacientes();
+    
   }
 
-  getPacientes(){
-    this.http.get('http://localhost:8000/pacientes').subscribe(resp =>
-      this.pacientes$ = resp as []
-    )
-    console.log(this.pacientes$.data)
-  }
+ 
 }

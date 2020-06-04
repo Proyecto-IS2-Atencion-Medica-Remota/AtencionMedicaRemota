@@ -1,0 +1,69 @@
+<app-navbar></app-navbar>
+<div id="container" *ngFor="let especialista of especialista$.data">
+    <h1>&bull;{{especialista.nombres}} {{especialista.apellidos}}&bull;</h1>
+    <div class="underline">
+    </div>
+    <div class="tabla" >
+        <fieldset>
+            <legend>Datos Personales</legend>
+            <div class="row">
+                <div class="column" >
+                    <label >Nombres:</label> {{especialista.nombres}} 
+                 
+                </div>
+                <div class="column" >
+                  <label >Apellidos:</label> {{especialista.apellidos}}
+                </div>
+              </div>
+            <div class="row">
+                <div class="column" >
+                      <label >Rut:</label> {{especialista.rut}}
+                  </div>
+                <div class="column" >
+                      <label >Fecha de registro:</label> {{especialista.fecharegistro}}
+                     </div>
+                </div>
+          </fieldset>
+       
+       
+
+        <fieldset>
+            <legend>Contacto</legend>
+            <div class="row">
+                <div class="column" >
+                    <label >Fono:</label> {{especialista.contacto}}
+                    
+                </div>
+                <div class="column" >
+                    <label >Correo:</label>
+                </div>
+              </div>
+              
+            </fieldset>  
+        
+        <fieldset>
+          <legend>Experiencia</legend>
+          <div class="row">
+            <div class="column" >
+                <label >Estudios:</label>{{especialista.formacionacademica}}
+            </div>
+            <div class="column" >
+                <label>Experiencia laboral:</label>{{especialista.experiencia}}
+            </div>
+            <div class="column" >
+              <label>Especialidad:</label>{{especialista.especialidad}}
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Horarios</legend>
+          <div class = "column">{{especialista.horariodisponible}}</div>
+        </fieldset>
+              
+            
+              <button type="button" class="button" [routerLink]="['/editarEspecialista', especialista.rut]">Editar</button>
+             
+           
+        </div ><!-- // End form -->
+</div><!-- // End #container -->

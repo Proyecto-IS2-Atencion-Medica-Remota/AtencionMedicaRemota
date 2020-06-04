@@ -1,10 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 body{
-    background-image: url(src/assets/images/fondo.jpg);
+    background-image: url(src/assets/images/fondo5.jpg);
+
     background-position: center center;
     background-repeat: repeat;
     background-attachment: fixed;
     background-size: cover;
-    background-color: #464646;
+    background-color: #46464638;
     min-height: 500px;
+   
 }
