@@ -2,22 +2,6 @@ const express = require('express');
 const app = express();
 const msql = require("mysql");
 const cors = require('cors');
-<<<<<<< HEAD
-const path = require('path');
-
-const {Router} = require('express');
-const router = Router();
-
-app.use(express.urlencoded({extended: false}));
-
-router.post('/send-email', (req, res) => {
-    console.log(req.body);
-    res.send('received');
-});
-
-
-=======
->>>>>>> origin/Nahum
 const bodyParser = require('body-parser')
 
 const Pool = require('pg');
@@ -27,24 +11,16 @@ const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 
     // config for your database
-/*
-const con = msql.createConnection({
 
-<<<<<<< HEAD
+const con = msql.createConnection({
         user: 'Nelsota',
         password: 'Comida123',
         server: 'sLs-Nelsota',
         database: 'atencionmedicaremota',
-=======
-        user: 'isw2020e',
-        password: 'isw2020e',
-        host: 'http://plop.inf.udec.cl/phppgadmin/',
-        database: 'public',
->>>>>>> origin/Nahum
         insecureAuth : true
     });
 
-*/
+
 const con = new Pool.Client("postgres://isw2020e:isw2020e@plop.inf.udec.cl:5432/");
 con.connect();
 
