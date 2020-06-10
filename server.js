@@ -17,7 +17,7 @@ const con = msql.createConnection({
         password: 'Comida123',
         server: 'sLs-Nelsota',
         database: 'atencionmedicaremota',
-        insecureAuth : true
+        insecureAuth : true,
     });
 
 
