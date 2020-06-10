@@ -16,18 +16,14 @@ import { EspecialistasComponent } from './especialistas/especialistas.component'
 import { VerEspecialistaComponent } from './ver-especialista/ver-especialista.component';
 import { PerfilPacienteComponent } from './perfil-paciente/perfil-paciente.component';
 import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
-<<<<<<< HEAD
 import { RegistropacienteComponent } from './registropaciente/registropaciente.component';
 import { RegistroespecialistaComponent } from './registroespecialista/registroespecialista.component';
-=======
 import { HomeMedicoComponent } from './home-medico/home-medico.component';
 import { HomePacienteComponent } from './home-paciente/home-paciente.component';
 import { NavbarPacienteComponent } from './navbar-paciente/navbar-paciente.component';
 import { NavbarMedicoComponent } from './navbar-medico/navbar-medico.component';
 import { DetallesMedicosComponent } from './detalles-medicos/detalles-medicos.component';
 import { EditarEspecialistaComponent } from './editar-especialista/editar-especialista.component';
-
->>>>>>> origin/Nahum
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -42,20 +38,14 @@ export function tokenGetter() {
     VerEspecialistaComponent,
     PerfilPacienteComponent,
     PerfilMedicoComponent,
-<<<<<<< HEAD
     RegistropacienteComponent,
     RegistroespecialistaComponent,
-
-=======
     HomeMedicoComponent,
     HomePacienteComponent,
     NavbarPacienteComponent,
     NavbarMedicoComponent,
     DetallesMedicosComponent,
     EditarEspecialistaComponent,
-   
-    
->>>>>>> origin/Nahum
   ],
   imports: [
     BrowserModule,

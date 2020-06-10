@@ -34,7 +34,7 @@ export class NavbarMedicoComponent implements OnInit {
     document.body.style.backgroundColor = "white";
   }
 
-  save(event) {
+  save(event){
     this.data.CambiarMensaje(event.target.value);
     this.router.navigate(['/especialistas']);
 

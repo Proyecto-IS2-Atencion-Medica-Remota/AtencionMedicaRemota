@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 
     // config for your database
-
+/*
 const con = msql.createConnection({
         user: 'Nelsota',
         password: 'Comida123',
@@ -19,7 +19,7 @@ const con = msql.createConnection({
         database: 'atencionmedicaremota',
         insecureAuth : true,
     });
-
+*/
 
 const con = new Pool.Client("postgres://isw2020e:isw2020e@plop.inf.udec.cl:5432/");
 con.connect();
