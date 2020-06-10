@@ -45,6 +45,29 @@
 	textarea {
 	  overflow: auto;
 	}
+
+	input2{
+		background: none;
+	  	border: none;
+		border-bottom: solid 2px #474544;
+		color: #ffffff;
+		font-size: 1.000em;
+	  	font-weight: 400;
+	  	letter-spacing: 1px;
+		margin: 0.5em 0 1em 0;
+		padding: 0 0 0.875em 0;
+		width: 100%;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-o-box-sizing: border-box;
+		box-sizing: border-box;
+		-webkit-transition: all 0.3s;
+		-moz-transition: all 0.3s;
+		-ms-transition: all 0.3s;
+		-o-transition: all 0.3s;
+		transition: all 0.3s;
+	}
 	
 	#container {
 		border: solid 3px #000f25;

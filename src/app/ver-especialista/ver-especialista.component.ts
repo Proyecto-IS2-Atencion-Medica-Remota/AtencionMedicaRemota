@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { HttpClient ,HttpParams ,HttpHeaders} from '@angular/common/http';
 
 
+
 @Component({
   selector: 'app-ver-especialista',
   templateUrl: './ver-especialista.component.html',
@@ -12,8 +13,11 @@ export class VerEspecialistaComponent implements OnInit {
   rut: any;
   promedio:any;
   especialista$: any=[];
+  
   constructor(private rutaActiva: ActivatedRoute,private http: HttpClient) {
-    this.rut=this.rutaActiva.snapshot.paramMap.get('id');
+      this.rut=this.rutaActiva.snapshot.paramMap.get('id');
+    
+      
   }
 
   ngOnInit(): void {

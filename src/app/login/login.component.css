@@ -1,106 +1,286 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
+body {
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  background: #ededed;
+}
 
+input, button {
+  border: none;
+  outline: none;
+  background: none;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+.tip {
+  font-size: 20px;
+  margin: 40px auto 50px;
+  text-align: center;
+}
+
+.cont {
+  overflow: hidden;
+  position: relative;
+  width: 900px;
+  height: 470px;
+  margin: 80px auto 100px;
+  background: #fff;
+}
 
 .form {
-  position: center;
-  
-  background-image: linear-gradient(90deg,#5eafbdd3 0%, #1b5983ef 100%);
-  background-image: -moz-linear-gradient(top, #5eafbdd3 0%, #1b5983ef 100%);
-  background-image: -webkit-linear-gradient(top, #5eafbdd3 0%, #1b5983ef 100%);
-  background-image: linear-gradient(to bottom, #5eafbdd3 0%, #1b5983ef 100%);
-  
-  width: 250px;
-  height: 350px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top:100px;
-  padding: 3% 5% ;
-  text-align: center;
-  border-radius: 5%;
-  
-  box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.2), 0 5px 30px 0 rgba(0, 0, 0, 0.24);
+  position: relative;
+  width: 640px;
+  height: 100%;
+  -webkit-transition: -webkit-transform 1.5s ease-in-out;
+  transition: -webkit-transform 1.5s ease-in-out;
+  transition: transform 1.5s ease-in-out;
+  transition: transform 1.5s ease-in-out, -webkit-transform 1.5s ease-in-out;
+  padding: 50px 30px 0;
+}
 
+.sub-cont {
+  overflow: hidden;
+  position: absolute;
+  left: 640px;
+  top: 0;
+  width: 900px;
+  height: 100%;
+  padding-left: 260px;
+  background: #fff;
+  -webkit-transition: -webkit-transform 1.5s ease-in-out;
+  transition: -webkit-transform 1.5s ease-in-out;
+  transition: transform 1.5s ease-in-out;
+  transition: transform 1.5s ease-in-out, -webkit-transform 1.5s ease-in-out;
 }
-.form input {
-  font-family: "Roboto", sans-serif;
-  outline: 0;
-  background: #f2f2f2;
-  width: 100%;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  box-sizing: border-box;
-  font-size: 14px;
+.cont.s--signup .sub-cont {
+  -webkit-transform: translate3d(-640px, 0, 0);
+          transform: translate3d(-640px, 0, 0);
 }
-.form button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: rgb(105, 201, 201);
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
+
+button {
+  display: block;
+  margin: 0 auto;
+  width: 300px;
+  height: 36px;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 15px;
   cursor: pointer;
 }
-.form button:hover,.form button:active,.form button:focus {
-  background-image: linear-gradient(90deg,#5eafbdd3 0%, #1b5983ef 100%);
-  background-image: -moz-linear-gradient(top, #5eafbdd3 0%, #1b5983ef 100%);
-  background-image: -webkit-linear-gradient(top, #5eafbdd3 0%, #1b5983ef 100%);
-  background-image: linear-gradient(to bottom, #5eafbdd3 0%, #1b5983ef 100%);
+
+.img {
+  overflow: hidden;
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 260px;
+  height: 100%;
+  padding-top: 360px;
 }
-.form .message {
-  margin: 15px 0 0;
-  color: #b3b3b3;
-  font-size: 12px;
+.img:before {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 900px;
+  height: 100%;
+  background-image: url(../../assets/images/login.jpg);
+  background-size: cover;
+  -webkit-transition: -webkit-transform 1.5s ease-in-out;
+  transition: -webkit-transform 1.5s ease-in-out;
+  transition: transform 1.5s ease-in-out;
+  transition: transform 1.5s ease-in-out, -webkit-transform 1.5s ease-in-out;
 }
-.form .message a {
-  color: #4CAF50;
-  text-decoration: none;
+.img:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
 }
-.form .register-form {
-  display: none;
+.cont.s--signup .img:before {
+  -webkit-transform: translate3d(640px, 0, 0);
+          transform: translate3d(640px, 0, 0);
+}
+.img__text {
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 50px;
+  width: 100%;
+  padding: 0 20px;
+  text-align: center;
+  color: #fff;
+  -webkit-transition: -webkit-transform 1.5s ease-in-out;
+  transition: -webkit-transform 1.5s ease-in-out;
+  transition: transform 1.5s ease-in-out;
+  transition: transform 1.5s ease-in-out, -webkit-transform 1.5s ease-in-out;
+}
+.img__text h2 {
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+.img__text p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.cont.s--signup .img__text.m--up {
+  -webkit-transform: translateX(520px);
+          transform: translateX(520px);
+}
+.img__text.m--in {
+  -webkit-transform: translateX(-520px);
+          transform: translateX(-520px);
+}
+.cont.s--signup .img__text.m--in {
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
+}
+.img__btn {
+  overflow: hidden;
+  z-index: 2;
+  position: relative;
+  width: 150px;
+  height: 36px;
+  margin: 0 auto;
+  background: transparent;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 15px;
+  cursor: pointer;
+}
+.img__btn:after {
+  content: '';
+  z-index: 2;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #fff;
+  border-radius: 30px;
+}
+.img__btn span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: -webkit-transform 1.5s;
+  transition: -webkit-transform 1.5s;
+  transition: transform 1.5s;
+  transition: transform 1.5s, -webkit-transform 1.5s;
+}
+.img__btn span.m--in {
+  -webkit-transform: translateY(-72px);
+          transform: translateY(-72px);
+}
+.cont.s--signup .img__btn span.m--in {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+}
+.cont.s--signup .img__btn span.m--up {
+  -webkit-transform: translateY(72px);
+          transform: translateY(72px);
 }
 
-.form img{
-  margin-bottom: 5%;
-}
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 300px;
-  margin: 0 auto;
-}
-.container:before, .container:after {
-  content: "";
-  display: block;
-  clear: both;
-}
-.container .info {
-  margin: 50px auto;
+h2 {
+  width: 100%;
+  font-size: 26px;
   text-align: center;
 }
-.container .info h1 {
-  margin: 0 0 15px;
-  padding: 0;
-  font-size: 36px;
-  font-weight: 300;
-  color: #1a1a1a;
+
+label {
+  display: block;
+  width: 260px;
+  margin: 25px auto 0;
+  text-align: center;
 }
-.container .info span {
-  color: #4d4d4d;
+label span {
   font-size: 12px;
-}
-.container .info span a {
-  color: #000000;
-  text-decoration: none;
-}
-.container .info span .fa {
-  color: #EF3B3A;
+  color: #cfcfcf;
+  text-transform: uppercase;
 }
 
+input {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
 
+.forgot-pass {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 12px;
+  color: #cfcfcf;
+}
 
+.submit {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  background: #d4af7a;
+  text-transform: uppercase;
+}
+
+.fb-btn {
+  border: 2px solid #d3dae9;
+  color: #8fa1c7;
+}
+.fb-btn span {
+  font-weight: bold;
+  color: #455a81;
+}
+
+.sign-in {
+  -webkit-transition-timing-function: ease-out;
+          transition-timing-function: ease-out;
+}
+.cont.s--signup .sign-in {
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
+  -webkit-transition-duration: 1.5s;
+          transition-duration: 1.5s;
+  -webkit-transform: translate3d(640px, 0, 0);
+          transform: translate3d(640px, 0, 0);
+}
+
+.sign-up {
+  -webkit-transform: translate3d(-900px, 0, 0);
+          transform: translate3d(-900px, 0, 0);
+}
+.cont.s--signup .sign-up {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+
+.icon-link {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  width: 32px;
+}
+.icon-link img {
+  width: 100%;
+  vertical-align: top;
+}
+.icon-link--twitter {
+  left: auto;
+  right: 5px;
+}
