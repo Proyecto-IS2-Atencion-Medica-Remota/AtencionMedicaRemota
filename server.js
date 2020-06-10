@@ -2,6 +2,18 @@ const express = require('express');
 const app = express();
 const msql = require("mysql");
 const cors = require('cors');
+const path = require('path');
+
+const {Router} = require('express');
+const router = Router();
+
+app.use(express.urlencoded({extended: false}));
+
+router.post('/send-email', (req, res) => {
+    console.log(req.body);
+    res.send('received');
+});
+
 
 const bodyParser = require('body-parser')
 
@@ -385,6 +397,8 @@ app.post('/post_generales_data',(req,res) =>{
     const result =  con.query('INSERT INTO datos_paciente set ?', [req.body[0]]);
     res.json({ message: 'Datos Guardados' });
 });
+
+
 
 
 app.put('/update_generales/:id');

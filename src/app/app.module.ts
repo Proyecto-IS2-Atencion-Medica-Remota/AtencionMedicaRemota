@@ -13,7 +13,8 @@ import { EspecialistasComponent } from './especialistas/especialistas.component'
 import { VerEspecialistaComponent } from './ver-especialista/ver-especialista.component';
 import { PerfilPacienteComponent } from './perfil-paciente/perfil-paciente.component';
 import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
-
+import { RegistropacienteComponent } from './registropaciente/registropaciente.component';
+import { RegistroespecialistaComponent } from './registroespecialista/registroespecialista.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +27,9 @@ import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
     VerEspecialistaComponent,
     PerfilPacienteComponent,
     PerfilMedicoComponent,
-   
-    
+    RegistropacienteComponent,
+    RegistroespecialistaComponent,
+
   ],
   imports: [
     BrowserModule,
