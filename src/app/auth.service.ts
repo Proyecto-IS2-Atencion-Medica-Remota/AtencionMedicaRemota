@@ -7,11 +7,12 @@ import { map } from 'rxjs/operators';
 export class AuthService {
   constructor(private http: HttpClient) { }
 
-  login(username: string, password: string): Observable<boolean> {
-    return this.http.post<{token: string, cargo: string}>('http://localhost:8000/auth', {username: username, password: password})
+  login(rut: string, pass: string, cargo:string ): Observable<boolean> {
+    return this.http.post<{token: string, cargo: string}>('http://localhost:8000/auth', {rut: rut, pass: pass, cargo: cargo})
       .pipe(
         map(result => {
-          localStorage.setItem('user', username);
+          localStorage.setItem('rut', rut);
+          localStorage.setItem('cargo', result.cargo);
           localStorage.setItem('access_token', result.token);
           return true;
         })
@@ -21,7 +22,8 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('access_token');
-    localStorage.removeItem('user');
+    localStorage.removeItem('cargo');
+    localStorage.removeItem('rut');
   }
 
   public get loggedIn(): boolean {
