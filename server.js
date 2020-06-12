@@ -22,7 +22,7 @@ const con = msql.createConnection({
     });
 
 */
-const con = new Pool.Client("postgres://isw2020e:isw2020e@plop.inf.udec.cl:5432/");
+const con = new Pool.Client("postgres://isw2020e:isw2020e@localhost:5432/");
 con.connect();
 
 con.on('error',function (error,client) {
@@ -31,16 +31,16 @@ con.on('error',function (error,client) {
         console.log("Connected!");
        });
 
-       
+
        app.use((req, res, next) => {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
         res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-        
+
         next();
     });
-  
+
 app.use(expressJwt({secret: 'todo-app-super-shared-secret'}).unless({path: ['/auth']}));
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -86,8 +86,8 @@ app.post('/auth', function(req, res) {
 
      });
     }
-    
-    
+
+
 });
 
 
@@ -107,7 +107,7 @@ app.get('/perfilPaciente', (req, res) => {
             })
      }
     });
-    
+
 });
 
 
@@ -145,7 +145,7 @@ app.get('/verEspecialista', (req, res) => {
             })
      }
     });
-    
+
 });
 
 
@@ -184,8 +184,8 @@ app.get('/get_intolerancias/:rut',(req,res)=>{
             return res.send(err);
         }else{
             return res.json({
-                data: result.rows  
-            }) 
+                data: result.rows
+            })
         }
     })
 });
@@ -197,8 +197,8 @@ app.get('/hay_intolerancias/:rut',(req,res)=>{
             return res.send(err);
         }else{
             return res.json({
-                data: result.rows  
-            }) 
+                data: result.rows
+            })
         }
     })
 });
@@ -222,7 +222,7 @@ app.post('/post_intolerancias_paciente',(req,res)=>{
 });
 
 app.post('/newIntolerancia',(req,res)=>{
- 
+
     con.query('INSERT INTO intolerancias (id,nombre) values ($1,$2) ',[req.body[1],req.body[2]],(err,result)=>{
         if(err){
             send(err);
@@ -236,7 +236,7 @@ app.post('/newIntolerancia',(req,res)=>{
             return res.send("OK");
         }
     });
-    
+
 });
 
 app.post('/deleteIntolerancia',(req,res) =>{
@@ -260,7 +260,7 @@ app.post('/newAlergia',(req,res)=>{
             return res.send("OK");
         }
     });
-    
+
 });
 
 app.post('/deleteAlergia',(req,res) =>{
@@ -276,8 +276,8 @@ app.get('/get_alergias/:rut',(req,res)=>{
             return res.send(err);
         }else{
             return res.json({
-                data: result.rows  
-            }) 
+                data: result.rows
+            })
         }
     })
 });
@@ -289,8 +289,8 @@ app.get('/hay_alergias/:rut',(req,res)=>{
             return res.send(err);
         }else{
             return res.json({
-                data: result.rows  
-            }) 
+                data: result.rows
+            })
         }
     })
 });
@@ -298,7 +298,7 @@ app.get('/hay_alergias/:rut',(req,res)=>{
 //DATOS CIRUGIAS
 
 app.post('/newCirugia',(req,res)=>{
-    
+
     con.query('INSERT INTO cirugias (id,fecha,nombre) values ($1,$2,$3) ',[req.body[1],req.body[3],req.body[2]],(err,result)=>{
         if(err){
             send(err);
@@ -312,7 +312,7 @@ app.post('/newCirugia',(req,res)=>{
             return res.send("OK");
         }
     });
-    
+
 });
 
 app.post('/deleteCirugia',(req,res) =>{
@@ -328,8 +328,8 @@ app.get('/get_cirugias/:rut',(req,res)=>{
             return res.send(err);
         }else{
             return res.json({
-                data: result.rows  
-            }) 
+                data: result.rows
+            })
         }
     })
 });
@@ -341,8 +341,8 @@ app.get('/hay_cirugias/:rut',(req,res)=>{
             return res.send(err);
         }else{
             return res.json({
-                data: result.rows  
-            }) 
+                data: result.rows
+            })
         }
     })
 });
@@ -396,8 +396,8 @@ app.get('/hay_generales/:rut',(req,res)=>{
             return res.send(err);
         }else{
             return res.json({
-                data: result.rows  
-            }) 
+                data: result.rows
+            })
         }
     });
 });
@@ -442,7 +442,7 @@ app.get('/perfilEspecialista', (req, res) => {
             })
      }
     });
-    
+
 });
 
 app.post('/updateDatosEspecialista', (req,res) =>{
@@ -460,14 +460,36 @@ app.post('/updateDatosEspecialista', (req,res) =>{
             return res.send(err);
         }
     });
-    
+
     console.log("updated");
 })
 
 //Rodrigo
 
+//Alejandro
 
+app.get('/horarioEspecialista', (req, res) => {
+    con.query('SELECT horarios.* FROM horarios, especialista WHERE horarios.id_especialista = especialista.idespecialista AND especialista.rut = $1', [req.user.userID], (err, result) => {
+        if (err) {
+            return res.send(err)
+        } else {
+            return res.json(result.rows)
+        }
+    });
 
+});
+
+//Alejandro
+
+app.post('/horarioEspecialista', (req, res) => {
+    con.query('INSERT INTO horarios VALUES (DEFAULT, $1, $2, $3, $4, $5)', req.body, (error, result) => {
+        if(error){
+            console.log(error);
+        } else {
+            console.log(result);
+        }
+    });
+});
 
 var server = app.listen(8000, function () {
     console.log('Server is running..');

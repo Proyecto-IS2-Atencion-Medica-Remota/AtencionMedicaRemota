@@ -20,15 +20,13 @@ const routes: Routes = [
   {path: 'homePaciente', component: HomePacienteComponent ,canActivate: [AuthGuard]},
   {path: 'homeMedico', component: HomeMedicoComponent, canActivate: [AuthGuard]},
   {path: 'registro', component: RegistroComponent},
-  {path: 'horario', component: VerHorarioComponent}
+  {path: 'horario', component: VerHorarioComponent},
   {path: 'especialistas', component: EspecialistasComponent,canActivate: [AuthGuard]},
   {path: 'verEspecialista/:id', component: VerEspecialistaComponent,canActivate: [AuthGuard]},
   {path: 'perfilPaciente', component: PerfilPacienteComponent,canActivate: [AuthGuard]},
   {path: 'perfilMedico', component: PerfilMedicoComponent,canActivate: [AuthGuard]},
   {path: 'detallesMedicos/:id', component: DetallesMedicosComponent,canActivate: [AuthGuard]},
   {path: 'editarEspecialista/:id', component: EditarEspecialistaComponent,canActivate: [AuthGuard]}
-
-
 ];
 
 @NgModule({

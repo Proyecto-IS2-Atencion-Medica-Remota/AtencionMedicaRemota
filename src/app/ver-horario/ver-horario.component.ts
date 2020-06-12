@@ -9,19 +9,21 @@ import { SelectMultipleControlValueAccessor } from '@angular/forms';
   styleUrls: ['./ver-horario.component.css']
 })
 export class VerHorarioComponent implements OnInit {
-  horarios: Horario[];
+  horarios: Horario[] = new Array<Horario>();
   lineas_horarios: number[] = new Array<number>();
-
 
   constructor(private horarioService: HorarioService) { }
 
   ngOnInit(): void {
-    //this.getHorarios()
-    this.horarios = Array<Horario>(this.horarioService.crearHorario());
-    this.horarios.forEach((horario) => this.lineas_horarios.push(horario.dias.reduce((sum, dia) => sum + dia.horas.length, 0)))
+    this.getHorarios()
   }
 
   getHorarios() {
-    this.horarioService.getAll().subscribe(horarios => this.horarios = horarios)
+    this.horarioService.getAll().subscribe(
+      (horarios: Horario[]) => {
+        this.horarios = horarios;
+        this.horarios.forEach((horario) => this.lineas_horarios.push(horario.dias.reduce((sum, dia) => sum + dia.horas.length, 0)));
+      }
+    );
   }
 }
