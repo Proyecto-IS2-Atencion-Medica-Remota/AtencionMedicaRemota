@@ -1,0 +1,12 @@
+.horarios {
+    background: lightblue;
+    border: 2pt darkblue solid;
+    border-collapse: collapse;
+}
+th {
+    border: 2pt darkblue solid;
+}
+td {
+    border: 1pt darkblue solid;
+    vertical-align: top;
+}

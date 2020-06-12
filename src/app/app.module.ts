@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegistroComponent } from './registro/registro.component';
+import { VerHorarioComponent } from './ver-horario/ver-horario.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { RegistroComponent } from './registro/registro.component';
     HomeComponent,
     NavbarComponent,
     RegistroComponent,
+    VerHorarioComponent,
     
   ],
   imports: [

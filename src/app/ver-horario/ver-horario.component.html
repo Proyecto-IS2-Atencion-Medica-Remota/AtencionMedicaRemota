@@ -1,0 +1,34 @@
+<h1>Mis Horarios</h1>
+<table class='horarios'>
+    <tr>
+        <th>Fecha de Inicio</th>
+        <th>Fecha de Termino</th>
+        <th>Cantidad de Dias</th>
+        <th>Dia</th>
+        <th>Hora Inicio</th>
+        <th>Hora Termino</th>
+    </tr>
+    <ng-container *ngFor="let horario of horarios; index as i">
+        <ng-container *ngFor="let dia of horario.dias; first as isFirstDia">
+            <ng-container *ngFor="let hora of dia.horas; first as isFirstHora">
+                <tr>
+                    <ng-container *ngIf="isFirstDia && isFirstHora">
+                        <td rowSpan="{{lineas_horarios[i]}}">{{horario.fecha_inicio | date}}</td>
+                        <ng-template [ngIf]="horario.fecha_fin" [ngIfElse]="sinFin">
+                            <td rowSpan="{{lineas_horarios[i]}}">{{horario.fecha_fin | date}}</td>
+                        </ng-template>
+                        <ng-template #sinFin>
+                            <td rowSpan="{{lineas_horarios[i]}}">Sin fecha de termino</td>
+                        </ng-template>
+                        <td rowSpan="{{lineas_horarios[i]}}">{{horario.duracion_dias}}</td>
+                    </ng-container>
+                    <td *ngIf="isFirstHora" rowSpan="{{dia.horas.length}}">
+                        {{dia.dia}}
+                    </td>
+                    <td>{{hora.inicio}}</td>
+                    <td>{{hora.fin}}</td>
+                </tr>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</table>
