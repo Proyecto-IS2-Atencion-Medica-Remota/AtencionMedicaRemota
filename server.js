@@ -4,6 +4,8 @@ const msql = require("mysql");
 const cors = require('cors');
 const bodyParser = require('body-parser')
 
+var nodemailer = require('nodemailer');
+
 const Pool = require('pg');
 
 const _ = require('lodash');
@@ -35,12 +37,11 @@ con.on('error',function (error,client) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-        res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-        
+        res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');    
         next();
     });
   
-app.use(expressJwt({secret: 'todo-app-super-shared-secret'}).unless({path: ['/auth']}));
+app.use(expressJwt({secret: 'todo-app-super-shared-secret'}).unless({path: ['/auth','/authen','/newUsuario']}));
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors());
@@ -84,6 +85,18 @@ app.post('/auth', function(req, res) {
         }
 
      });
+    }else if(req.body.opcion=="verrut"){
+        const select_query=`SELECT rut FROM usuario as u where u.rut='${req.body.rut}'`
+        con.query(select_query,(err,result) => {
+            if(err){
+                return res.sendStatus(401);
+            }else if(result.rows[0]){
+                console.log(result);
+                return res.send({});
+            }else{
+                return res.sendStatus(401);
+            }
+        })
     }
     
     
@@ -147,6 +160,78 @@ app.get('/verEspecialista', (req, res) => {
     
 });
 
+//Nelsota
+var transporter = nodemailer.createTransport({
+    service: 'smtp.gmail.com',
+    host: 'smtp.gmail.com',
+    auth: {
+        user: 'atencionmedicaremotais2@gmail.com',
+        pass: 'asd123,.'
+    }
+});
+app.post('/authen', function(req, res) {
+    const body = req.body;
+    console.log(req.body.rut);
+    console.log(req.body.opcion);
+    if(req.body.opcion=="verrut"){
+        const select_query=`SELECT rut FROM usuario as u where u.rut='${req.body.rut}'`
+        con.query(select_query,(err,result) => {
+            if(err){
+                return res.sendStatus(401);
+            }else if(result.rows[0]){
+                console.log(result);
+                return res.send({});
+            }else{
+                return res.sendStatus(401);
+            }
+        })
+    }else{
+        return res.sendStatus(401)
+    }
+    
+    
+});
+app.post('/newUsuario',(req,res)=>{
+    console.log(req.body.rut);
+    if(req.body.tipocliente=="paciente"){
+        con.query('INSERT INTO usuario (rut,nombres,apellidos,correo,contacto,password) values ($1,$2,$3,$4,$5,$6) ',[req.body.rut,req.body.nombres,req.body.apellidos,req.body.gmail,req.body.telefono,req.body.contrasena],(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }
+        });
+        con.query('INSERT INTO paciente (rut) values ($1)', [req.body.rut],(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se insertó paciente: ",req.body);
+                return res.send(result);
+            }
+        });
+    }else if(req.body.tipocliente=="especialista"){
+        var mailOptions = {
+            from: `atencionmedicaremotais2@gmail.com`, // sender address
+            to: `atencionmedicaremotais2@gmail.com`, // list of receivers
+            subject: `Solicitud de registro ${req.body.nombres} ${req.body.apellidos}`,
+            text: `Rut: ${req.body.rut}\nNombres: ${req.body.nombres}\nApellidos: ${req.body.apellidos}\nEmail: ${req.body.gmail}\nTeléfono: ${req.body.telefono}\nContraseña: ${req.body.contrasena}`
+        };
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error);
+                return res.send(err);
+            }else{
+                console.log('Message sent: ' + info.response);
+                return res.send(true);
+            }
+        });
+
+    }else{   
+        return res.sendStatus(401);
+    }
+    
+});
 
 //claudio
 

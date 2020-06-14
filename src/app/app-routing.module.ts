@@ -17,11 +17,12 @@ import { EditarEspecialistaComponent } from './editar-especialista/editar-especi
 
 const routes: Routes = [
   {path:'', component: LoginComponent},
+  {path: 'login', component: LoginComponent},
   {path: 'homePaciente', component: HomePacienteComponent ,canActivate: [AuthGuard]},
   {path: 'homeMedico', component: HomeMedicoComponent, canActivate: [AuthGuard]},
-  {path: 'registro', component: RegistroComponent, canActivate: [AuthGuard]},
-  {path: 'registropaciente', component: RegistropacienteComponent, canActivate: [AuthGuard]},
-  {path: 'registroespecialista', component: RegistroespecialistaComponent, canActivate: [AuthGuard]},
+  {path: 'registro', component: RegistroComponent},
+  {path: 'registropaciente', component: RegistropacienteComponent},
+  {path: 'registroespecialista', component: RegistroespecialistaComponent},
   {path: 'especialistas', component: EspecialistasComponent,canActivate: [AuthGuard]},
   {path: 'verEspecialista/:id', component: VerEspecialistaComponent,canActivate: [AuthGuard]},
   {path: 'perfilPaciente', component: PerfilPacienteComponent,canActivate: [AuthGuard]},

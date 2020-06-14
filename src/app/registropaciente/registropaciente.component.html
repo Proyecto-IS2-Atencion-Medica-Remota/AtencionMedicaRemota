@@ -10,7 +10,9 @@
             <div class="grid-item"><p>Apellidos</p></div>
             <div class="grid-item"><input type="text" placeholder="Apellidos" formControlName="apellidos"></div> 
             <div class="grid-item"><p>Gmail</p></div>
-            <div class="grid-item"><input type="text" placeholder="Gmail" formControlName="gmail"></div>
+            <div class="grid-item">
+              <input type="text" placeholder="Gmail" formControlName="gmail">
+            </div>
             <div class="grid-item"><p>Teléfono</p></div>
             <div class="grid-item"><input type="text" placeholder="Teléfono" formControlName="telefono"></div>
             <div class="grid-item"><p>Contraseña</p></div>
@@ -19,7 +21,7 @@
             <div class="grid-item"><input type="password" placeholder="Contraseña" formControlName="contrasena2"></div>
           </div>      
         <div class="opcion">
-            <button onclick="location.href='registro'">Atras</button>
+            <button routerLink="/registro">Atras</button>
             <button [disabled]="!LoginForm.valid">Registrarme</button>
         </div>
       
