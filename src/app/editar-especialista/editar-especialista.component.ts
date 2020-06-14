@@ -18,6 +18,7 @@ export class EditarEspecialistaComponent implements OnInit {
     this.checkoutForm = this.formBuilder.group({
       nombre: '',
       contacto: '',
+     
       experiencia: '',
       estudios: '',
       especialidad: '',
@@ -38,6 +39,7 @@ export class EditarEspecialistaComponent implements OnInit {
     this.checkoutForm.setValue({
       nombre: result1.nombres,
       contacto: result1.contacto,
+      
       experiencia: result1.experiencia,
       estudios: result1.formacionacademica,
       especialidad: result1.especialidad,
@@ -76,28 +78,7 @@ export class EditarEspecialistaComponent implements OnInit {
     this.checkoutForm.reset();
     console.warn('Your order has been submitted', customerData);
     this.datosEspecialista.clear;
-    this.router.navigate(['/perfilEspecialista']);
+    this.router.navigate(['/perfilMedico']);
   }
-  updNombres(){
-    this.update[0] = true;
-  }
-  updEspecialidad(){
-    this.update[4] = true;
-  }
-  updFormacion(){
-    this.update[3] = true;
-  }
-  updExperiencia(){
-    this.update[2] = true;
-  }
-  updApellidos(){
-    this.update[6] = true;
-  }
-  updContacto(){
-    this.update[1] = true;
-  }
-  updHorario(){
-    this.update[5] = true;
-  }
-
+  
 }

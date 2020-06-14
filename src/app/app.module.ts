@@ -5,42 +5,66 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthService } from './auth.service';
+import { AuthGuard } from './auth.guard';
+
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HomeComponent } from './home/home.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { RegistroComponent } from './registro/registro.component';
 import { EspecialistasComponent } from './especialistas/especialistas.component';
 import { VerEspecialistaComponent } from './ver-especialista/ver-especialista.component';
 import { PerfilPacienteComponent } from './perfil-paciente/perfil-paciente.component';
 import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
-import { PerfilEspecialistaComponent } from './perfil-especialista/perfil-especialista.component';
+import { RegistropacienteComponent } from './registropaciente/registropaciente.component';
+import { RegistroespecialistaComponent } from './registroespecialista/registroespecialista.component';
+import { HomeMedicoComponent } from './home-medico/home-medico.component';
+import { HomePacienteComponent } from './home-paciente/home-paciente.component';
+import { NavbarPacienteComponent } from './navbar-paciente/navbar-paciente.component';
+import { NavbarMedicoComponent } from './navbar-medico/navbar-medico.component';
+import { DetallesMedicosComponent } from './detalles-medicos/detalles-medicos.component';
 import { EditarEspecialistaComponent } from './editar-especialista/editar-especialista.component';
 
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent,
-    NavbarComponent,
     RegistroComponent,
     EspecialistasComponent,
     VerEspecialistaComponent,
     PerfilPacienteComponent,
     PerfilMedicoComponent,
-    PerfilEspecialistaComponent,
+    RegistropacienteComponent,
+    RegistroespecialistaComponent,
+    HomeMedicoComponent,
+    HomePacienteComponent,
+    NavbarPacienteComponent,
+    NavbarMedicoComponent,
+    DetallesMedicosComponent,
     EditarEspecialistaComponent,
-   
-    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:8000'],
+        blacklistedRoutes: ['localhost:8000/auth']
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

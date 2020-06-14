@@ -12,8 +12,11 @@ export class VerEspecialistaComponent implements OnInit {
   rut: any;
   promedio:any;
   especialista$: any=[];
+  
   constructor(private rutaActiva: ActivatedRoute,private http: HttpClient) {
-    this.rut=this.rutaActiva.snapshot.paramMap.get('id');
+      this.rut=this.rutaActiva.snapshot.paramMap.get('id');
+    
+      
   }
 
   ngOnInit(): void {
