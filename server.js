@@ -2,26 +2,36 @@ const express = require('express');
 const app = express();
 const msql = require("mysql");
 const cors = require('cors');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+
+const http = require('http');
+const serverHttp = require('http').Server(app);
+const io = require('socket.io')(serverHttp);
+var mensajes = []
+
+
+var nodemailer = require('nodemailer');
 
 const Pool = require('pg');
 
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
+const { send } = require('process');
+const { concatMapTo } = require('rxjs-compat/operator/concatMapTo');
 
     // config for your database
 /*
 const con = msql.createConnection({
-
-        user: 'isw2020e',
-        password: 'isw2020e',
-        host: 'http://plop.inf.udec.cl/phppgadmin/',
-        database: 'public',
-        insecureAuth : true
+        user: 'Nelsota',
+        password: 'Comida123',
+        server: 'sLs-Nelsota',
+        database: 'atencionmedicaremota',
+        insecureAuth : true,
     });
-
 */
+
+
 const con = new Pool.Client("postgres://isw2020e:isw2020e@plop.inf.udec.cl:5432/");
 con.connect();
 
@@ -36,29 +46,166 @@ con.on('error',function (error,client) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-        res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-        
+        res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');    
         next();
     });
   
+app.use(expressJwt({secret: 'todo-app-super-shared-secret'}).unless({path: ['/auth','/authen','/newUsuario']}));
 
-
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/especialistas', (req, res) => {
-    console.log("holaaaaaaaaaaa")
-       const select_query=`select u.nombres, u.apellidos, u.rut, e.especialidad, e.formacionacademica, e.experiencia, e.cantcitasrealizadas, e.horariodisponible, u.contacto from especialista as e, usuario as u where e.rut=u.rut;`
-  con.query(select_query, (err, result) => {
-        if (err){
-          	return res.send(err)
-       	}else{
-           	return res.json({
 
-                   data: result.rows
+//CHAT
+const ids = [];
 
-           	})
+io.on('connection',function(socket){
+    var iidd = [];
+    var mensajees = [];
+    //console.log(socket.id)
+    const sid = socket.id;
+
+    socket.on('setConectado',function(data){
+        //Poner mas adelante acá que se conectó el usuario y en angular mostrar el punto verde o rojo segun corresponda
+        console.log("Conectado",data)
+    })
+    socket.on('getHistorial',function(data){
+        //se ejecuta cuando se selecciona un contacto
+        //aca hacer la consulta
+        var consulta = 'SELECT * from mensajes_vista where de_usuario = $1 and para_usuario = $2 UNION SELECT * from mensajes where de_usuario = $2 and para_usuario = $1 ORDER BY fecha'
+        con.query(consulta,[data.paciente,data.medico],(err,result)=>{
+           // console.log(result.rows)
+            socket.emit('historial',result.rows)
+        })        
+    })
+    socket.on('hablar',function(data){
+        //se ejecuta cuando se selecciona el contacto
+        //y se une el socket actual a la room especifica entre ambos (paciente-medico)
+        mensajes = []
+        mensajees = []
+        socket.leaveAll();
+        socket.join(data.paciente + data.medico)
+        console.log(data.paciente,"hablar entre ellos",data.medico)
+
+        
+    })
+    socket.on('send-message',function(data){
+
+       // mensajees.push(data[0])
+       // console.log("VER ESTA",socket.id,data)
+        console.log(data[0])
+        socket.emit('text-event',data[0]);
+        socket.broadcast.to(data[1].paciente + data[1].medico).emit('text-event',data[0])
+
+        //aca guardar mensaje que se mandó
+       con.query('INSERT INTO mensajes (de_usuario,para_usuario,mensaje,fecha) values ($1,$2,$3,CURRENT_TIMESTAMP)',[data[0].from,data[0].to,data[0].text],(err,res)=>{})
+    })
+    socket.on('adios',function(data){
+        r = data.rut;        
+    })
+})
+
+
+io.on('adios',function(socket){
+    socket.on('adios',function(data){
+        console.log("bay")
+        socket.close();
+    })
+})
+
+app.get('/get_contactos_medicos/:rut',(req,res)=>{
+    const {rut} = req.params;
+    con.query('SELECT nombres,especialidad,U.rut FROM usuario as U, especialista as E, pueden_hablar as PH WHERE U.rut = PH.rut_medico and E.rut = U.rut and PH.rut_paciente = $1',[rut],(err,result)=>{
+        if(err){
+        console.log("hay error en obtener los contactos del paciente");
+        }else{
+       
+        return res.json({
+
+            data: result.rows
+
+        })
         }
-   	});
+    });
+})
+app.get('/get_contactos_pacientes/:rut',(req,res)=>{
+    const {rut} = req.params;
+    con.query(' SELECT nombres,apellidos,U.rut FROM usuario as U, pueden_hablar as PH WHERE U.rut = PH.rut_paciente and PH.rut_medico= $1 ',[rut],(err,result)=>{
+        if(err){
+        console.log("hay error");
+        }else{
+      //  console.log(result.rows);
+        return res.json({
+
+            data: result.rows
+
+        })
+        }
+    });
+})
+
+
+app.post('/create_chat_user',function(req,res){
+    console.log("yo",req.body.param);
+})
+
+//CHAT
+
+
+app.post('/auth', function(req, res) {
+    const body = req.body;
+    console.log(req.body.rut);
+    console.log(req.body.pass);
+    console.log(req.body.cargo);
+
+    if(req.body.cargo=="Paciente"){
+        const select_query=`SELECT COUNT(*) as total FROM usuario as u, paciente as p where u.rut='${req.body.rut}' and u.password='${req.body.pass}' and u.rut=p.rut;`
+        con.query(select_query, (err, result) => {
+        console.log("total: "+result.rows[0].total);
+        if (err){
+            return res.sendStatus(401);
+        }else if(result.rows[0].total>0){
+            console.log("Paciente");
+            var cargo ="Paciente";
+            var token = jwt.sign({userID: req.body.rut}, 'todo-app-super-shared-secret');
+            res.send({token,cargo});
+        }else{
+            return res.sendStatus(401);
+        }
+
+     });
+    }else if(req.body.cargo=="Especialista"){
+        const select_query=`SELECT COUNT(*) as total FROM usuario as u, especialista as e where u.rut='${req.body.rut}' and u.password='${req.body.pass}' and u.rut=e.rut;`
+        con.query(select_query, (err, result) => {
+        console.log("total: "+result.rows[0].total);
+        if (err){
+            return res.sendStatus(401);
+        }else if(result.rows[0].total>0){
+            console.log("Especialista");
+            var cargo ="Especialista";
+            var token = jwt.sign({userID: req.body.rut}, 'todo-app-super-shared-secret');
+            res.send({token,cargo});
+        }else{
+            return res.sendStatus(401);
+        }
+
+     });
+    }else if(req.body.opcion=="verrut"){
+        const select_query=`SELECT rut FROM usuario as u where u.rut='${req.body.rut}'`
+        con.query(select_query,(err,result) => {
+            if(err){
+                return res.sendStatus(401);
+            }else if(result.rows[0]){
+                console.log(result);
+                return res.send({});
+            }else{
+                return res.sendStatus(401);
+            }
+        })
+    }
+    
+    
 });
 
 
@@ -66,7 +213,7 @@ app.get('/perfilPaciente', (req, res) => {
     const  id=req.query.rut;
     console.log(id);
     const values = [id]
-    const select_query=`select *, date(u.fechaderegistro)::text as fecharegistro from usuario as u, paciente as p where u.rut=p.rut and u.rut=$1;`
+    const select_query=`select *, to_char(u.fechaderegistro, 'YYYY:MM:DD') as fecharegistro, to_char(u.fechaderegistro, 'HH24:MI:SS') as horaregistro from usuario as u, paciente as p where u.rut=p.rut and u.rut=$1;`
     con.query(select_query,values, (err, result) => {
      if (err){
            return res.send(err)
@@ -82,15 +229,30 @@ app.get('/perfilPaciente', (req, res) => {
 });
 
 
+app.get('/especialistas', (req, res) => {
+    console.log("holaaaaaaaaaaa")
+       const select_query=`select u.nombres, u.apellidos, u.rut, e.especialidad, e.formacionacademica, e.experiencia, e.cantcitasrealizadas, e.horariodisponible, u.contacto from especialista as e, usuario as u where e.rut=u.rut;`
+    con.query(select_query, (err, result) => {
+        //console.log(result);
+        if (err){
+          	return res.send(err)
+       	}else{
+           	return res.json({
 
+                   data: result.rows
+
+           	})
+        }
+   	});
+});
 
 
 app.get('/verEspecialista', (req, res) => {
     var id=req.query.rut;
     console.log(id);
 
-    const select_query=`select * ,date(u.fechaderegistro)::text as fecharegistro, date(u.fechaderegistro)::text as horaregistro from especialista as e, usuario as u where e.rut =u.rut and e.rut=$1`
-    con.query(select_query,[id], (err, result) => {
+    const select_query=`select * , to_char(u.fechaderegistro, 'YYYY:MM:DD') as fecharegistro, to_char(u.fechaderegistro, 'HH24:MI:SS') as horaregistro from especialista as e, usuario as u where e.rut =u.rut and e.rut='${id}'`
+    con.query(select_query, (err, result) => {
      if (err){
            return res.send(err)
         }else{
@@ -104,25 +266,83 @@ app.get('/verEspecialista', (req, res) => {
     
 });
 
+//Nelsota
+var transporter = nodemailer.createTransport({
+    service: 'smtp.gmail.com',
+    host: 'smtp.gmail.com',
+    auth: {
+        user: 'atencionmedicaremotais2@gmail.com',
+        pass: 'asd123,.'
+    }
+});
+app.post('/authen', function(req, res) {
+    const body = req.body;
+    console.log(req.body.rut);
+    console.log(req.body.opcion);
+    if(req.body.opcion=="verrut"){
+        const select_query=`SELECT rut FROM usuario as u where u.rut='${req.body.rut}'`
+        con.query(select_query,(err,result) => {
+            if(err){
+                return res.sendStatus(401);
+            }else if(result.rows[0]){
+                console.log(result);
+                return res.send({});
+            }else{
+                return res.sendStatus(401);
+            }
+        })
+    }else{
+        return res.sendStatus(401)
+    }
+    
+    
+});
+app.post('/newUsuario',(req,res)=>{
+    console.log(req.body.rut);
+    if(req.body.tipocliente=="paciente"){
+        con.query('INSERT INTO usuario (rut,nombres,apellidos,correo,contacto,password) values ($1,$2,$3,$4,$5,$6) ',[req.body.rut,req.body.nombres,req.body.apellidos,req.body.gmail,req.body.telefono,req.body.contrasena],(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }
+        });
+        con.query('INSERT INTO paciente (rut) values ($1)', [req.body.rut],(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se insertó paciente: ",req.body);
+                return res.send(result);
+            }
+        });
+    }else if(req.body.tipocliente=="especialista"){
+        var mailOptions = {
+            from: `atencionmedicaremotais2@gmail.com`, // sender address
+            to: `atencionmedicaremotais2@gmail.com`, // list of receivers
+            subject: `Solicitud de registro ${req.body.nombres} ${req.body.apellidos}`,
+            text: `Rut: ${req.body.rut}\nNombres: ${req.body.nombres}\nApellidos: ${req.body.apellidos}\nEmail: ${req.body.gmail}\nTeléfono: ${req.body.telefono}\nContraseña: ${req.body.contrasena}`
+        };
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error);
+                return res.send(err);
+            }else{
+                console.log('Message sent: ' + info.response);
+                return res.send(true);
+            }
+        });
+
+    }else{   
+        return res.sendStatus(401);
+    }
+    
+});
 
 //claudio
 
 //para buscar especialistas especificos por especialidad
-app.get('/esp/:e',async (req,res)=>{
-    const {e} = req.params;
-    con.query(`select u.nombres, u.apellidos, u.rut, e.especialidad, e.formacionacademica, e.experiencia, e.cantcitasrealizadas, e.horariodisponible, u.contacto from especialista as e, usuario as u where e.rut=u.rut and e.especialidad  LIKE $1;`,['%' + e + '%'],(err,result)=>{
-        if (err){
-            return res.send(err)
-         }else{
-             return res.json({
 
-                 data: result.rows
-
-             })
-      }
-
-    });
-});
 
 app.post('/pfmedico',(req,res) => {
     console.log("??");
@@ -293,7 +513,7 @@ app.post('/deleteCirugia',(req,res) =>{
 
 app.get('/get_cirugias/:rut',(req,res)=>{
     const {rut} = req.params;
-    con.query('SELECT cirugias.id, date(cirugias.fecha)::text as fecha, cirugias.nombre FROM cirugias,datos_cirugias,paciente WHERE cirugias.id = datos_cirugias.id_cirugias and datos_cirugias.rut = paciente.rut and paciente.rut = $1',[rut], (err,result) => {
+    con.query(`SELECT cirugias.id,  to_char(cirugias.fecha, 'YYYY:MM:DD') as fecha,  cirugias.nombre FROM cirugias,datos_cirugias,paciente WHERE cirugias.id = datos_cirugias.id_cirugias and datos_cirugias.rut = paciente.rut and paciente.rut = $1`,[rut], (err,result) => {
         if(err){
             return res.send(err);
         }else{
@@ -395,6 +615,52 @@ app.post('/post_generales_data',(req,res) =>{
 //claudio
 
 
+
+//Rodrigo
+
+app.get('/perfilEspecialista', (req, res) => {
+    var id=req.param('rut');
+    const select_query=`SELECT *,  to_char(u.fechaderegistro, 'YYYY:MM:DD') as fecharegistro, to_char(u.fechaderegistro, 'HH24:MI:SS') as horaregistro FROM especialista as e, usuario as u where e.rut=u.rut and e.rut='${id}';`
+    con.query(select_query, (err, result) => {
+     //console.log(result);
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+
+                data: result.rows
+
+            })
+     }
+    });
+    
+});
+
+app.post('/updateDatosEspecialista', (req,res) =>{
+    con.query('UPDATE especialista SET especialidad = $1, experiencia = $2, formacionacademica = $3, horariodisponible = $4 WHERE rut = $5;',
+    [req.body[1][4],req.body[1][2],req.body[1][3],req.body[1][5],req.body[0]],(err,result)=>{
+        if(err){
+            return res.send(err);
+        }
+    });
+    console.log(req.body);
+    console.log(req.body[1][1]);
+    con.query('UPDATE usuario SET nombres = $1, apellidos = $2,contacto = $3 WHERE rut = $4;',
+    [req.body[1][0],req.body[1][6],req.body[1][1],req.body[0]],(err,result)=>{
+        if(err){
+            return res.send(err);
+        }
+    });
+    
+    console.log("updated");
+})
+
+//Rodrigo
+
+
+serverHttp.listen(7000,()=>{
+    console.log("Conectado al server socket")
+})
 
 
 var server = app.listen(8000, function () {

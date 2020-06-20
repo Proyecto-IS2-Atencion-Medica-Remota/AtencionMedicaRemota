@@ -1,0 +1,69 @@
+<app-navbar-medico></app-navbar-medico>
+<div id="container" *ngFor="let especialista of especialista$.data">
+    <h1>&bull;{{especialista.nombres}} {{especialista.apellidos}}&bull;</h1>
+    <div class="underline"></div>
+    <h1>{{especialista.nombres}}</h1>
+    <div class="tabla" > 
+        <form name="formulario" (keydown.enter)="$event.preventDefault()" [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+        <fieldset>
+          <legend>Datos Personales</legend>
+            <div class="row">
+                <div class="column" >
+                  <div>
+                    <label for="name">
+                      Nombres:
+                    </label>
+                    <input  type="text" formControlName="nombre">
+                    
+                  </div>                    
+                </div>
+
+                <div>
+                  <div class="column" >
+                    <label for="apellidos">
+                      Apellidos:
+                    </label>
+                    <input  type="text" id="apellidos" formControlName="apellidos">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="column">
+                    <label for="contacto">Contacto:</label>
+                    <input  type="text" id="contacto" formControlName="contacto" >
+                  </div>
+                </div>
+
+              
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Experiencia</legend>
+              <div class="row">
+                <div class="column" >
+                    <label for="estudios">Estudios:</label>
+                    <textarea type="text" id="estudios" formControlName="estudios" ></textarea>
+                </div>
+                <div class="column" >
+                    <label for="experiencia">Experiencia laboral:</label>
+                    <textarea id="experiencia" formControlName="experiencia" ></textarea>
+                </div>
+                <div class="column" >
+                  <label for="especialidad">Especialidad:</label>
+                  <input type="text" id="especialidad" formControlName="especialidad" >
+                </div>
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend>Horario</legend>
+              <div class="row">
+                <textarea id="horario" formControlName="horarios" ></textarea>
+              </div>
+            </fieldset>
+            <button class="button" [routerLink]="['/editarEspecialista', especialista.rut]" type="submit">Guardar cambios</button>
+          </form>
+          <button type="button" class="button" [routerLink]="['/perfilMedico']">Volver</button> 
+          
+             
+           
+        </div ><!-- // End form -->
+</div><!-- // End #container -->

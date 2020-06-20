@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import {ComponentFactoryResolver} from '@angular/core'
+
 
 @Component({
   selector: 'app-registro',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
+  opcionSeleccionado: string  = '0';
+  verSeleccion: string        = '';
+  opciones;
 
-  constructor() { }
-
+  constructor() {
+    this.opciones=["Paciente","Profesional de la Salud"];
+  }
+  
   ngOnInit(): void {
+
   }
 
 }

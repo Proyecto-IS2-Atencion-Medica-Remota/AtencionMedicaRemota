@@ -1,0 +1,30 @@
+<div class="form" style="background-image: url('../../assets/images/fondo.jpg');">
+    <h1>Formulario para Paciente</h1>
+    
+    <form class="login-form" [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
+        <div class="grid-container">
+            <div class="grid-item"><p>Rut</p></div>
+            <div class="grid-item"><input type="text" placeholder="Rut" formControlName="rut"></div>
+            <div class="grid-item"><p>Nombres</p></div>
+            <div class="grid-item"><input type="text" placeholder="Nombres" formControlName="nombres"></div>
+            <div class="grid-item"><p>Apellidos</p></div>
+            <div class="grid-item"><input type="text" placeholder="Apellidos" formControlName="apellidos"></div> 
+            <div class="grid-item"><p>Gmail</p></div>
+            <div class="grid-item">
+              <input type="text" placeholder="Gmail" formControlName="gmail">
+            </div>
+            <div class="grid-item"><p>Teléfono</p></div>
+            <div class="grid-item"><input type="text" placeholder="Teléfono" formControlName="telefono"></div>
+            <div class="grid-item"><p>Contraseña</p></div>
+            <div class="grid-item"><input type="password" placeholder="Contraseña" formControlName="contrasena1"></div>
+            <div class="grid-item"><p>Repita contraseña</p></div>
+            <div class="grid-item"><input type="password" placeholder="Contraseña" formControlName="contrasena2"></div>
+          </div>      
+        <div class="opcion">
+            <button routerLink="/registro">Atras</button>
+            <button [disabled]="!LoginForm.valid">Registrarme</button>
+        </div>
+      
+      <br> <br>
+    </form>
+  </div>

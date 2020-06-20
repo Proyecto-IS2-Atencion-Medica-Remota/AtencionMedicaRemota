@@ -1,32 +1,40 @@
+
 import { NgModule } from '@angular/core';
+import { AuthGuard } from './auth.guard';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
+import { HomeMedicoComponent } from './home-medico/home-medico.component';
+import { HomePacienteComponent } from './home-paciente/home-paciente.component';
 import { RegistroComponent } from './registro/registro.component';
 import { EspecialistasComponent } from './especialistas/especialistas.component';
 import { VerEspecialistaComponent } from './ver-especialista/ver-especialista.component';
 import { PerfilPacienteComponent } from './perfil-paciente/perfil-paciente.component';
 import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
-
+import { RegistroespecialistaComponent } from './registroespecialista/registroespecialista.component';
+import { RegistropacienteComponent } from './registropaciente/registropaciente.component';
+import { DetallesMedicosComponent } from './detalles-medicos/detalles-medicos.component';
+import { EditarEspecialistaComponent } from './editar-especialista/editar-especialista.component';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   {path:'', component: LoginComponent},
-  {path: 'home', component: HomeComponent },
+  {path: 'login', component: LoginComponent},
+  {path: 'homePaciente', component: HomePacienteComponent ,canActivate: [AuthGuard]},
+  {path: 'homeMedico', component: HomeMedicoComponent, canActivate: [AuthGuard]},
   {path: 'registro', component: RegistroComponent},
-  {path: 'especialistas', component: EspecialistasComponent, pathMatch: 'full', runGuardsAndResolvers: 'always',},
-  {path: 'verEspecialista/:id', component: VerEspecialistaComponent},
-  {path: 'perfilPaciente', component: PerfilPacienteComponent},
-  {path: 'perfilMedico/:id', component: PerfilMedicoComponent},
-  
-
+  {path: 'registropaciente', component: RegistropacienteComponent},
+  {path: 'registroespecialista', component: RegistroespecialistaComponent},
+  {path: 'especialistas', component: EspecialistasComponent,canActivate: [AuthGuard]},
+  {path: 'verEspecialista/:id', component: VerEspecialistaComponent,canActivate: [AuthGuard]},
+  {path: 'perfilPaciente', component: PerfilPacienteComponent,canActivate: [AuthGuard]},
+  {path: 'perfilMedico', component: PerfilMedicoComponent,canActivate: [AuthGuard]},
+  {path: 'detallesMedicos/:id', component: DetallesMedicosComponent,canActivate: [AuthGuard]},
+  {path: 'editarEspecialista/:id', component: EditarEspecialistaComponent,canActivate: [AuthGuard]},
+  {path: 'chat/:id', component: ChatComponent,canActivate: [AuthGuard]}
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes ,{
-      onSameUrlNavigation: 'reload'
-    } )
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { 
