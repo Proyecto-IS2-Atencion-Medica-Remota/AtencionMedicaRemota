@@ -6,12 +6,14 @@ import { CookieService } from 'ngx-cookie-service'
 import { HttpClient } from '@angular/common/http';
 import {Historial} from '../modelos/historial'
 
+
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
   providers:[
-    {provide: 'rut',useValue: "ss"}
+    {provide: 'rut',useValue: "ss"},
+    ChatServiceService
   ]
 })
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
@@ -49,23 +51,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
   constructor(private http: HttpClient,private cookie: CookieService, private router: ActivatedRoute, private chatService: ChatServiceService) { 
   //  this.chatService.setR(this.router.snapshot.paramMap.get("rut"))
     this.rut_url = this.router.snapshot.paramMap.get("id");
-
-  }
-  ngAfterViewChecked(): void {
-    this.scrollToBottom();
-  }
-  ngOnDestroy(): void {
-
-  }
-  scrollToBottom(): void {
-    try {
-        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-    } catch(err) { }                 
-}
-  ngOnInit(): void {
+    
     this.getContactos();
     this.chatService.emit("setConectado",true);
-    this.chatService.destroy();
     this.router.params.subscribe(params =>{
       this.rut = params['id'];
     })
@@ -73,13 +61,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
     this.userChat.from = this.rut;
     this.chatService.listen('text-event').subscribe((data)=>{
       this.mensajes = data;
-      var aux = new Historial()
-      console.log("se repite????")
-
-        aux.de_usuario = this.mensajes.from
-        aux.para_usuario = this.mensajes.to
-        aux.mensaje = this.mensajes.text
-        aux.fecha = 'Hoyuwu'
 
         this.allmensajes.push({
           de_usuario: this.mensajes.from,
@@ -87,8 +68,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
           mensaje: this.mensajes.text,
           fecha: ''
         });
-        console.log("TODOS MENSAJES",this.allmensajes)
-        aux = null;
     })
     this.scrollToBottom();
     if(this.cookie.get(this.rut_url) === "Paciente"){
@@ -98,6 +77,20 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
       this.soy_medico = true;
       this.soy_paciente = false;
     }
+
+  }
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
+  ngOnDestroy(): void {
+    console.log("me desconecté del chat")
+  }
+  scrollToBottom(): void {
+    try {
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { }                 
+}
+  ngOnInit(): void {
 
 
   }
@@ -120,6 +113,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
   }
 
     setDestinatario(s:string,j:any){
+      if(this.cookie.get(this.rut_url) === "Paciente"){
+
+        for(let i of this.contactos_medicos.data){
+          if(i.rut === s)this.hablando_con = "Hablando con Dr. " + i.nombres
+        }
+      }else{
+        for(let i of this.contactos_pacientes.data){
+          if(i.rut === s)this.hablando_con = "Hablando con "+ i.nombres
+        }
+      }
       this.userChat.to = s;
       if(this.cookie.get(this.rut_url) === "Paciente"){
         this.room.paciente = this.rut_url
@@ -132,8 +135,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
       this.chatService.emit('hablar',this.room)
       this.chatService.emit('getHistorial',this.room)
       this.chatService.socket.on('historial',(data)=>{
-        this.allmensajes = data;
-       // console.log(this.allmensajes)
+      this.allmensajes = data;
       })
     }
 

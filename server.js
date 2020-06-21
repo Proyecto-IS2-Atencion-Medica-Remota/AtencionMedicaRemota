@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const serverHttp = require('http').Server(app);
 const io = require('socket.io')(serverHttp);
-var mensajes = []
+
 
 
 var nodemailer = require('nodemailer');
@@ -58,18 +58,10 @@ app.use(bodyParser.json());
 
 
 //CHAT
-const ids = [];
 
 io.on('connection',function(socket){
-    var iidd = [];
-    var mensajees = [];
     //console.log(socket.id)
-    const sid = socket.id;
 
-    socket.on('setConectado',function(data){
-        //Poner mas adelante acá que se conectó el usuario y en angular mostrar el punto verde o rojo segun corresponda
-        console.log("Conectado",data)
-    })
     socket.on('getHistorial',function(data){
         //se ejecuta cuando se selecciona un contacto
         //aca hacer la consulta
@@ -82,36 +74,20 @@ io.on('connection',function(socket){
     socket.on('hablar',function(data){
         //se ejecuta cuando se selecciona el contacto
         //y se une el socket actual a la room especifica entre ambos (paciente-medico)
-        mensajes = []
-        mensajees = []
-        socket.leaveAll();
+        socket.leaveAll(); //antes de unirse a la actual room, deja todas las anteriores     
         socket.join(data.paciente + data.medico)
-        console.log(data.paciente,"hablar entre ellos",data.medico)
-
-        
+        //console.log(data.paciente,"hablar entre ellos",data.medico)
     })
+    
     socket.on('send-message',function(data){
 
-       // mensajees.push(data[0])
-       // console.log("VER ESTA",socket.id,data)
-        console.log(data[0])
-        socket.emit('text-event',data[0]);
-        socket.broadcast.to(data[1].paciente + data[1].medico).emit('text-event',data[0])
-
+       // console.log(data[0])
+        io.sockets.in(data[1].paciente + data[1].medico).emit('text-event',data[0])
         //aca guardar mensaje que se mandó
        con.query('INSERT INTO mensajes (de_usuario,para_usuario,mensaje,fecha) values ($1,$2,$3,CURRENT_TIMESTAMP)',[data[0].from,data[0].to,data[0].text],(err,res)=>{})
     })
-    socket.on('adios',function(data){
-        r = data.rut;        
-    })
-})
 
-
-io.on('adios',function(socket){
-    socket.on('adios',function(data){
-        console.log("bay")
-        socket.close();
-    })
+    
 })
 
 app.get('/get_contactos_medicos/:rut',(req,res)=>{
@@ -146,11 +122,7 @@ app.get('/get_contactos_pacientes/:rut',(req,res)=>{
 })
 
 
-app.post('/create_chat_user',function(req,res){
-    console.log("yo",req.body.param);
-})
-
-//CHAT
+//FIN CHAT
 
 
 app.post('/auth', function(req, res) {

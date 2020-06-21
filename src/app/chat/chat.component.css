@@ -201,7 +201,7 @@ main footer{
     padding-left: 20%;
     justify-content: center;
 }
-main footer textarea{
+main footer input{
     resize:none;
     display:block;
     width:100%;
@@ -212,7 +212,7 @@ main footer textarea{
     margin-bottom:13px;
 }
 
-main footer textarea::placeholder{
+main footer input::placeholder{
     color:rgb(13, 6, 77);
 }
 main footer img{
