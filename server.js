@@ -4,9 +4,10 @@ const msql = require("mysql");
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+var ttt = app.listen(8000)
 const http = require('http');
 const serverHttp = require('http').Server(app);
-const io = require('socket.io')(serverHttp);
+const io = require('socket.io')(serverHttp).listen(ttt);
 
 
 
@@ -76,9 +77,18 @@ io.on('connection',function(socket){
         //y se une el socket actual a la room especifica entre ambos (paciente-medico)
         socket.leaveAll(); //antes de unirse a la actual room, deja todas las anteriores     
         socket.join(data.paciente + data.medico)
+        socket.emit('getRoom',data.paciente + data.medico)
         //console.log(data.paciente,"hablar entre ellos",data.medico)
     })
-    
+    socket.on('estado_llamada',function(data){
+        io.sockets.in(data[0]).emit('estado-llamada',data[1])
+    })
+    socket.on('llamar',function(data){
+        socket.in(data).broadcast.emit('llamando',data)
+    })
+    socket.on('terminar-llamada',function(data){
+        io.sockets.in(data).emit('terminar_llamada')
+    })
     socket.on('send-message',function(data){
 
        // console.log(data[0])
@@ -629,7 +639,7 @@ app.post('/updateDatosEspecialista', (req,res) =>{
 
 //Rodrigo
 
-
+/*
 serverHttp.listen(7000,()=>{
     console.log("Conectado al server socket")
 })
@@ -638,3 +648,4 @@ serverHttp.listen(7000,()=>{
 var server = app.listen(8000, function () {
     console.log('Server is running..');
 });
+*/

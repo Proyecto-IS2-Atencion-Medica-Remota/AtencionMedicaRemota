@@ -9,7 +9,6 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 
-
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistroComponent } from './registro/registro.component';
 import { EspecialistasComponent } from './especialistas/especialistas.component';
@@ -25,10 +24,19 @@ import { NavbarMedicoComponent } from './navbar-medico/navbar-medico.component';
 import { DetallesMedicosComponent } from './detalles-medicos/detalles-medicos.component';
 import { EditarEspecialistaComponent } from './editar-especialista/editar-especialista.component';
 import { ChatComponent } from './chat/chat.component';
-import { CookieService } from 'ngx-cookie-service'
+import { CookieService } from 'ngx-cookie-service';
 export function tokenGetter() {
   return localStorage.getItem('access_token');
 }
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+
+//videochat
+
+import { NgxAgoraModule } from 'ngx-agora';
+
 
 @NgModule({
   declarations: [
@@ -47,7 +55,7 @@ export function tokenGetter() {
     NavbarMedicoComponent,
     DetallesMedicosComponent,
     EditarEspecialistaComponent,
-    ChatComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -61,13 +69,18 @@ export function tokenGetter() {
         whitelistedDomains: ['localhost:8000'],
         blacklistedRoutes: ['localhost:8000/auth']
       }
-    })
+    }),
+    MatDialogModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    NgxAgoraModule.forRoot({AppID:'a4e11f3ef92b479d91bc1139ffe207ac'})
   ],
   providers: [
     AuthService,
     AuthGuard,
     CookieService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[]
 })
 export class AppModule { }

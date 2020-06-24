@@ -10,7 +10,7 @@ import { Component, OnInit, AfterViewChecked,ElementRef, ViewChild } from '@angu
 export class ChatServiceService implements OnInit, OnDestroy{
 
   socket:any;
-  server = "http://localhost:7000"
+  server = "http://localhost:8000"
   r:any;
   constructor(http :HttpClient) {
     this.socket = io(this.server);

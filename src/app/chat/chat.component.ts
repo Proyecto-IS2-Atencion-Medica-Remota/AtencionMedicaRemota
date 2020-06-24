@@ -1,23 +1,29 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked,ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit,AfterViewInit, OnDestroy, AfterViewChecked,ElementRef, ViewChild } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import { ChatServiceService } from '.././chat-service.service'
 import { Inject } from '@angular/core'; 
 import { CookieService } from 'ngx-cookie-service'
 import { HttpClient } from '@angular/common/http';
 import {Historial} from '../modelos/historial'
+import { DOCUMENT } from '@angular/common';
 
+//videochat
+import { NgxAgoraService, Stream, AgoraClient, ClientEvent } from 'ngx-agora'
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.css'],
+  styleUrls: ['./chat.component.css'], 
   providers:[
     {provide: 'rut',useValue: "ss"},
-    ChatServiceService
-  ]
+    ChatServiceService,
+    NgxAgoraService
+  ],
 })
-export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, AfterViewInit{
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
   public rut:any;
   userChat = {
     from:'',
@@ -48,10 +54,32 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
   mensajes;
   rut_url:any;
   eventName = "send-message";
-  constructor(private http: HttpClient,private cookie: CookieService, private router: ActivatedRoute, private chatService: ChatServiceService) { 
+  //VIDEO CHAT
+  salaVideo:string;
+  localCallId = 'agora-local'
+  remoteCalls:string[] = []
+  hay_seleccionado:boolean=false;
+  terminar_video:boolean=false;
+
+
+  private client: AgoraClient;
+  private localStream:Stream;
+  private uid: number;
+
+  constructor(
+  @Inject(DOCUMENT) private document,
+  private http: HttpClient,
+  private cookie: CookieService,
+  private elementRef: ElementRef, 
+  private router: ActivatedRoute,
+  private chatService: ChatServiceService,
+  private agoraService:NgxAgoraService ) { 
+    
+    this.uid = Math.floor(Math.random()*1000)
+    
+
   //  this.chatService.setR(this.router.snapshot.paramMap.get("rut"))
     this.rut_url = this.router.snapshot.paramMap.get("id");
-    
     this.getContactos();
     this.chatService.emit("setConectado",true);
     this.router.params.subscribe(params =>{
@@ -79,6 +107,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
     }
 
   }
+
+  ngAfterViewInit() {
+    const s = this.document.createElement('script');
+    s.type = 'text/javascript';
+    s.src = "https://cdnjs.cloudflare.com/ajax/libs/simple-peer/6.2.1/simplepeer.min.js";
+    this.elementRef.nativeElement.appendChild(s);
+
+    
+  }
+
   ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
@@ -92,8 +130,130 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
 }
   ngOnInit(): void {
 
+    this.chatService.socket.on('llamada_terminada',()=>{
+      this.stop()
+    })
 
+    this.chatService.socket.on('llamando',(data)=>{
+      Swal.fire({
+        title: 'Llamada entrante',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Rechazar'
+      }).then((result)=>{
+        if(result.value){
+          this.chatService.socket.emit('estado_llamada',[this.salaVideo,true])
+        }else{
+          this.chatService.socket.emit('estado_llamada',[this.salaVideo,false])
+        }
+      })
+    })
+  //  this.assignLocalStreamHandlers();
+    //
+    this.chatService.socket.on('estado-llamada',(data)=>{
+      console.log("aceptó?",data)
+      if(data){
+        this.start()
+        this.terminar_video = true;
+      }
+    })
+
+    this.chatService.socket.on('terminar_llamada',()=>{
+      this.stop()
+      this.terminar_video = false;
+    })
   }
+
+
+
+
+  join(onSuccess?: (uid: number | string) => void, onFailure?: (error: Error) => void): void {
+    this.client.join(null,this.salaVideo as string, this.uid, onSuccess, onFailure);
+  }
+
+  publish(): void {
+    this.client.publish(this.localStream, err => console.log('Publish local stream error: ' + err));
+  }
+
+  private initLocalStream(onSuccess?: () => any): void {
+    this.localStream.init(
+      () => {
+         // The user has granted access to the camera and mic.
+         this.localStream.play(this.localCallId);
+         if (onSuccess) {
+           onSuccess();
+         }
+      },
+      err => console.error('getUserMedia failed', err)
+    );
+  }
+
+  private assignClientHandlers(): void {
+    this.client.on(ClientEvent.LocalStreamPublished, evt => {
+      const stream = evt.stream as Stream;
+      
+      console.log('Publish local stream successfully', "URL", this.localStream);
+    });
+
+
+    this.client.on(ClientEvent.Error, error => {
+      console.log('Got error msg:', error.reason);
+      if (error.reason === 'DYNAMIC_KEY_TIMEOUT') {
+        this.client.renewChannelKey(
+          '',
+          () => console.log('Renewed the channel key successfully.'),
+          renewError => console.error('Renew channel key failed: ', renewError)
+        );
+      }
+    });
+    this.client.on(ClientEvent.LiveStreamingStopped, evt =>{
+      const stream = evt.stream as Stream;
+      this.client.subscribe(stream, { audio: false, video: false }, err => {
+        console.log('Subscribe stream failed', err);
+      });
+    })
+    this.client.on(ClientEvent.RemoteStreamAdded, evt => {
+      const stream = evt.stream as Stream;
+      this.client.subscribe(stream, { audio: true, video: true }, err => {
+        console.log('Subscribe stream failed', err);
+      });
+    });
+
+    this.client.on(ClientEvent.RemoteStreamSubscribed, evt => {
+      const stream = evt.stream as Stream;
+      const id = this.getRemoteId(stream);
+      if (true) {
+        this.remoteCalls.push(id);
+        console.log("LLAMADAS REMOTAS", this.remoteCalls)
+        setTimeout(() => stream.play(id), 1000);
+      }
+    });
+
+    this.client.on(ClientEvent.RemoteStreamRemoved, evt => {
+      const stream = evt.stream as Stream;
+      if (stream) {
+        stream.stop();
+        this.remoteCalls = [];
+        console.log(`Remote stream is removed ${stream.getId()}`);
+      }
+    });
+
+    this.client.on(ClientEvent.PeerLeave, evt => {
+      const stream = evt.stream as Stream;
+      if (stream) {
+        stream.stop();
+        this.remoteCalls = this.remoteCalls.filter(call => call !== `${this.getRemoteId(stream)}`);
+        console.log(`${evt.uid} left from this channel`);
+      }
+    });
+  }
+
+  private getRemoteId(stream: Stream): string {
+    return `agora_remote-${stream.getId()}`;
+  }
+
+
   getContactos(){
     if(this.cookie.get(this.rut_url) === "Paciente"){
       //si soy paciente
@@ -131,18 +291,52 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked{
         this.room.paciente = s;
         this.room.medico = this.rut_url
       }
-     // console.log(this.rut_url,this.room)
       this.chatService.emit('hablar',this.room)
       this.chatService.emit('getHistorial',this.room)
       this.chatService.socket.on('historial',(data)=>{
       this.allmensajes = data;
       })
+      this.chatService.socket.on('getRoom',(data)=>{
+        this.salaVideo = data as string;
+        console.log("ROOM",this.salaVideo)
+      })
+      this.hay_seleccionado = true;
     }
 
+    start(){
 
+     this.client = this.agoraService.createClient({ mode: 'live', codec: 'h264' });
+    this.assignClientHandlers();
+    this.localStream = this.agoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
+    this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
+
+    }
+    stop(){
+      
+      this.localStream.stop()
+      this.localStream.close()
+      this.client.leave()
+      this.localStream = null
+    }
+
+    llamar(){
+    
+    this.chatService.emit('llamar',this.salaVideo)  
+   // this.client = this.agoraService.createClient({ mode: 'live', codec: 'h264' });
+   // this.assignClientHandlers();
+   // this.localStream = this.agoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
+   // this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
+      
+  
+    }
+    terminar_llamada(){
+      this.chatService.emit('terminar-llamada',this.salaVideo)
+
+    }
     misMensajes(){
       this.chatService.emit(this.eventName,[this.userChat , this.room ]);
       //this.allmensajes.push({de_usuario:this.userChat.from, para_usuario:this.userChat.to, mensaje:this.userChat.text,fecha:'hoyxxd'})
       this.userChat.text = '';
     }
+
 }

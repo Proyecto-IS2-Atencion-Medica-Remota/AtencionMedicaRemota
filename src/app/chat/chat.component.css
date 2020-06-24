@@ -1,3 +1,4 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
 *{
     box-sizing:border-box;
 }
@@ -9,7 +10,7 @@ body{
     width:850px;
     height:600px;
     background:#ffffff;
-    margin:0 auto;
+    margin:0;
     font-size:0;
     border-radius:5px;
     overflow:hidden;
@@ -198,7 +199,7 @@ main header h3{
 main footer{
     height:155px;
     padding: 5%;
-    padding-left: 20%;
+    padding-left: 5%;
     justify-content: center;
 }
 main footer input{
@@ -230,3 +231,33 @@ main footer a{
     display:inline-block;
 }
 
+.local {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    width: 20vw;
+    height: 20vh;
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .remote {
+    position: fixed;
+    top: 10%;
+    left: 73%;
+    width: 25%;
+    height: 40%;
+    border-radius: 5%;
+  }
+
+  .videoChat {
+    position: fixed;
+    top:10%;
+    left:73%;
+    height: 40%;
+    width: 25%;
+    border-radius: 5px;
+  }
+
+  
