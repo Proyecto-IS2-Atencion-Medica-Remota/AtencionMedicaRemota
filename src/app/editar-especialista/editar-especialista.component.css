@@ -1,9 +1,8 @@
-@import url(https://fonts.googleapis.com/css?family=Playfair+Display&display=swap);
 
 	html {
 	  -ms-text-size-adjust: 100%;
 	  -webkit-text-size-adjust: 100%;
-	  font-family: 'Playfair Display', serif;
+	  font-family: 'Times New Roman', Times, serif;
 
   }
 
@@ -71,21 +70,20 @@
 	
 	#container {
 		border: solid 3px #000f25;
-		background-image: linear-gradient(90deg,#5199b6d0 0%, #10495fd0 100%);
-		background-image: -moz-linear-gradient(top, #5199b6d0 0%, #10495fd0 100%);
-		background-image: -webkit-linear-gradient(top, #5199b6d0 0%, #10495fd0 100%);
-		background-image: linear-gradient(to bottom, #5199b6d0 0%, #10495fd0 100%);
-	  max-width: 768px;
-	  
-	  margin: 60px auto;
-	  position: relative;
-	  font-family: 'Playfair Display', serif;
+    	background-image: linear-gradient(90deg,#71a7bdd0 0%, #0c6183d0 100%);
+		background-image: -moz-linear-gradient(top, #71a7bdd0 0%, #0c6183d0 100%);
+		background-image: -webkit-linear-gradient(top, #71a7bdd0 0%, #0c6183d0 100%);
+		background-image: linear-gradient(to bottom, #71a7bdd0 0%, #0c6183d0 100%);
+  		max-width: 80%;
+  		margin-top: 30px;
+		  margin-left: 270px;
+		  font-family: 'Times New Roman', Times, serif;	
 	}
 	
 	.tabla {
 	  padding: 37.5px;
 	  margin: 10px 0;
-	  font-family: 'Playfair Display', serif;
+	  font-family: 'Times New Roman', Times, serif;
 
 	}
 	
@@ -95,13 +93,13 @@
 	  font-weight: 700;
 	  letter-spacing: 7px;
 	  text-align: center;
-	  text-transform: uppercase;
+	  
 	}
 	
 	.underline {
 	  border-bottom: solid 2px #c4bebe;
 	  margin: -0.512em auto;
-	  margin-top: 5%;
+	  margin-top: 1%;
 	  width: 150px;
 	}
 	
@@ -116,13 +114,13 @@
 
 		background: none;
 	  	border: none;
-		border-bottom: solid 2px #474544;
+		  border-bottom: solid 2px #474544;
 		color: #ffffff;
-		font-size: 1.000em;
-	  	font-weight: 400;
-	  	letter-spacing: 1px;
+		font-size: 18px;
+	  	
+		
 		margin: 0.5em 0 1em 0;
-		padding: 0 0 0.875em 0;
+		
 		width: 100%;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
@@ -136,21 +134,7 @@
 		transition: all 0.3s;
 	}
 	
-	input[type='text']:focus, [type='password'], [type='email']:focus, [type=date]:focus,textarea:focus {
-		outline: none;
-		padding: 0 0 0.875em 0;
-	}
-	input{
-		
-		margin-left: 10px;
-		width: 48%;
-		
-		
-	 }
-	 input[type=number]{
-		width: 20%;
-		
-     }
+	
 	
 	.message {
 		float: none;
@@ -161,17 +145,18 @@
 		width: 47%;
 	}
 	.column {
-		
+		  
 		float: left;
 		width: 46%;
 		padding: 10px;
 		height: 75px;
-        margin-bottom: 5px;
-        border: 1px solid #ddd !important;
-        
+		margin-bottom: 5px;
+		font-size:18px;
+		
+		
 	  }
 	  .column2 {
-		
+		font-size:18px;
 		width: 95%;
 		padding: 10px;
 	  }
@@ -210,18 +195,19 @@
 			background-color: #d1d1d1b0;
         }
         
-    label{
-        
-		font-size:14px;
-		font-weight:bold;
-		margin-bottom: 0px; 
-		width: 35%; 
-		border: 1px solid rgb(0, 73, 102);
-		color: black;
-		border-radius: 4px; 
-		padding: 1px 1px 1px 5px; 
-		background-color: #3289c4b0;
-    }
+		label{
+		  
+			font-size:18px;
+			font-weight:bold;
+			margin-bottom: 0px; 
+			margin-left: 5px; 
+			margin-right: 5px; 
+			border: 1px solid rgb(0, 73, 102);
+			color: black;
+			border-radius: 4px; 
+			padding: 5px 5px 5px 10px; 
+			background-color: #3289c4b0;
+			font-family: 'Times New Roman', Times, serif;    }
 	
 	select {
 	  background: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-32.png') no-repeat right;
@@ -245,7 +231,7 @@
 	
 	::-webkit-input-placeholder {
 		color: #e6dfdc;
-		font-family: 'Merriweather', serif;
+		font-family: 'Times New Roman', Times, serif;
 		font-size: 15px;
 	}
 	
@@ -263,7 +249,7 @@
 		color: #c9c3c3;
 	}
 	.tabla fieldset {
-        font-family: 'Helvetica', Arial, sans-serif;
+		font-family: 'Times New Roman', Times, serif;
 		font-size: 15px;
 		color:rgb(255, 255, 255);
         text-align: left;
@@ -298,7 +284,7 @@
 		-webkit-transition-duration: 0.4s; /* Safari */
 		transition-duration: 0.4s;
 		border-radius: 10px;
-		font-family: 'Playfair Display', serif;
+		font-family: 'Times New Roman', Times, serif;
 	  
 	  }
 	  

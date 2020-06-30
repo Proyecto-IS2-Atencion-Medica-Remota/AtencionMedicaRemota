@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PasarDatosService } from "../pasar-datos.service";
 import { AuthService } from '../auth.service';
+import { HttpClient ,HttpParams ,HttpHeaders} from '@angular/common/http';
 
 
 @Component({
@@ -10,10 +10,16 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./navbar-paciente.component.css']
 })
 export class NavbarPacienteComponent implements OnInit {
-  public especialidad:string;
-  constructor(private router: Router, private data: PasarDatosService,public auth: AuthService) { }
+  rut: any;
+  paciente$ :any ;
+
+  constructor(private router: Router, public auth: AuthService,private http: HttpClient) {
+    this.rut=localStorage.getItem('rut');
+   }
 
   ngOnInit(): void {
+    this.getPaciente();
+    console.log(this.paciente$.data[0].nombres)
   }
 
   logout() {
@@ -21,27 +27,19 @@ export class NavbarPacienteComponent implements OnInit {
     this.router.navigate(['']);
     
   }
-   openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
+  getPaciente(){
+
+    let params = new HttpParams().set("rut", this.rut);
     
-    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-  }
-  
-   closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-    document.body.style.backgroundColor = "white";
-  }
 
-  save(event) {
-    this.data.CambiarMensaje(event.target.value);
-    this.router.navigate(['/especialistas']);
+    this.http.get('http://localhost:8000/perfilPaciente',{headers: new HttpHeaders({
+      'Content-Type':'application/json'
+      }), params: params}).subscribe(resp =>
+      this.paciente$ = resp as []
+    )
 
+    
   }
-
-  mandarMensaje(){
-    this.data.CambiarMensaje(this.especialidad);
-  }
+   
 
 }

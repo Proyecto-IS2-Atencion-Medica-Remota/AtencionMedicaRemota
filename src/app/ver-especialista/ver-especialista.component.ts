@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { HttpClient ,HttpParams ,HttpHeaders} from '@angular/common/http';
 
 
+
 @Component({
   selector: 'app-ver-especialista',
   templateUrl: './ver-especialista.component.html',

@@ -2,51 +2,53 @@
 <div id="container" *ngFor="let especialista of especialista$.data">
     <h1>&bull;{{especialista.nombres}} {{especialista.apellidos}}&bull;</h1>
     <div class="underline"></div>
-    <h1>{{especialista.nombres}}</h1>
+    
     <div class="tabla" > 
         <form name="formulario" (keydown.enter)="$event.preventDefault()" [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
         <fieldset>
           <legend>Datos Personales</legend>
             <div class="row">
                 <div class="column" >
-                  <div>
-                    <label for="name">
-                      Nombres:
-                    </label>
+                  
+                    <label for="name">Nombres:</label>
                     <input  type="text" formControlName="nombre">
                     
-                  </div>                    
+                                  
                 </div>
 
-                <div>
+                
                   <div class="column" >
-                    <label for="apellidos">
-                      Apellidos:
-                    </label>
+                    <label for="apellidos">Apellidos:</label>
                     <input  type="text" id="apellidos" formControlName="apellidos">
                   </div>
-                </div>
-                <div class="row">
-                  <div class="column">
-                    <label for="contacto">Contacto:</label>
-                    <input  type="text" id="contacto" formControlName="contacto" >
-                  </div>
-                </div>
-
-              
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend>Experiencia</legend>
+                
+            </div>
+          </fieldset>
+          <fieldset>
+              <legend>Contacto</legend>
               <div class="row">
+                <div class="column">
+                  <label for="contacto">Contacto:</label>
+                  <input  type="text" id="contacto" formControlName="contacto" >
+                </div>
+              </div>
+          </fieldset>
+              
+              
+            
+          <fieldset>
+            <legend>Experiencia</legend>
+            <div class="row">
                 <div class="column" >
                     <label for="estudios">Estudios:</label>
-                    <textarea type="text" id="estudios" formControlName="estudios" ></textarea>
+                    <input type="text" id="estudios" formControlName="estudios" >
                 </div>
                 <div class="column" >
                     <label for="experiencia">Experiencia laboral:</label>
-                    <textarea id="experiencia" formControlName="experiencia" ></textarea>
+                    <input type="text" id="experiencia" formControlName="experiencia" >
                 </div>
+              </div>
+              <div class="row">
                 <div class="column" >
                   <label for="especialidad">Especialidad:</label>
                   <input type="text" id="especialidad" formControlName="especialidad" >
@@ -56,7 +58,9 @@
             <fieldset>
               <legend>Horario</legend>
               <div class="row">
-                <textarea id="horario" formControlName="horarios" ></textarea>
+                <div class="column2" >
+                  <input type="text" id="horario" formControlName="horarios" >
+                </div>
               </div>
             </fieldset>
             <button class="button" [routerLink]="['/editarEspecialista', especialista.rut]" type="submit">Guardar cambios</button>
