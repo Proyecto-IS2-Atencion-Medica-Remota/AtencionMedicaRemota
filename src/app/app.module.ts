@@ -39,6 +39,7 @@ import { ChatComponent } from './chat/chat.component';
 
 import { NgxAgoraModule } from 'ngx-agora';
 import { MisPacientesComponent } from './mis-pacientes/mis-pacientes.component';
+import { MisDiagnosticosComponent } from './mis-diagnosticos/mis-diagnosticos.component';
 
 
 export function tokenGetter() {
@@ -66,6 +67,7 @@ export function tokenGetter() {
     AgendaMedicoComponent,
     ChatComponent,
     MisPacientesComponent,
+    MisDiagnosticosComponent,
   ],
   imports: [
     

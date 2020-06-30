@@ -848,6 +848,23 @@ app.post('/postDiagnostico', (req,res) =>{
     console.log("updated");
 });
 
+app.get('/getDiagnostico', (req, res) => {
+    var id=req.param('rut');
+    const select_query=`SELECT * FROM citas as c,usuario as u WHERE c.rut_paciente = '${id}' and c.rut_medico = u.rut;`
+    con.query(select_query, (err, result) => {
+        console.log(result.rows);
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+                data: result.rows
+            })
+     }
+    });
+
+    
+});
+
 //Rodrigo
 
 
