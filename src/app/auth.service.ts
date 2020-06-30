@@ -29,4 +29,25 @@ export class AuthService {
   public get loggedIn(): boolean {
     return (localStorage.getItem('access_token') !== null);
   }
+
+  verificarRegistro(rut: string,opcion:string): Observable<boolean>{
+    return this.http.post<{}>('http://localhost:8000/authen', {rut: rut, opcion: opcion})
+    .pipe(
+      map(result => {
+        return true;
+      })
+      
+    );
+  }
+
+  realizarRegistro(rut: string,nombres: string,apellidos:string,gmail:string,telefono:string,contrasena:string,tipocliente:string): Observable<boolean>{
+    return this.http.post<{}>('http://localhost:8000/newUsuario', {rut: rut,nombres: nombres,apellidos: apellidos, gmail: gmail, telefono: telefono, contrasena: contrasena, tipocliente: tipocliente})
+    .pipe(
+      map(result => {
+        return true;
+      })
+      
+    );
+  }
+
 }

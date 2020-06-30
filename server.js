@@ -4,24 +4,30 @@ const msql = require("mysql");
 const cors = require('cors');
 const bodyParser = require('body-parser')
 
+var nodemailer = require('nodemailer');
+
 const Pool = require('pg');
 
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 
+var ttt = app.listen(8000)
+const http = require('http');
+const serverHttp = require('http').Server(app);
+const io = require('socket.io')(serverHttp).listen(ttt);
+
     // config for your database
 /*
 const con = msql.createConnection({
-
-        user: 'isw2020e',
-        password: 'isw2020e',
-        host: 'http://plop.inf.udec.cl/phppgadmin/',
-        database: 'public',
-        insecureAuth : true
+        user: 'Nelsota',
+        password: 'Comida123',
+        server: 'sLs-Nelsota',
+        database: 'atencionmedicaremota',
+        insecureAuth : true,
     });
-
 */
+
 const con = new Pool.Client("postgres://isw2020e:isw2020e@plop.inf.udec.cl:5432/");
 con.connect();
 
@@ -36,16 +42,92 @@ con.on('error',function (error,client) {
         res.header('Access-Control-Allow-Origin', '*');
         res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
         res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-        res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-        
+        res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');    
         next();
     });
   
-app.use(expressJwt({secret: 'todo-app-super-shared-secret'}).unless({path: ['/auth']}));
+app.use(expressJwt({secret: 'todo-app-super-shared-secret'}).unless({path: ['/auth','/authen','/newUsuario']}));
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors());
 app.use(bodyParser.json());
+
+//CHAT
+
+io.on('connection',function(socket){
+    //console.log(socket.id)
+
+    socket.on('getHistorial',function(data){
+        //se ejecuta cuando se selecciona un contacto
+        //aca hacer la consulta
+        var consulta = 'SELECT * from mensajes_vista where de_usuario = $1 and para_usuario = $2 UNION SELECT * from mensajes where de_usuario = $2 and para_usuario = $1 ORDER BY fecha'
+        con.query(consulta,[data.paciente,data.medico],(err,result)=>{
+           // console.log(result.rows)
+            socket.emit('historial',result.rows)
+        })        
+    })
+    socket.on('hablar',function(data){
+        //se ejecuta cuando se selecciona el contacto
+        //y se une el socket actual a la room especifica entre ambos (paciente-medico)
+        socket.leaveAll(); //antes de unirse a la actual room, deja todas las anteriores     
+        socket.join(data.paciente + data.medico)
+        socket.emit('getRoom',data.paciente + data.medico)
+        //console.log(data.paciente,"hablar entre ellos",data.medico)
+    })
+    socket.on('estado_llamada',function(data){
+        io.sockets.in(data[0]).emit('estado-llamada',data[1])
+    })
+    socket.on('llamar',function(data){
+        socket.in(data).broadcast.emit('llamando',data)
+    })
+    socket.on('terminar-llamada',function(data){
+        io.sockets.in(data).emit('terminar_llamada')
+    })
+    socket.on('send-message',function(data){
+
+       // console.log(data[0])
+        io.sockets.in(data[1].paciente + data[1].medico).emit('text-event',data[0])
+        //aca guardar mensaje que se mandó
+       con.query('INSERT INTO mensajes (de_usuario,para_usuario,mensaje,fecha) values ($1,$2,$3,CURRENT_TIMESTAMP)',[data[0].from,data[0].to,data[0].text],(err,res)=>{})
+    })
+
+    
+})
+
+app.get('/get_contactos_medicos/:rut',(req,res)=>{
+    const {rut} = req.params;
+    con.query('SELECT nombres,especialidad,U.rut FROM usuario as U, especialista as E, pueden_hablar as PH WHERE U.rut = PH.rut_medico and E.rut = U.rut and PH.rut_paciente = $1',[rut],(err,result)=>{
+        if(err){
+        console.log("hay error en obtener los contactos del paciente");
+        }else{
+       
+        return res.json({
+
+            data: result.rows
+
+        })
+        }
+    });
+})
+app.get('/get_contactos_pacientes/:rut',(req,res)=>{
+    const {rut} = req.params;
+    con.query(' SELECT nombres,apellidos,U.rut FROM usuario as U, pueden_hablar as PH WHERE U.rut = PH.rut_paciente and PH.rut_medico= $1 ',[rut],(err,result)=>{
+        if(err){
+        console.log("hay error");
+        }else{
+      //  console.log(result.rows);
+        return res.json({
+
+            data: result.rows
+
+        })
+        }
+    });
+})
+
+
+//FIN CHAT
+
 
 app.post('/auth', function(req, res) {
     const body = req.body;
@@ -85,6 +167,18 @@ app.post('/auth', function(req, res) {
         }
 
      });
+    }else if(req.body.opcion=="verrut"){
+        const select_query=`SELECT rut FROM usuario as u where u.rut='${req.body.rut}'`
+        con.query(select_query,(err,result) => {
+            if(err){
+                return res.sendStatus(401);
+            }else if(result.rows[0]){
+                console.log(result);
+                return res.send({});
+            }else{
+                return res.sendStatus(401);
+            }
+        })
     }
     
     
@@ -148,6 +242,223 @@ app.get('/verEspecialista', (req, res) => {
     
 });
 
+app.get('/verHorarios', (req, res) => {
+    var id=req.query.rut;
+    console.log(id);
+    console.log("llegue")
+    const select_query=`select *, to_char(c.fecha, 'DD-MM-YYYY') as fecha from citas_medicas as c where c.rut_medico ='${id}' order by c.fecha`
+    con.query(select_query, (err, result) => {
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+
+                data: result.rows
+
+            })
+     }
+    });
+    
+});
+
+
+
+app.get('/borrarHora', (req, res) => {
+    var fecha=req.query.fecha;
+    var bloque=req.query.bloque;
+    var rut_medico=req.query.rut_medico;
+    var rut_paciente=req.query.rut_paciente;
+    console.log(fecha,bloque,rut_medico,rut_paciente);
+    console.log("llegue")
+    if(bloque=='bloque 1'){
+        con.query(`update citas_medicas set bloque_1='0000000-0' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se eliminó hora");
+                return res.send(result);
+            }
+        });
+        
+    }else if(bloque=='bloque 2'){
+        con.query(`update citas_medicas set bloque_2='0000000-0' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se eliminó hora");
+                return res.send(result);
+            }
+        });
+    }else if(bloque=='bloque 3'){
+        con.query(`update citas_medicas set bloque_3='0000000-0' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se eliminó hora");
+                return res.send(result);
+            }
+        });
+    }else if(bloque=='bloque 4'){
+        con.query(`update citas_medicas set bloque_4='0000000-0' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se eliminó hora");
+                return res.send(result);
+            }
+        });
+    }          
+                
+                
+    
+    
+});
+app.get('/agendarHora', (req, res) => {
+    var fecha=req.query.fecha;
+    var bloque=req.query.bloque;
+    var rut_medico=req.query.rut_medico;
+    var rut_paciente=req.query.rut_paciente;
+    console.log(fecha,bloque,rut_medico,rut_paciente);
+    console.log("llegue")
+
+    const select_query=`select count(*) as total 
+    from citas_medicas 
+    where rut_medico='${rut_medico}' and (bloque_1='${rut_paciente}' or bloque_2='${rut_paciente}' or
+    bloque_3='${rut_paciente}' or bloque_4='${rut_paciente}');`
+    con.query(select_query, (err, result) => {
+        if (err){
+            return res.send(err)
+        }else{
+            if(result.rows[0].total>0){
+                return res.sendStatus(401);
+            }else{
+                
+                if(bloque=='bloque 1'){
+                    con.query(`update citas_medicas set bloque_1='${rut_paciente}' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                            return res.sendStatus(401);
+                        }else{
+                            console.log("Se agendo hora");
+                            return res.send(result);
+                        }
+                    });
+                    
+                }else if(bloque=='bloque 2'){
+                    con.query(`update citas_medicas set bloque_2='${rut_paciente}' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                            return res.sendStatus(401);
+                        }else{
+                            console.log("Se agendo hora");
+                            return res.send(result);
+                        }
+                    });
+                }else if(bloque=='bloque 3'){
+                    con.query(`update citas_medicas set bloque_3='${rut_paciente}' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                            return res.sendStatus(401);
+                        }else{
+                            console.log("Se agendo hora");
+                            return res.send(result);
+                        }
+                    });
+                }else if(bloque=='bloque 4'){
+                    con.query(`update citas_medicas set bloque_4='${rut_paciente}' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                            return res.sendStatus(401);
+                        }else{
+                            console.log("Se agendo hora");
+                            return res.send(result);
+                        }
+                    });
+                }
+                
+            }
+            
+        }
+    });
+    
+});
+
+//Nelsota
+var transporter = nodemailer.createTransport({
+    service: 'smtp.gmail.com',
+    host: 'smtp.gmail.com',
+    auth: {
+        user: 'atencionmedicaremotais2@gmail.com',
+        pass: 'asd123,.'
+    }
+});
+app.post('/authen', function(req, res) {
+    const body = req.body;
+    console.log(req.body.rut);
+    console.log(req.body.opcion);
+    if(req.body.opcion=="verrut"){
+        const select_query=`SELECT rut FROM usuario as u where u.rut='${req.body.rut}'`
+        con.query(select_query,(err,result) => {
+            if(err){
+                return res.sendStatus(401);
+            }else if(result.rows[0]){
+                console.log(result);
+                return res.send({});
+            }else{
+                return res.sendStatus(401);
+            }
+        })
+    }else{
+        return res.sendStatus(401)
+    }
+    
+    
+});
+app.post('/newUsuario',(req,res)=>{
+    console.log(req.body.rut);
+    if(req.body.tipocliente=="paciente"){
+        con.query('INSERT INTO usuario (rut,nombres,apellidos,correo,contacto,password) values ($1,$2,$3,$4,$5,$6) ',[req.body.rut,req.body.nombres,req.body.apellidos,req.body.gmail,req.body.telefono,req.body.contrasena],(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }
+        });
+        con.query('INSERT INTO paciente (rut) values ($1)', [req.body.rut],(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se insertó paciente: ",req.body);
+                return res.send(result);
+            }
+        });
+    }else if(req.body.tipocliente=="especialista"){
+        var mailOptions = {
+            from: `atencionmedicaremotais2@gmail.com`, // sender address
+            to: `atencionmedicaremotais2@gmail.com`, // list of receivers
+            subject: `Solicitud de registro ${req.body.nombres} ${req.body.apellidos}`,
+            text: `Rut: ${req.body.rut}\nNombres: ${req.body.nombres}\nApellidos: ${req.body.apellidos}\nEmail: ${req.body.gmail}\nTeléfono: ${req.body.telefono}\nContraseña: ${req.body.contrasena}`
+        };
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error);
+                return res.send(err);
+            }else{
+                console.log('Message sent: ' + info.response);
+                return res.send(true);
+            }
+        });
+
+    }else{   
+        return res.sendStatus(401);
+    }
+    
+});
 
 //claudio
 
@@ -425,6 +736,7 @@ app.post('/post_generales_data',(req,res) =>{
 //claudio
 
 
+
 //Rodrigo
 
 app.get('/perfilEspecialista', (req, res) => {
@@ -469,6 +781,6 @@ app.post('/updateDatosEspecialista', (req,res) =>{
 
 
 
-var server = app.listen(8000, function () {
+/*var server = app.listen(8000, function () {
     console.log('Server is running..');
-});
+});*/

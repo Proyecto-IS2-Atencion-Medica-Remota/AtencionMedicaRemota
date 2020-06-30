@@ -1,35 +1,32 @@
-<nav class="main-menu">
-    <ul>
-        <li>
-            <a>
-                <i class="fa fa-search" aria-hidden="true"></i>
-                <span class="nav-text">
-                    <input type="text" (keydown.enter)="save($event)">
-                </span>
-            </a>
-        </li>
-            
-        <li >
-            <a routerLink="/perfilMedico">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                <span class="nav-text">
-                    Perfil médico
-                </span>
-            </a>
+<div class="sidebar">
+    
+    <div class="sidebar-header">
+        <div class="user-pic">
+          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
+        </div>
+        <div class="user-info">
+          <span class="user-name">{{especialista$.data[0].nombres}}<br/>
+            <strong>{{especialista$.data[0].apellidos}}</strong>
+          </span>
+          <span class="user-role">Especialista</span>
           
-        </li>
-        
-        
+        </div>
+    </div>
+   
+    <a class="active" routerLink="/perfilMedico"><i class="fa fa-fw fa-user"></i> Perfil</a>
+    <a routerLink="/agendaMedico"><i class="fa fa-fw fa-address-book-o" aria-hidden="true"></i> Agenda</a>
+    <a [routerLink]="['/chat',rut]"><i class="fa fa-fw fa-comments" aria-hidden="true"></i> Chat</a>
+    
   
-    </ul>	
-    <ul class="logout">
-        <li>
-           <a href="javascript:void(0);" (click)="logout()">
-                 <i class="fa fa-power-off fa-2x"></i>
-                <span class="nav-text">
-                    Cerrar Sesión
-                </span>
-            </a>
-        </li>  
-    </ul>
-</nav>
+    
+    
+
+    <div class="sidebar-footer">
+        <a href="javascript:void(0);" (click)="logout()"><i class="fa fa-fw fa-power-off "></i> Cerrar Sesión </a>
+      </div>
+    
+  </div>
+  
+
+
+
