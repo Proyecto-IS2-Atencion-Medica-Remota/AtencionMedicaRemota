@@ -113,6 +113,25 @@ g_sanguineo:''
   }]
   public newCirugia:any;
   public newFecha:any;
+  //DATOS MEDICAMENTOS
+  public _hay_medicamentos:any=[]
+  public datos_medicamentos = {
+    id:'',
+    nombre:'',
+    dosis:''
+  }
+  public tabla_datos_medicamentos = {
+  rut :'',
+  id_medicamentos:''
+  }
+  public id_medicamentos
+  public todas_medicamentos = [{
+    id:'',
+    nombre: '',
+    dosis:''
+  }]
+  public newMedicamento
+  public newDosis
   //------------------//
   public id_generales;
   public hay_alergias: any = [];
@@ -145,6 +164,11 @@ g_sanguineo:''
   public guardarPreexistencia:Boolean = false;
   public borrarPreexistencia:Boolean = true;
   public agregarPreexistencia:Boolean = false;
+  //Botones Medicamentos
+  public editarMedicamento:Boolean = false
+  public guardarMedicamento:Boolean = false
+  public borrarMedicamento:Boolean = true
+  public agregarMedicamento:Boolean = false
 
   public general = {
     estatura: '',
@@ -163,6 +187,7 @@ g_sanguineo:''
     this.hay_Intolerancias();
     this.hay_Cirugias();
     this.hay_Preexistencias();
+    this.hay_Medicamentos();
     console.log(this.paciente$)
 
    }
@@ -273,6 +298,23 @@ hay_Cirugias(){
         this.datos_cirugias.id = this.makeid(20);
         this.tabla_datos_cirugias.id_cirugias = this.datos_cirugias.id;
         this.tabla_datos_cirugias.rut = this.rut_usuario;
+      }
+ });
+}
+
+hay_Medicamentos(){
+  this.http.get(`http://localhost:8000/hay_medicamentos/${this.rut_usuario}`).subscribe(
+    res => {
+      try {
+        this._hay_medicamentos = res as [];
+        this.id_medicamentos = this._hay_medicamentos.data[0].id;
+        this.http.get(`http://localhost:8000/get_medicamentos/${this.rut_usuario}`).subscribe(res=>{
+          this._hay_medicamentos = res as [];
+        });
+      } catch (error) {
+        this.datos_medicamentos.id = this.makeid(20);
+        this.tabla_datos_medicamentos.id_medicamentos = this.datos_medicamentos.id;
+        this.tabla_datos_medicamentos.rut = this.rut_usuario;
       }
  });
 }
@@ -466,6 +508,51 @@ deleteCirugia(s:string,i:number){
     if(result.value){
       this._hay_cirugias.data.splice(i,1);
       this.http.post(`http://localhost:8000/deleteCirugia/`,[this.rut_usuario,s]).subscribe(
+        res=>{
+        },
+        err =>{
+        }
+      );
+    }else{
+      
+    }
+  })
+
+}
+
+aMedicamento(){
+  this.agregarMedicamento = !this.agregarMedicamento;
+}
+
+saveMedicamento(){
+  if(this.newMedicamento != null){
+
+  var newid = this.makeid(20);
+  this.http.post(`http://localhost:8000/newMedicamento/`,[this.rut_usuario,newid,this.newMedicamento,this.newDosis]).subscribe(
+    res=>{
+    },
+    err =>{
+    }
+  );
+  this._hay_medicamentos.data.push({id:newid,nombre:this.newMedicamento,dosis:this.newDosis});
+  console.log(this._hay_medicamentos.data);
+  this.newMedicamento = null;
+  this.newDosis = null;
+  }
+  
+}
+
+deleteMedicamento(s:string,i:number){
+  Swal.fire({
+    title: 'Borrar Medicamento',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Aceptar',
+    cancelButtonText: 'Rechazar'
+  }).then((result)=>{
+    if(result.value){
+      this._hay_medicamentos.data.splice(i,1);
+      this.http.post(`http://localhost:8000/deleteMedicamento/`,[this.rut_usuario,s]).subscribe(
         res=>{
         },
         err =>{

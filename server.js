@@ -654,6 +654,57 @@ app.get('/hay_preexistencias/:rut',(req,res)=>{
         }
     })
 });
+//Medicamentos
+app.post('/newMedicamento',(req,res)=>{
+    
+    con.query('INSERT INTO medicamentos (id,nombre,dosis) values ($1,$2,$3) ',[req.body[1],req.body[2],req.body[3]],(err,result)=>{
+        if(err){
+            send(err);
+        }
+    });
+    con.query('INSERT INTO datos_medicamentos (rut,id_medicamentos) values ($1,$2)', [req.body[0],req.body[1]],(err,result)=>{
+        if(err){
+            send(err);
+        }else{
+            console.log("Se insertó medicamento: ",req.body);
+            return res.send("OK");
+        }
+    });
+    
+});
+
+app.post('/deleteMedicamento',(req,res) =>{
+    con.query('DELETE FROM datos_medicamentos WHERE rut = $1 and id_medicamentos = $2',[req.body[0],req.body[1]]);
+    con.query('DELETE FROM medicamentos WHERE id = $1',[req.body[1]]);
+    console.log("Se borró medicamento: ",req.body[0],req.body[1]);
+});
+
+app.get('/get_medicamentos/:rut',(req,res)=>{
+    const {rut} = req.params;
+    con.query(`SELECT medicamentos.id,  medicamentos.nombre,  medicamentos.dosis FROM medicamentos,datos_medicamentos,paciente WHERE medicamentos.id = datos_medicamentos.id_medicamentos and datos_medicamentos.rut = paciente.rut and paciente.rut = $1`,[rut], (err,result) => {
+        if(err){
+            return res.send(err);
+        }else{
+            return res.json({
+                data: result.rows  
+            }) 
+        }
+    })
+});
+
+app.get('/hay_medicamentos/:rut',(req,res)=>{
+    const {rut} = req.params;
+    con.query('SELECT medicamentos.id FROM medicamentos,datos_medicamentos,paciente WHERE medicamentos.id = datos_medicamentos.id_medicamentos and datos_medicamentos.rut = paciente.rut and paciente.rut = $1',[rut], (err,result) => {
+        if(err){
+            return res.send(err);
+        }else{
+            return res.json({
+                data: result.rows  
+            }) 
+        }
+    })
+});
+
 
 //DATOS CIRUGIAS
 

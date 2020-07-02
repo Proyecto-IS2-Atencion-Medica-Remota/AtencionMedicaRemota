@@ -105,6 +105,44 @@
     <div class="divmio" style="padding-left: 1;margin-top: 2%;">
         <div class="container">
             <div class="row">
+                <div class="col">
+                    <label style="font-size:large;">Consumo de medicamentos</label>
+                    <table align="center">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Dosis</th>
+                            <th class="tmio"><button type="button" class="btn btn-secondary" (click)="aMedicamento()" >Agregar</button></th>
+                        </tr>
+            
+                        <tr *ngIf="agregarMedicamento">
+                            <td>
+                                <input type="text"  [(ngModel)]="newMedicamento" id ="medicamento" name= "medicamento" class="form-control">
+                            </td>
+                            <td >
+                                <input type="text" [(ngModel)]="newDosis" id ="dosis" name= "dosis" class="form-control">
+                            </td>
+                            <td class="tmio">
+                                <button type="button" class="btn btn-success" (click)="saveMedicamento()">Guardar</button>
+                            </td>
+                        </tr>
+                        
+                        <tr *ngFor="let i of _hay_medicamentos.data; let j = index">
+                            <td>{{i.nombre}} </td>
+                            <td>{{i.dosis}} </td>
+                            <td class="tmio">
+                                <button type="button" class="btn btn-danger" style="align-content: flex-end;" *ngIf="borrarMedicamento" (click) = "deleteMedicamento(i.id,j)">Borrar</button>
+                            </td>
+                        </tr>
+            
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divmio" style="padding-left: 1;margin-top: 2%;">
+        <div class="container">
+            <div class="row">
 
                 <div class="col">
                     <label style="font-size:large;">Cirugias y Transplantes</label>
