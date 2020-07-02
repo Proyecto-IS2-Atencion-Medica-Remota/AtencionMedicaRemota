@@ -2,14 +2,7 @@ const express = require('express');
 const app = express();
 const msql = require("mysql");
 const cors = require('cors');
-const bodyParser = require('body-parser');
-
-var ttt = app.listen(8000)
-const http = require('http');
-const serverHttp = require('http').Server(app);
-const io = require('socket.io')(serverHttp).listen(ttt);
-
-
+const bodyParser = require('body-parser')
 
 var nodemailer = require('nodemailer');
 
@@ -18,8 +11,11 @@ const Pool = require('pg');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
-const { send } = require('process');
-const { concatMapTo } = require('rxjs-compat/operator/concatMapTo');
+
+var ttt = app.listen(8000)
+const http = require('http');
+const serverHttp = require('http').Server(app);
+const io = require('socket.io')(serverHttp).listen(ttt);
 
     // config for your database
 /*
@@ -31,7 +27,6 @@ const con = msql.createConnection({
         insecureAuth : true,
     });
 */
-
 
 const con = new Pool.Client("postgres://isw2020e:isw2020e@plop.inf.udec.cl:5432/");
 con.connect();
@@ -56,7 +51,6 @@ app.use(expressJwt({secret: 'todo-app-super-shared-secret'}).unless({path: ['/au
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors());
 app.use(bodyParser.json());
-
 
 //CHAT
 
@@ -215,7 +209,7 @@ app.get('/especialistas', (req, res) => {
     console.log("holaaaaaaaaaaa")
        const select_query=`select u.nombres, u.apellidos, u.rut, e.especialidad, e.formacionacademica, e.experiencia, e.cantcitasrealizadas, e.horariodisponible, u.contacto from especialista as e, usuario as u where e.rut=u.rut;`
     con.query(select_query, (err, result) => {
-        //console.log(result);
+        console.log(result);
         if (err){
           	return res.send(err)
        	}else{
@@ -244,6 +238,151 @@ app.get('/verEspecialista', (req, res) => {
 
             })
      }
+    });
+    
+});
+
+app.get('/verHorarios', (req, res) => {
+    var id=req.query.rut;
+    console.log(id);
+    console.log("llegue")
+    const select_query=`select *, to_char(c.fecha, 'DD-MM-YYYY') as fecha from citas_medicas as c where c.rut_medico ='${id}' order by c.fecha`
+    con.query(select_query, (err, result) => {
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+
+                data: result.rows
+
+            })
+     }
+    });
+    
+});
+
+
+
+app.get('/borrarHora', (req, res) => {
+    var fecha=req.query.fecha;
+    var bloque=req.query.bloque;
+    var rut_medico=req.query.rut_medico;
+    var rut_paciente=req.query.rut_paciente;
+    console.log(fecha,bloque,rut_medico,rut_paciente);
+    console.log("llegue")
+    if(bloque=='bloque 1'){
+        con.query(`update citas_medicas set bloque_1='0000000-0' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se eliminó hora");
+                return res.send(result);
+            }
+        });
+        
+    }else if(bloque=='bloque 2'){
+        con.query(`update citas_medicas set bloque_2='0000000-0' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se eliminó hora");
+                return res.send(result);
+            }
+        });
+    }else if(bloque=='bloque 3'){
+        con.query(`update citas_medicas set bloque_3='0000000-0' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se eliminó hora");
+                return res.send(result);
+            }
+        });
+    }else if(bloque=='bloque 4'){
+        con.query(`update citas_medicas set bloque_4='0000000-0' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+            if(err){
+                console.log(err);
+                return res.sendStatus(401);
+            }else{
+                console.log("Se eliminó hora");
+                return res.send(result);
+            }
+        });
+    }          
+                
+                
+    
+    
+});
+app.get('/agendarHora', (req, res) => {
+    var fecha=req.query.fecha;
+    var bloque=req.query.bloque;
+    var rut_medico=req.query.rut_medico;
+    var rut_paciente=req.query.rut_paciente;
+    console.log(fecha,bloque,rut_medico,rut_paciente);
+    console.log("llegue")
+
+    const select_query=`select count(*) as total 
+    from citas_medicas 
+    where rut_medico='${rut_medico}' and (bloque_1='${rut_paciente}' or bloque_2='${rut_paciente}' or
+    bloque_3='${rut_paciente}' or bloque_4='${rut_paciente}');`
+    con.query(select_query, (err, result) => {
+        if (err){
+            return res.send(err)
+        }else{
+            if(result.rows[0].total>0){
+                return res.sendStatus(401);
+            }else{
+                
+                if(bloque=='bloque 1'){
+                    con.query(`update citas_medicas set bloque_1='${rut_paciente}' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                            return res.sendStatus(401);
+                        }else{
+                            console.log("Se agendo hora");
+                            return res.send(result);
+                        }
+                    });
+                    
+                }else if(bloque=='bloque 2'){
+                    con.query(`update citas_medicas set bloque_2='${rut_paciente}' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                            return res.sendStatus(401);
+                        }else{
+                            console.log("Se agendo hora");
+                            return res.send(result);
+                        }
+                    });
+                }else if(bloque=='bloque 3'){
+                    con.query(`update citas_medicas set bloque_3='${rut_paciente}' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                            return res.sendStatus(401);
+                        }else{
+                            console.log("Se agendo hora");
+                            return res.send(result);
+                        }
+                    });
+                }else if(bloque=='bloque 4'){
+                    con.query(`update citas_medicas set bloque_4='${rut_paciente}' where rut_medico='${rut_medico}' and fecha='${fecha}'`,(err,result)=>{
+                        if(err){
+                            console.log(err);
+                            return res.sendStatus(401);
+                        }else{
+                            console.log("Se agendo hora");
+                            return res.send(result);
+                        }
+                    });
+                }
+                
+            }
+            
+        }
     });
     
 });
@@ -466,6 +605,55 @@ app.get('/hay_alergias/:rut',(req,res)=>{
         }
     })
 });
+//PREEXISTENCIAS
+app.post('/newPreexistencia',(req,res)=>{
+    con.query('INSERT INTO preexistencias (id,nombre) values ($1,$2) ',[req.body[1],req.body[2]],(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+    });
+    con.query('INSERT INTO datos_preexistencias (rut,id_preexistencia) values ($1,$2)', [req.body[0],req.body[1]],(err,result)=>{
+        if(err){
+            console.log(err)
+        }else{
+            console.log("Se insertó PREEXISTENCIA: ",req.body);
+            return res.send("OK");
+        }
+    });
+    
+});
+
+app.post('/deletePreexistencia',(req,res) =>{
+    con.query('DELETE FROM datos_preexistencias WHERE rut = $1 and id_preexistencia = $2',[req.body[0],req.body[1]]);
+    con.query('DELETE FROM preexistencias WHERE id = $1',[req.body[1]]);
+    console.log("Se borró Preexistencia: ",req.body[0],req.body[1]);
+});
+
+app.get('/get_preexistencias/:rut',(req,res)=>{
+    const {rut} = req.params;
+    con.query('SELECT preexistencias.id, preexistencias.nombre FROM preexistencias,datos_preexistencias,paciente WHERE preexistencias.id = datos_preexistencias.id_preexistencia and datos_preexistencias.rut = paciente.rut and paciente.rut = $1',[rut], (err,result) => {
+        if(err){
+            return res.send(err);
+        }else{
+            return res.json({
+                data: result.rows  
+            }) 
+        }
+    })
+});
+
+app.get('/hay_preexistencias/:rut',(req,res)=>{
+    const {rut} = req.params;
+    con.query('SELECT preexistencias.id FROM preexistencias,datos_preexistencias,paciente WHERE preexistencias.id = datos_preexistencias.id_preexistencia and datos_preexistencias.rut = paciente.rut and paciente.rut = $1',[rut], (err,result) => {
+        if(err){
+            return res.send(err);
+        }else{
+            return res.json({
+                data: result.rows  
+            }) 
+        }
+    })
+});
 
 //DATOS CIRUGIAS
 
@@ -495,7 +683,7 @@ app.post('/deleteCirugia',(req,res) =>{
 
 app.get('/get_cirugias/:rut',(req,res)=>{
     const {rut} = req.params;
-    con.query(`SELECT cirugias.id,  to_char(cirugias.fecha, 'YYYY:MM:DD') as fecha,  cirugias.nombre FROM cirugias,datos_cirugias,paciente WHERE cirugias.id = datos_cirugias.id_cirugias and datos_cirugias.rut = paciente.rut and paciente.rut = $1`,[rut], (err,result) => {
+    con.query(`SELECT cirugias.id,  to_char(cirugias.fecha, 'DD-MM-YYYY') as fecha,  cirugias.nombre FROM cirugias,datos_cirugias,paciente WHERE cirugias.id = datos_cirugias.id_cirugias and datos_cirugias.rut = paciente.rut and paciente.rut = $1`,[rut], (err,result) => {
         if(err){
             return res.send(err);
         }else{
@@ -635,17 +823,102 @@ app.post('/updateDatosEspecialista', (req,res) =>{
     });
     
     console.log("updated");
-})
+});
+
+app.get('/getPacientes', (req, res) => {
+    var id=req.param('rut');
+    const select_query=`SELECT * FROM citas as c,usuario as u WHERE c.rut_paciente = u.rut and c.rut_medico = '${id}';`
+    con.query(select_query, (err, result) => {
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+                data: result.rows
+
+            })
+     }
+    });
+    
+});
+
+app.get('/getPaciente', (req, res) => {
+    var id=req.param('rut');
+    const select_query=`SELECT nombres, apellidos FROM usuario WHERE usuario.rut = '${id}';`
+    con.query(select_query, (err, result) => {
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+                data: result.rows
+
+            })
+     }
+    });
+    
+});
+
+app.get('/getEspecialistas', (req, res) => {
+    var id=req.param('rut');
+    const select_query=`SELECT * FROM citas as c,usuario as u WHERE c.rut_medico = u.rut and c.rut_paciente = '${id}';`
+    con.query(select_query, (err, result) => {
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+                data: result.rows
+
+            })
+     }
+    });
+    
+});
+
+app.post('/postTratamiento', (req,res) =>{
+    con.query('UPDATE citas SET tratamiento = $1 WHERE rut_paciente = $2 and rut_medico = $3;',
+    [req.body[0],req.body[1],req.body[2]],(err,result)=>{
+        if(err){
+            return res.send(err);
+        }
+    });
+    console.log(req.body[0][0]);
+    console.log(req.body[2]);
+    console.log("updated");
+});
+
+app.post('/postDiagnostico', (req,res) =>{
+    con.query('UPDATE citas SET diagnostico = $1 WHERE rut_paciente = $2 and rut_medico = $3;',
+    [req.body[0],req.body[1],req.body[2]],(err,result)=>{
+        if(err){
+            return res.send(err);
+        }
+    });
+    console.log(req.body[0][0]);
+    console.log(req.body[2]);
+    console.log("updated");
+});
+
+app.get('/getDiagnostico', (req, res) => {
+    var id=req.param('rut');
+    const select_query=`SELECT * FROM citas as c,usuario as u WHERE c.rut_paciente = '${id}' and c.rut_medico = u.rut;`
+    con.query(select_query, (err, result) => {
+        console.log(result.rows);
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+                data: result.rows
+            })
+     }
+    });
+
+    
+});
 
 //Rodrigo
 
-/*
-serverHttp.listen(7000,()=>{
-    console.log("Conectado al server socket")
-})
 
 
-var server = app.listen(8000, function () {
+
+/*var server = app.listen(8000, function () {
     console.log('Server is running..');
-});
-*/
+});*/

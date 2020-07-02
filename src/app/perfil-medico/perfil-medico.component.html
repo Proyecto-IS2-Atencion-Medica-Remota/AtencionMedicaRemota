@@ -2,6 +2,7 @@
 <div id="container" *ngFor="let especialista of especialista$.data">
     <h1>&bull;{{especialista.nombres}} {{especialista.apellidos}}&bull;</h1>
     <div class="underline">
+    <button class="button" [routerLink]="['/misPacientes', especialista.rut]">Mis pacientes</button>
     </div>
     <div class="tabla" >
         <fieldset>

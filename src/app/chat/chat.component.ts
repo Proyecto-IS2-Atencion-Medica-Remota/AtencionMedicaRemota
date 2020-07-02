@@ -56,6 +56,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
   eventName = "send-message";
   //VIDEO CHAT
   salaVideo:string;
+  salaVideo2:string;
   localCallId = 'agora-local'
   remoteCalls:string[] = []
   hay_seleccionado:boolean=false;
@@ -322,6 +323,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
     llamar(){
     
     this.chatService.emit('llamar',this.salaVideo)  
+    this.salaVideo2=this.salaVideo;
    // this.client = this.agoraService.createClient({ mode: 'live', codec: 'h264' });
    // this.assignClientHandlers();
    // this.localStream = this.agoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
@@ -330,6 +332,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
   
     }
     terminar_llamada(){
+      this.chatService.emit('terminar-llamada',this.salaVideo2)
       this.chatService.emit('terminar-llamada',this.salaVideo)
 
     }

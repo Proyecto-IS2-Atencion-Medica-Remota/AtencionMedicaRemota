@@ -8,6 +8,15 @@ import { LoginComponent } from './login/login.component';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
+import { FlatpickrModule } from 'angularx-flatpickr';
+
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ScheduleModule } from '@syncfusion/ej2-angular-schedule';
+import { CookieService } from 'ngx-cookie-service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistroComponent } from './registro/registro.component';
@@ -23,20 +32,19 @@ import { NavbarPacienteComponent } from './navbar-paciente/navbar-paciente.compo
 import { NavbarMedicoComponent } from './navbar-medico/navbar-medico.component';
 import { DetallesMedicosComponent } from './detalles-medicos/detalles-medicos.component';
 import { EditarEspecialistaComponent } from './editar-especialista/editar-especialista.component';
+import { HorariosComponent } from './horarios/horarios.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AgendaMedicoComponent } from './agenda-medico/agenda-medico.component';
 import { ChatComponent } from './chat/chat.component';
-import { CookieService } from 'ngx-cookie-service';
+
+import { NgxAgoraModule } from 'ngx-agora';
+import { MisPacientesComponent } from './mis-pacientes/mis-pacientes.component';
+import { MisDiagnosticosComponent } from './mis-diagnosticos/mis-diagnosticos.component';
+
+
 export function tokenGetter() {
   return localStorage.getItem('access_token');
 }
-
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-
-//videochat
-
-import { NgxAgoraModule } from 'ngx-agora';
-
 
 @NgModule({
   declarations: [
@@ -55,9 +63,14 @@ import { NgxAgoraModule } from 'ngx-agora';
     NavbarMedicoComponent,
     DetallesMedicosComponent,
     EditarEspecialistaComponent,
-    ChatComponent
+    HorariosComponent,
+    AgendaMedicoComponent,
+    ChatComponent,
+    MisPacientesComponent,
+    MisDiagnosticosComponent,
   ],
   imports: [
+    
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -70,17 +83,27 @@ import { NgxAgoraModule } from 'ngx-agora';
         blacklistedRoutes: ['localhost:8000/auth']
       }
     }),
-    MatDialogModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    NgxAgoraModule.forRoot({AppID:'a4e11f3ef92b479d91bc1139ffe207ac'})
+    ScheduleModule,
+    CommonModule,
+    FormsModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
+    NgbModule,
+    
+    
+   
+    NgxAgoraModule.forRoot({AppID:'a4e11f3ef92b479d91bc1139ffe207ac'}),
   ],
   providers: [
     AuthService,
     AuthGuard,
     CookieService
   ],
-  bootstrap: [AppComponent],
-  entryComponents:[]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

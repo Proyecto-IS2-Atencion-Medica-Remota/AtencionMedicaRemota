@@ -3,6 +3,7 @@
 <div id="container" *ngFor="let paciente of paciente$.data">
     <h1>&bull;Paciente: {{paciente.nombres}} {{paciente.apellidos}}&bull;</h1>
     <div class="underline">
+      <button class="button" [routerLink]="['/misDiagnosticos', paciente.rut]">Mis diagnósticos</button>
     </div>
     <div class="tabla" >
         <fieldset>
@@ -59,4 +60,3 @@
            
         </div ><!-- // End form -->
   </div><!-- // End #container -->
->

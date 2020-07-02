@@ -3,7 +3,7 @@ import { HttpClient ,HttpParams ,HttpHeaders} from '@angular/common/http';
 import { JsonPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-
+import Swal from 'sweetalert2'
 @Component({
   selector: 'app-detalles-medicos',
   templateUrl: './detalles-medicos.component.html',
@@ -78,7 +78,22 @@ g_sanguineo:''
     id:'',
     nombre:''
   }]
-
+  //Preexistencias
+  public _hay_preexistencias:any = [];
+  public datos_preexistencias = {
+    id: '',
+    nombre: ''
+  }
+  public tabla_datos_preexistencias = {
+    rut:'',
+    id_preexistencias:''
+  }
+  public id_preexistencias;
+  public todas_preexistencias = [{
+    id: '',
+    nombre:''
+  }]
+  public newPreexistencia:any;
   //DATOS CIRUGIAS
   public _hay_cirugias:any = [];
   public datos_cirugias = {
@@ -125,6 +140,11 @@ g_sanguineo:''
   public guardarCirugia:Boolean = false;
   public borrarCirugia:Boolean = true;
   public agregarCirugia:Boolean = false;
+  //Botones Preexistencias
+  public editarPreexistencia:Boolean = false;
+  public guardarPreexistencia:Boolean = false;
+  public borrarPreexistencia:Boolean = true;
+  public agregarPreexistencia:Boolean = false;
 
   public general = {
     estatura: '',
@@ -135,12 +155,14 @@ g_sanguineo:''
 
   constructor(private http: HttpClient,  private router: Router) {
     this.rut_usuario=localStorage.getItem('rut');
+    
 
     this.datos_Usuario();
     this.hay_General();
     this.hay_Alergias();
     this.hay_Intolerancias();
     this.hay_Cirugias();
+    this.hay_Preexistencias();
     console.log(this.paciente$)
 
    }
@@ -174,9 +196,6 @@ g_sanguineo:''
         this.peso_actual = this.todas_generales.data[0].peso;
         this.gs_actual = this.todas_generales.data[0].g_sanguineo;
         });
-        this.http.post(`http://localhost:8000/create_chat_user/`,this.rut_usuario).subscribe(res=>{
-          console.log(res);
-   });  
       } catch (error) {
 
         var idG = this.makeid(20);
@@ -191,9 +210,6 @@ g_sanguineo:''
             });
          });
              });
-      this.http.post(`http://localhost:8000/create_chat_user/`,this.rut_usuario).subscribe(res=>{
-             console.log(res);
-      });
       }
       
 
@@ -261,6 +277,23 @@ hay_Cirugias(){
  });
 }
 
+hay_Preexistencias(){
+  this.http.get(`http://localhost:8000/hay_preexistencias/${this.rut_usuario}`).subscribe(
+    res => {
+      try {
+        this._hay_preexistencias = res as [];
+        this.id_preexistencias = this._hay_preexistencias.data[0].id;
+        this.http.get(`http://localhost:8000/get_preexistencias/${this.rut_usuario}`).subscribe(res=>{
+          this._hay_preexistencias = res as [];
+        });
+      } catch (error) {
+        this.datos_preexistencias.id = this.makeid(20);
+        this.tabla_datos_preexistencias.id_preexistencias = this.datos_preexistencias.id;
+        this.tabla_datos_preexistencias.rut = this.rut_usuario;
+     
+      }
+ });
+}
 
 
 datos_Usuario(){
@@ -315,16 +348,25 @@ editAlergia(){
   this.borrarAlergia = !this.borrarAlergia;
 }
 deleteAlergia(s:string,i:number){
-  if(confirm("¿Estás seguro de querer borrar esta alergia?")) {
-    this._hay_alergias.data.splice(i,1);
-    this.http.post(`http://localhost:8000/deleteAlergia/`,[this.rut_usuario,s]).subscribe(
-      res=>{
-      },
-      err =>{
+    Swal.fire({
+      title: 'Borrar Alergia',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Rechazar'
+    }).then((result)=>{
+      if(result.value){
+        this._hay_alergias.data.splice(i,1);
+        this.http.post(`http://localhost:8000/deleteAlergia/`,[this.rut_usuario,s]).subscribe(
+          res=>{
+          },
+          err =>{
+          }
+        );
+      }else{
+        
       }
-    );
-
-    }
+    })
 }
 
 aAlergia(){
@@ -350,15 +392,26 @@ saveAlergia(){
 }
 
 deleteIntolerancia(s:string,i:number){
-  if(confirm("¿Estás seguro de querer borrar esta intolerancia?")) {
-    this._hay_intolerancias.data.splice(i,1);
-    this.http.post(`http://localhost:8000/deleteIntolerancia/`,[this.rut_usuario,s]).subscribe(
-      res=>{
-      },
-      err =>{
-      }
-    );
-  }
+  Swal.fire({
+    title: 'Borrar Intolerancia',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Aceptar',
+    cancelButtonText: 'Rechazar'
+  }).then((result)=>{
+    if(result.value){
+      this._hay_intolerancias.data.splice(i,1);
+      this.http.post(`http://localhost:8000/deleteIntolerancia/`,[this.rut_usuario,s]).subscribe(
+        res=>{
+        },
+        err =>{
+        }
+      );
+    }else{
+      
+    }
+  })
+
 }
 aIntolerancia(){
  this.agregarIntolerancia = !this.agregarIntolerancia;
@@ -403,15 +456,71 @@ saveCirugia(){
 }
 
 deleteCirugia(s:string,i:number){
-  if(confirm("¿Estás seguro de querer borrar esta cirugia?")) {
-  this._hay_cirugias.data.splice(i,1);
-  this.http.post(`http://localhost:8000/deleteCirugia/`,[this.rut_usuario,s]).subscribe(
+  Swal.fire({
+    title: 'Borrar Cirugía',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Aceptar',
+    cancelButtonText: 'Rechazar'
+  }).then((result)=>{
+    if(result.value){
+      this._hay_cirugias.data.splice(i,1);
+      this.http.post(`http://localhost:8000/deleteCirugia/`,[this.rut_usuario,s]).subscribe(
+        res=>{
+        },
+        err =>{
+        }
+      );
+    }else{
+      
+    }
+  })
+
+}
+
+aPreexistencia(){
+this.agregarPreexistencia = !this.agregarPreexistencia;
+}
+
+savePreexistencia(){
+  if(this.newPreexistencia != null){
+
+  var newid = this.makeid(20);
+  this.http.post(`http://localhost:8000/newPreexistencia/`,[this.rut_usuario,newid,this.newPreexistencia]).subscribe(
     res=>{
     },
     err =>{
     }
   );
+  this._hay_preexistencias.data.push({id:newid,nombre:this.newPreexistencia});
+  this.newPreexistencia = null;
+
   }
 }
+
+deletePreexistencia(s:string, i:number){
+
+  Swal.fire({
+    title: 'Borrar Preexistencia',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Aceptar',
+    cancelButtonText: 'Rechazar'
+  }).then((result)=>{
+    if(result.value){
+      this._hay_preexistencias.data.splice(i,1);
+      this.http.post(`http://localhost:8000/deletePreexistencia/`,[this.rut_usuario,s]).subscribe(
+        res=>{
+        },
+        err =>{
+        }
+      );
+    }else{
+      
+    }
+  })
+
+}
+
 
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PasarDatosService } from "../pasar-datos.service";
 import { AuthService } from '../auth.service';
-
+import * as $ from 'jquery/dist/jquery.min.js';
+import { HttpClient ,HttpParams ,HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'app-navbar-medico',
@@ -10,12 +10,26 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./navbar-medico.component.css']
 })
 export class NavbarMedicoComponent implements OnInit {
+  rut: any;
+  especialista$ :any ;
   public especialidad:string;
-  rut :any;
-  constructor(private router: Router, private data: PasarDatosService,public auth: AuthService) { }
-
-  ngOnInit(): void {
+  constructor(private router: Router, public auth: AuthService,private http: HttpClient) {
     this.rut=localStorage.getItem('rut');
+   }
+
+   ngOnInit(): void {
+    this.getEspecialista();
+  }
+
+  getEspecialista(){
+    console.log(this.rut);
+    let params = new HttpParams().set("rut", this.rut);
+    this.http.get('http://localhost:8000/perfilEspecialista',{headers: new HttpHeaders({
+      'Content-Type':'application/json'
+      }), params: params}).subscribe(resp =>
+      this.especialista$ = resp as []
+    )
+    
   }
 
   logout() {
@@ -23,27 +37,5 @@ export class NavbarMedicoComponent implements OnInit {
     this.router.navigate(['']);
     
   }
-   openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "250px";
-    
-    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-  }
   
-   closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-    document.getElementById("main").style.marginLeft= "0";
-    document.body.style.backgroundColor = "white";
-  }
-
-  save(event){
-    this.data.CambiarMensaje(event.target.value);
-    this.router.navigate(['/especialistas']);
-
-  }
-
-  mandarMensaje(){
-    this.data.CambiarMensaje(this.especialidad);
-  }
-
 }
