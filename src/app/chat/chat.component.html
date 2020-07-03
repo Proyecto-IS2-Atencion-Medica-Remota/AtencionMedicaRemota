@@ -1,93 +1,109 @@
+
 <app-navbar-paciente *ngIf = "soy_paciente"></app-navbar-paciente>
 <app-navbar-medico *ngIf = "soy_medico"></app-navbar-medico>
 
-<div id="container">
-    <aside>
-        <ul>
-        <section *ngIf = "soy_medico">
-            <a  href="javascript:void(0);" *ngFor = "let i of contactos_pacientes.data; let j = index" (click)="setDestinatario(i.rut,j)">
-                <li >
-                    <div style="size:100%;" >
-                        <h2>{{i.nombres}}</h2>
-                        <h2>{{i.apellidos}}</h2>
-                        <h3>{{i.rut}}</h3>
-                        <h3>
-                            <span class="status green"></span>
-                            Conectado
-                        </h3>
-                    </div>
-                </li>
-            </a>
-        </section>
-        <section *ngIf = "soy_paciente">
-            <a href="javascript:void(0);" *ngFor = "let i of contactos_medicos.data;let j = index" (click)="setDestinatario(i.rut,j)">
-                <li >
-                    <div style="size:100%;" >
-                        <h2>{{i.nombres}}</h2>
-                        <h2>{{i.apellidos}}</h2>
-                        <h3>{{i.rut}}</h3>
-                        <h3>
-                            <span class="status green"></span>
-                            Conectado
-                        </h3>
-                    </div>
-                </li>
-            </a>
-            
-        </section>
 
-        </ul>
-    </aside>
-
-    <main>
-        <header>
-           
-            
-            <h2 class="titulo">{{hablando_con}}</h2>
-            
-        </header>
-
-        
-        <ul id="chat" #scrollMe>
-            <section *ngFor = "let a of allmensajes" >
-                <ng-template [ngIf] = "a.de_usuario === rut_url " [ngIfElse] = "TEST">
-                    <li class="me"  >
-                        <div class="message">
-                            {{a.mensaje}}
-                        </div>
-                    </li>
-                </ng-template>
-                <ng-template #TEST>
-                    <li class="you">
-                        <div class="message">
-                            {{a.mensaje}}
-                        </div>
-                    </li>
-                </ng-template>
-            </section>
-        </ul>
-        <footer>
-            <button type="button" class="btn btn-success" *ngIf="hay_seleccionado" (click)="llamar()">
-                <i class="fa fa-video-camera" style="height: 20%;"></i> Llamar</button>
-                <button type="button" class="btn btn-danger" *ngIf="terminar_video" (click) = "terminar_llamada()">Terminar</button>
-            <div class="container">
-                
-                <div class="row">
-
-                    <input type="text" class="form-control" (change) = "misMensajes()" [(ngModel)]="userChat.text" > <button  *ngIf="hay_seleccionado" type="button" class="enviar" >
-                        <i class="fa fa-paper-plane" ></i> Enviar</button>
-                    
-                    
-                    
-                </div>
-            </div>
-
-        </footer>
-    </main>
-</div>
 
  <div [id]="localCallId" class="local"></div>
 
  <div *ngFor="let callId of remoteCalls" [id]="callId" class="remote"></div>
 
 
+    <div class="container-fluid h-100" style="margin-top: 5%;">
+        <div class="row centrado h-100">
+            <div class="contacto-C">
+                <div class="card contacts_card">
+
+                <div class="card-body contacts_body">
+
+                <ul class="contacts">
+                    <section *ngIf="soy_paciente">
+                        <!--Se le puede poner la clase active al li para selecionarlo-->
+                        <li *ngFor = "let i of contactos_medicos.data;let j = index" (click)="setDestinatario(i.rut,j)">
+                            <div class="d-flex bd-highlight">
+                                <div class="img_cont">
+                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                 <!-- <span class="online_icon"></span> -->  
+                                </div>
+                                <div class="user_info">
+                                    <span>{{i.apellidos}}</span>
+                                    <p style="font-size: medium;">{{i.nombres}}</p>
+                                </div>
+                            </div>
+                        </li>
+                    </section>
+
+                    <section *ngIf = "soy_medico">
+                            <li *ngFor = "let i of contactos_pacientes.data; let j = index" (click)="setDestinatario(i.rut,j)">
+                                <div class="d-flex bd-highlight">
+                                    <div class="img_cont">
+                                        <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                     <!-- <span class="online_icon"></span> -->  
+                                    </div>
+                                    <div class="user_info">
+                                        <span>{{i.nombres}}</span>
+                                        <p style="font-size: medium;">{{i.apellidos}}</p>
+                                    </div>
+                                </div>
+                            </li>
+                    </section>
+
+                </ul>
+
+                </div>
+                <div class="card-footer"></div>
+            </div></div>
+            <div class="chat">
+                <div class="card">
+                    <div class="card-header msg_head">
+                        <div class="d-flex bd-highlight" *ngIf="hay_seleccionado">
+                            <div class="img_cont">
+                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                <span class="online_icon"></span>
+                            </div>
+                            <div class="user_info">
+                                <span>{{hablando_con}}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body msg_card_body" #scrollMe>
+
+                        <section *ngFor = "let a of allmensajes" >
+                            <ng-template [ngIf] = "a.de_usuario === rut_url " [ngIfElse] = "TEST">
+                                <div class="d-flex justify-content-end mb-4">
+                                    <div class="msg_cotainer_send">
+                                       {{a.mensaje}}
+                                        
+                                    </div>
+        
+                                </div>
+                            </ng-template>
+                            <ng-template #TEST>
+                                <div class="d-flex justify-content-start mb-4">
+
+                                    <div class="msg_cotainer">
+                                       {{a.mensaje}}
+                                    
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </section>
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="input-group">
+                            <button type="button" class="btn btn-success" *ngIf="hay_seleccionado" (click)="llamar()">
+                                <i class="fa fa-video-camera" style="height: 20%;"></i> Llamar</button>
+                            <button type="button" class="btn btn-danger" *ngIf="terminar_video" (click) = "terminar_llamada()">Terminar</button>
+                            <div class="container">
+                                <div class="row">
+                                    <input class="input_color" type="text" (change) = "misMensajes()" [(ngModel)]="userChat.text" *ngIf="hay_seleccionado"> <button  *ngIf="hay_seleccionado" type="button" class="enviar" >
+                                    <i class="fa fa-paper-plane" ></i> Enviar</button>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>

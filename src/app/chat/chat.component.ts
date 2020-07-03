@@ -67,6 +67,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
   private localStream:Stream;
   private uid: number;
 
+  private alguien_seleccionado:boolean = false;
   constructor(
   @Inject(DOCUMENT) private document,
   private http: HttpClient,
@@ -97,6 +98,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
           mensaje: this.mensajes.text,
           fecha: ''
         });
+        this.scrollToBottom();
     })
     this.scrollToBottom();
     if(this.cookie.get(this.rut_url) === "Paciente"){
@@ -277,7 +279,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
       if(this.cookie.get(this.rut_url) === "Paciente"){
 
         for(let i of this.contactos_medicos.data){
-          if(i.rut === s)this.hablando_con = "Hablando con Dr. " + i.nombres
+          if(i.rut === s)this.hablando_con = "Hablando con Dr. " + i.apellidos
         }
       }else{
         for(let i of this.contactos_pacientes.data){
@@ -302,6 +304,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
         console.log("ROOM",this.salaVideo)
       })
       this.hay_seleccionado = true;
+      this.alguien_seleccionado = true;
     }
 
     start(){

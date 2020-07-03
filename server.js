@@ -96,11 +96,10 @@ io.on('connection',function(socket){
 
 app.get('/get_contactos_medicos/:rut',(req,res)=>{
     const {rut} = req.params;
-    con.query('SELECT nombres,especialidad,U.rut FROM usuario as U, especialista as E, pueden_hablar as PH WHERE U.rut = PH.rut_medico and E.rut = U.rut and PH.rut_paciente = $1',[rut],(err,result)=>{
+    con.query('SELECT nombres,apellidos,especialidad,U.rut FROM usuario as U, especialista as E, pueden_hablar as PH WHERE U.rut = PH.rut_medico and E.rut = U.rut and PH.rut_paciente = $1',[rut],(err,result)=>{
         if(err){
         console.log("hay error en obtener los contactos del paciente");
         }else{
-       
         return res.json({
 
             data: result.rows
@@ -109,13 +108,13 @@ app.get('/get_contactos_medicos/:rut',(req,res)=>{
         }
     });
 })
+
 app.get('/get_contactos_pacientes/:rut',(req,res)=>{
     const {rut} = req.params;
     con.query(' SELECT nombres,apellidos,U.rut FROM usuario as U, pueden_hablar as PH WHERE U.rut = PH.rut_paciente and PH.rut_medico= $1 ',[rut],(err,result)=>{
         if(err){
         console.log("hay error");
         }else{
-      //  console.log(result.rows);
         return res.json({
 
             data: result.rows
