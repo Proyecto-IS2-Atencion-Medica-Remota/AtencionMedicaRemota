@@ -98,9 +98,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
           mensaje: this.mensajes.text,
           fecha: ''
         });
-        this.scrollToBottom();
+        setTimeout(() => this.scrollToBottom(),100);
+        
     })
-    this.scrollToBottom();
+    
     if(this.cookie.get(this.rut_url) === "Paciente"){
       this.soy_paciente = true;
       this.soy_medico = false;
@@ -121,7 +122,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
   }
 
   ngAfterViewChecked(): void {
-    this.scrollToBottom();
+   
   }
   ngOnDestroy(): void {
     console.log("me desconecté del chat")
@@ -298,6 +299,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
       this.chatService.emit('getHistorial',this.room)
       this.chatService.socket.on('historial',(data)=>{
       this.allmensajes = data;
+      setTimeout(() => this.scrollToBottom(),100);
       })
       this.chatService.socket.on('getRoom',(data)=>{
         this.salaVideo = data as string;
@@ -305,6 +307,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
       })
       this.hay_seleccionado = true;
       this.alguien_seleccionado = true;
+      
+      
     }
 
     start(){
