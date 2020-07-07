@@ -30,6 +30,14 @@ export class LoginComponent implements OnInit {
   }
 
   public onSubmitPaciente() {
+    const swalWithBootstrapButtons = swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
     console.log(this.LoginForm.value.rut);
     console.log(this.LoginForm.value.pass);
     const cargo="Paciente";
@@ -41,14 +49,28 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.LoginForm.value.rut, this.LoginForm.value.pass, cargo)
       .pipe(first())
       .subscribe( 
-        result => this.router.navigate(['/homePaciente']),
-        err => swal.fire('Usuario y/o Contraseña Incorrecta')
+        result => this.router.navigate(['/perfilPaciente']),
+        
+        err => swalWithBootstrapButtons.fire(
+          'Usuario y/o Contraseña Incorrecta',
+          'Inténtelo nuevamente',
+          'error'
+        )
   
       );
 
   }
 
   public onSubmitEspecialista() {
+
+    const swalWithBootstrapButtons = swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+
     console.log(this.LoginForm.value.rut);
     console.log(this.LoginForm.value.pass);
     const cargo="Especialista";
@@ -59,8 +81,12 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.LoginForm.value.rut, this.LoginForm.value.pass, cargo)
       .pipe(first())
       .subscribe( 
-        result => this.router.navigate(['/homeMedico']),
-        err => swal.fire('Usuario y/o Contraseña Incorrecta')
+        result => this.router.navigate(['/perfilMedico']),
+        err => swalWithBootstrapButtons.fire(
+          'Usuario y/o Contraseña Incorrecta',
+          'Inténtelo nuevamente',
+          'error'
+        )
   
       );
 

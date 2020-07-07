@@ -4,7 +4,7 @@
     <div class="underline"></div>
     
     <div class="tabla" > 
-        <form name="formulario" (keydown.enter)="$event.preventDefault()" [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+        <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
         <fieldset>
           <legend>Datos Personales</legend>
             <div class="row">

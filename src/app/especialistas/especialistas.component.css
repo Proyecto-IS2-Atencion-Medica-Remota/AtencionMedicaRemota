@@ -1,13 +1,8 @@
 
 #container {
-  border: solid 3px #000f25;
-  background-image: linear-gradient(90deg,#91d8f5d0 0%, #1587b4d0 100%);
-  background-image: -moz-linear-gradient(top, #91d8f5d0 0%, #1587b4d0 100%);
-  background-image: -webkit-linear-gradient(top, #91d8f5d0 0%, #1587b4d0 100%);
-  background-image: linear-gradient(to bottom, #91d8f5d0 0%, #1587b4d0 100%);
   max-width: 80%;
   margin-top: 30px;
-  margin-left: 270px;
+  margin-left: 290px;
   position: relative;
   
 }
@@ -222,9 +217,146 @@ position: absolute;
     font-size: 20px;
   }
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1130px) {
 	#container {
-		margin-left: 10%;
+		margin: auto;
 	}
 }
+.round {
+  border: 1px solid #03BFCB;
+  border-radius: 50%;
+  padding: 7px;
+}
+
+.card {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  color: black;
+  width: 370px; /* width of each table */
+  
+  margin-right: 25px; /* spacing between tables */
+  margin-bottom: 2em;
+  border: 1px solid gray;
+  transition: all .5s;
+  background-image: linear-gradient(90deg,#55c9d8b9 0%, #27727cb9 100%);
+  	background-image: -moz-linear-gradient(top, #55c9d8b9 0%, #27727cb9 100%);
+  	background-image: -webkit-linear-gradient(top, #55c9d8b9 0%, #27727cb9 100%);
+  	background-image: linear-gradient(to bottom, #55c9d8b9 0%, #27727cb9 100%);
+
+  
+  
+}
+
+@media screen and (max-width: 1130px) {
+	
+
+	.card{
+		max-width: 100%;
+	}
+  
+}
+.card .banner {
+	background-image: url(../../assets/images/fondo.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 8rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.card .banner img {
+  background-color: #fff;
+  width: 11rem;
+  height: 11rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);
+  border-radius: 50%;
+  transform: translateY(50%);
+  transition: transform 200ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.card .menu {
+  width: 100%;
+  height: 5.5rem;
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  position: relative;
+  box-sizing: border-box;
+}
+.card .menu .opener {
+  width: 2.5rem;
+  height: 2.5rem;
+  position: relative;
+  border-radius: 50%;
+  transition: background-color 100ms ease-in-out;
+}
+.card .menu .opener:hover {
+  background-color: #f2f2f2;
+}
+.card .menu .opener span {
+  background-color: #404040;
+  width: 0.4rem;
+  height: 0.4rem;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 0.2rem);
+  border-radius: 50%;
+}
+.card .menu .opener span:nth-child(1) {
+  top: 0.45rem;
+}
+.card .menu .opener span:nth-child(2) {
+  top: 1.05rem;
+}
+.card .menu .opener span:nth-child(3) {
+  top: 1.65rem;
+}
+.card h2.name {
+  text-align: center;
+  padding: 0 2rem 0.5rem;
+  margin: 0;
+}
+.card .title {
+  color: #a0a0a0;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0 2rem 1.2rem;
+}
+.card .actions {
+  padding: 0 2rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  order: 99;
+}
+.card .actions .follow-info {
+  height: 120px;
+  padding: 0 0 1rem;
+  display: flex;
+}
+.card .actions .follow-info h2 {
+  text-align: center;
+  width: 50%;
+ 
+  box-sizing: border-box;
+  font-size: 20px;
+  color: #1c9eff;
+  font-weight: bold;
+}
+.card .actions .follow-info h2.title{
+  width: 100%;
+  font-weight: bold;
+  text-align: center;
+  padding: 20px 10px;
+  color: white;
+  
+  
+}
+
+
 

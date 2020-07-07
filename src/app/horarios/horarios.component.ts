@@ -146,7 +146,6 @@ export class HorariosComponent implements OnInit {
         showCancelButton: true,
         confirmButtonText: 'Si, eliminar hora',
         cancelButtonText: 'No, cancelar',
-        reverseButtons: true
       }).then((result) => {
         if (result.value) {
           const fecha = this.datePipe.transform(event.start, 'yyyy-MM-dd');
@@ -377,17 +376,7 @@ export class HorariosComponent implements OnInit {
     console.log(event.title, fecha)
   }
   agendarHora( event: CalendarEvent){
-    const fecha = this.datePipe.transform(event.start, 'yyyy-MM-dd');
-    console.log(event.title, fecha)
-    if(event.title=="10:00-11:00"){
-      this.bloque="bloque 1";
-    }else if(event.title=="11:00-12:00"){
-      this.bloque="bloque 2";
-    }else if(event.title=="12:00-13:00"){
-      this.bloque="bloque 3";
-    }else if(event.title=="13:00-14:00"){
-      this.bloque="bloque 4";
-    }
+    console.log(event.color)
     const swalWithBootstrapButtons = swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -395,49 +384,69 @@ export class HorariosComponent implements OnInit {
       },
       buttonsStyling: false
     })
-    
-    swalWithBootstrapButtons.fire({
-      title: '¿Quieres agendar esta hora?',
-      text: "No podrás revertir esto",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Si, agendar hora',
-      cancelButtonText: 'No, cancelar',
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-        console.log(fecha);
-        console.log(this.bloque);
-        let params = new HttpParams().set("fecha", fecha).set("bloque",this.bloque).set("rut_medico", this.rut_medico).set("rut_paciente",this.rut_paciente);
-        this.http.get('http://localhost:8000/agendarHora',{headers: new HttpHeaders({
-        'Content-Type':'application/json'
-        }), params: params}).subscribe(
-          resp => swalWithBootstrapButtons.fire(
-            'Realizado!',
-            'Hora agendada con éxito',
-            'success'
-          ).then((result) => {
-            
-            location.reload();
-          }),
-          error => swalWithBootstrapButtons.fire(
-            'Error',
-            'El paciente ya cuenta con una hora agendada',
+    if(event.color.primary=='#008000'){
+      const fecha = this.datePipe.transform(event.start, 'yyyy-MM-dd');
+      console.log(event.title, fecha)
+      if(event.title=="10:00-11:00"){
+        this.bloque="bloque 1";
+      }else if(event.title=="11:00-12:00"){
+        this.bloque="bloque 2";
+      }else if(event.title=="12:00-13:00"){
+        this.bloque="bloque 3";
+      }else if(event.title=="13:00-14:00"){
+        this.bloque="bloque 4";
+      }
+      
+      
+      swalWithBootstrapButtons.fire({
+        title: '¿Quieres agendar esta hora?',
+        text: "No podrás revertir esto",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, agendar hora',
+        cancelButtonText: 'No, cancelar',
+        
+      }).then((result) => {
+        if (result.value) {
+          console.log(fecha);
+          console.log(this.bloque);
+          let params = new HttpParams().set("fecha", fecha).set("bloque",this.bloque).set("rut_medico", this.rut_medico).set("rut_paciente",this.rut_paciente);
+          this.http.get('http://localhost:8000/agendarHora',{headers: new HttpHeaders({
+          'Content-Type':'application/json'
+          }), params: params}).subscribe(
+            resp => swalWithBootstrapButtons.fire(
+              'Realizado!',
+              'Hora agendada con éxito',
+              'success'
+            ).then((result) => {
+              
+              location.reload();
+            }),
+            error => swalWithBootstrapButtons.fire(
+              'Error',
+              'El paciente ya cuenta con una hora agendada',
+              'error'
+            )
+          )
+          
+        } else if (
+          
+          result.dismiss === swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire(
+            'Cancelado',
+            'Se canceló el agendado de esta hora',
             'error'
           )
-        )
-        
-      } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire(
-          'Cancelado',
-          'Se canceló el agendado de esta hora',
-          'error'
-        )
-      }
-    })
+        }
+      })
+    }else{
+      swalWithBootstrapButtons.fire(
+        'Error',
+        'Esta hora no está disponible',
+        'error'
+      )
+    }
     
     
       

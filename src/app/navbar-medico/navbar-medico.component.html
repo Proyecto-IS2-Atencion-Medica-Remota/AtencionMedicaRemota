@@ -2,7 +2,7 @@
     
     <div class="sidebar-header">
         <div class="user-pic">
-          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
+          <img class="img-responsive img-rounded" src="{{especialista$.data[0].imagen}}" alt="User picture">
         </div>
         <div class="user-info">
           <span class="user-name">{{especialista$.data[0].nombres}}<br/>
@@ -14,6 +14,7 @@
     </div>
    
     <a class="active" routerLink="/perfilMedico"><i class="fa fa-fw fa-user"></i> Perfil</a>
+    <a routerLink="/misPacientes"><i class="fa fa-fw fa-user"></i> Mis Pacientes</a>
     <a routerLink="/agendaMedico"><i class="fa fa-fw fa-address-book-o" aria-hidden="true"></i> Agenda</a>
     <a [routerLink]="['/chat',rut]"><i class="fa fa-fw fa-comments" aria-hidden="true"></i> Chat</a>
     

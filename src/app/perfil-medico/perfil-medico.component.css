@@ -52,7 +52,7 @@
 		  background-image: linear-gradient(to bottom, #71a7bdd0 0%, #0c6183d0 100%);
 			max-width: 80%;
 			margin-top: 30px;
-			margin-left: 270px;
+			margin-left: 290px;
 			font-family: 'Times New Roman', Times, serif;	}
 	  
 	  .tabla {
@@ -246,11 +246,11 @@
 			  transition: all .3s;
 			  z-index: 100;
 		}
-		@media screen and (max-width: 1000px) {
-		  #container {
-			  margin-left: 10%;
-		  }
-	  }
+		@media (max-width: 1130px) {
+			#container {
+				margin:auto;
+			}
+		}
   
 	  @media screen and (max-width: 720px) {
 		  .column {

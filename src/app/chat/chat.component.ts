@@ -45,6 +45,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
   allmensajes:Historial[] = []
   //con el que se va a hablar
   hablando_con:string = ''
+  imagen:any;
   //si soy paciente aca van los medicos a los que puedo hablarle
   contactos_medicos:any=[]
   //si soy medico aca estan los pacientes a los que les puedo hablar
@@ -67,6 +68,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
   private localStream:Stream;
   private uid: number;
 
+  private alguien_seleccionado:boolean = false;
   constructor(
   @Inject(DOCUMENT) private document,
   private http: HttpClient,
@@ -97,8 +99,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
           mensaje: this.mensajes.text,
           fecha: ''
         });
+        setTimeout(() => this.scrollToBottom(),100);
+        
     })
-    this.scrollToBottom();
+    
     if(this.cookie.get(this.rut_url) === "Paciente"){
       this.soy_paciente = true;
       this.soy_medico = false;
@@ -119,7 +123,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
   }
 
   ngAfterViewChecked(): void {
-    this.scrollToBottom();
+   
   }
   ngOnDestroy(): void {
     console.log("me desconecté del chat")
@@ -277,11 +281,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
       if(this.cookie.get(this.rut_url) === "Paciente"){
 
         for(let i of this.contactos_medicos.data){
-          if(i.rut === s)this.hablando_con = "Hablando con Dr. " + i.nombres
+          if(i.rut === s){
+            this.hablando_con = "Hablando con Dr. " + i.apellidos;
+            this.imagen=i.imagen;
+          }
         }
       }else{
         for(let i of this.contactos_pacientes.data){
-          if(i.rut === s)this.hablando_con = "Hablando con "+ i.nombres
+          if(i.rut === s){
+            this.hablando_con = "Hablando con "+ i.nombres
+            this.imagen=i.imagen;
+          }
         }
       }
       this.userChat.to = s;
@@ -296,12 +306,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
       this.chatService.emit('getHistorial',this.room)
       this.chatService.socket.on('historial',(data)=>{
       this.allmensajes = data;
+      setTimeout(() => this.scrollToBottom(),100);
       })
       this.chatService.socket.on('getRoom',(data)=>{
         this.salaVideo = data as string;
         console.log("ROOM",this.salaVideo)
       })
       this.hay_seleccionado = true;
+      this.alguien_seleccionado = true;
+      
+      
     }
 
     start(){

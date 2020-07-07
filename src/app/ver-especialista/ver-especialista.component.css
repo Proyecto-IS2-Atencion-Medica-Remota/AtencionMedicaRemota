@@ -50,7 +50,7 @@ html {
 		background-image: linear-gradient(to bottom, #71a7bdd0 0%, #0c6183d0 100%);
   		max-width: 80%;
   		margin-top: 30px;
-  		margin-left: 270px;
+		  margin-left: 290px;
 		  font-family: 'Times New Roman', Times, serif;		}
 	
 	form {
@@ -234,9 +234,9 @@ html {
 	  background: rgb(209, 89, 29);
 	  color: #F2F3EB;
 	}
-	@media screen and (max-width: 1000px) {
+	@media screen and (max-width: 1130px) {
 		#container {
-			margin-left: 10%;
+			margin: auto;
 		}
 	}
 

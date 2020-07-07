@@ -26,8 +26,7 @@ import { PerfilPacienteComponent } from './perfil-paciente/perfil-paciente.compo
 import { PerfilMedicoComponent } from './perfil-medico/perfil-medico.component';
 import { RegistropacienteComponent } from './registropaciente/registropaciente.component';
 import { RegistroespecialistaComponent } from './registroespecialista/registroespecialista.component';
-import { HomeMedicoComponent } from './home-medico/home-medico.component';
-import { HomePacienteComponent } from './home-paciente/home-paciente.component';
+
 import { NavbarPacienteComponent } from './navbar-paciente/navbar-paciente.component';
 import { NavbarMedicoComponent } from './navbar-medico/navbar-medico.component';
 import { DetallesMedicosComponent } from './detalles-medicos/detalles-medicos.component';
@@ -38,7 +37,13 @@ import { AgendaMedicoComponent } from './agenda-medico/agenda-medico.component';
 import { ChatComponent } from './chat/chat.component';
 
 import { NgxAgoraModule } from 'ngx-agora';
+import { MisPacientesComponent } from './mis-pacientes/mis-pacientes.component';
+import { MisDiagnosticosComponent } from './mis-diagnosticos/mis-diagnosticos.component';
 
+
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatCardModule} from '@angular/material/card';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -55,8 +60,7 @@ export function tokenGetter() {
     PerfilMedicoComponent,
     RegistropacienteComponent,
     RegistroespecialistaComponent,
-    HomeMedicoComponent,
-    HomePacienteComponent,
+    
     NavbarPacienteComponent,
     NavbarMedicoComponent,
     DetallesMedicosComponent,
@@ -64,6 +68,9 @@ export function tokenGetter() {
     HorariosComponent,
     AgendaMedicoComponent,
     ChatComponent,
+    MisPacientesComponent,
+    MisDiagnosticosComponent,
+    
   ],
   imports: [
     
@@ -90,6 +97,9 @@ export function tokenGetter() {
       useFactory: adapterFactory,
     }),
     NgbModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatCardModule,
     
     
    

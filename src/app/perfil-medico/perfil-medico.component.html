@@ -1,7 +1,10 @@
 <app-navbar-medico></app-navbar-medico>
 <div id="container" *ngFor="let especialista of especialista$.data">
+  <input #imageInput type="file" (change)="imageInputChange(imageInput)" accept="image/*">
+         <button mat-raised-button color="primary" (click)="addImage()">Add Image</button>
     <h1>&bull;{{especialista.nombres}} {{especialista.apellidos}}&bull;</h1>
     <div class="underline">
+    <button class="button" [routerLink]="['/misPacientes', especialista.rut]">Mis pacientes</button>
     </div>
     <div class="tabla" >
         <fieldset>

@@ -72,6 +72,16 @@ button {
   cursor: pointer;
 }
 
+button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+	background-image: -moz-linear-gradient(left, #ec915c 0%, #bb2c3d 100%);
+  background-image: -webkit-linear-gradient(left, #ec915c 0%, #bb2c3d 100%);
+  background-image: linear-gradient(to right, #ec915c 0%, #bb2c3d 100%);
+  transform: scale(1.05);
+		transition: all .3s;
+		z-index: 100;
+}
+
 .img {
   overflow: hidden;
   z-index: 2;
@@ -155,6 +165,14 @@ button {
   text-transform: uppercase;
   font-size: 15px;
   cursor: pointer;
+}
+
+.img__btn:hover {
+  
+	
+  transform: scale(1.05);
+		transition: all .3s;
+		z-index: 100;
 }
 .img__btn:after {
   content: '';
