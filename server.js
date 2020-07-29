@@ -865,6 +865,34 @@ app.get('/getDiagnostico', (req, res) => {
     
 });
 
+app.get('/getToken', (req, res) => {
+    var id=req.param('rut');
+    const select_query=`SELECT token FROM especialista as e WHERE e.rut = '${id}';`
+    con.query(select_query, (err, result) => {
+        console.log("asd: "+result.rows[0].token);
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+                data: result.rows[0]
+            })
+     }
+    });
+
+    
+});
+
+app.post('/setToken', (req,res) =>{
+    con.query('UPDATE especialista SET token = $1 WHERE rut = $2;',
+    [req.body[0],req.body[1]],(err,result)=>{
+        if(err){
+            return res.send(err);
+        }
+    });
+    //console.log(req.body[0],req.body[1]);
+    //console.log("updated");
+});
+
 //Rodrigo
 
 

@@ -41,6 +41,13 @@ import { NgxAgoraModule } from 'ngx-agora';
 import { MisPacientesComponent } from './mis-pacientes/mis-pacientes.component';
 import { MisDiagnosticosComponent } from './mis-diagnosticos/mis-diagnosticos.component';
 
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { MessagingService } from './service/messaging.service';
+import { environment } from '../environments/environment';
+import { AsyncPipe } from '../../node_modules/@angular/common';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -98,11 +105,17 @@ export function tokenGetter() {
     
    
     NgxAgoraModule.forRoot({AppID:'a4e11f3ef92b479d91bc1139ffe207ac'}),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
     AuthService,
     AuthGuard,
-    CookieService
+    CookieService,
+    MessagingService,
+    AsyncPipe
   ],
   bootstrap: [AppComponent]
 })

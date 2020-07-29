@@ -8,15 +8,18 @@
           <span class="user-name">{{especialista$.data[0].nombres}}<br/>
             <strong>{{especialista$.data[0].apellidos}}</strong>
           </span>
-          <span class="user-role">Especialista</span>
+          <span class="user-role">Especialista </span>
+          
           
         </div>
+        <div *ngIf="token.data.token == null"><button class="button" (click)="sendNotif()">Activar notificaciones</button></div>
     </div>
    
     <a class="active" routerLink="/perfilMedico"><i class="fa fa-fw fa-user"></i> Perfil</a>
     <a routerLink="/agendaMedico"><i class="fa fa-fw fa-address-book-o" aria-hidden="true"></i> Agenda</a>
+    <a><i class="fa fa-fw fa-bell" aria-hidden="true"></i><li *ngIf="( message | async)">{{ message.value.notification.body }}</li></a>
     <a [routerLink]="['/chat',rut]"><i class="fa fa-fw fa-comments" aria-hidden="true"></i> Chat</a>
-    
+
   
     
     

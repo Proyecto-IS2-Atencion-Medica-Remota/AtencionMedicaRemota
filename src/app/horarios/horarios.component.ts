@@ -6,6 +6,10 @@ import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe ,registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { AngularFireMessaging } from '@angular/fire/messaging';
+import { MessagingService } from 'src/app/service/messaging.service';
+
+
 registerLocaleData(localeEs);
 
 import {
@@ -26,6 +30,7 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
+import { send } from 'process';
 
 const colors: any = {
   red: {
@@ -61,7 +66,7 @@ export class HorariosComponent implements OnInit {
   horarios$:any=[];
   bloque:any;
   borrar:boolean;
-
+  token: any;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Month;
 
@@ -90,7 +95,6 @@ export class HorariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHorario();
-    
     console.log("hola")
     this.events = [];
   }
@@ -101,7 +105,7 @@ export class HorariosComponent implements OnInit {
   
   activeDayIsOpen: boolean = false;
 
-  constructor(private rutaActiva: ActivatedRoute, private http: HttpClient,private datePipe: DatePipe) { 
+  constructor(private rutaActiva: ActivatedRoute, private http: HttpClient,private datePipe: DatePipe,private afMessaging: AngularFireMessaging, private messagingService: MessagingService) { 
     this.rut_medico=this.rutaActiva.snapshot.paramMap.get('id');
     this.rut_paciente=localStorage.getItem('rut');
     console.log(this.rut_medico);
@@ -406,20 +410,24 @@ export class HorariosComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
+        //this.sendNotif(fecha,this.bloque);
         console.log(fecha);
         console.log(this.bloque);
         let params = new HttpParams().set("fecha", fecha).set("bloque",this.bloque).set("rut_medico", this.rut_medico).set("rut_paciente",this.rut_paciente);
         this.http.get('http://localhost:8000/agendarHora',{headers: new HttpHeaders({
-        'Content-Type':'application/json'
+          'Content-Type':'application/json'
         }), params: params}).subscribe(
           resp => swalWithBootstrapButtons.fire(
             'Realizado!',
             'Hora agendada con éxito',
             'success'
-          ).then((result) => {
-            
-            location.reload();
-          }),
+            ).then((result) => {
+              this.sendNotif(fecha,this.bloque);
+              this.delay(1000).then(any=>{
+                location.reload();
+              });
+              //location.reload();
+            }),
           error => swalWithBootstrapButtons.fire(
             'Error',
             'El paciente ya cuenta con una hora agendada',
@@ -444,5 +452,29 @@ export class HorariosComponent implements OnInit {
       
     
   }
+  async sendNotif(fecha,bloque){
+    console.log("funca");
+    await this.getToken();
+    this.messagingService.sendPushMessage("Hola","Tienes una nueva cita con "+this.rut_paciente+" el día:\n"+fecha+" en el "+bloque,this.token.data.token);
+  }
+
+ async getToken(){
+    console.log("gettoken");
+    let params = new HttpParams().set("rut", this.rut_medico);
+    await this.http.get('http://localhost:8000/getToken',{headers: new HttpHeaders({
+      'Content-Type':'application/json'
+      }), params: params}).toPromise().then(resp =>
+      this.token = resp
+    )
+    //console.log("asdadadada: ",this.token.data.token);
+    console.log("cvbc");
+  }
+
+  async delay(ms: number) {
+    await new Promise(resolve => setTimeout(()=>resolve(), ms)).then(()=>console.log("fired"));
+  }
+
+
+
   
 }
