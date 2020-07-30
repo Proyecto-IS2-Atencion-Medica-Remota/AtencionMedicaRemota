@@ -6,7 +6,7 @@ background-image: -webkit-linear-gradient(top, #91d8f5d0 0%, #1587b4d0 100%);
 background-image: linear-gradient(to bottom, #91d8f5d0 0%, #1587b4d0 100%);
   max-width: 80%;
   margin-top: 30px;
-  margin-left: 270px;
+  margin-left: 290px;
  
   
   position: relative;
@@ -15,8 +15,8 @@ background-image: linear-gradient(to bottom, #91d8f5d0 0%, #1587b4d0 100%);
   
 }
 
-@media screen and (max-width: 700px) {
-  #container {
-    margin-left: 20px;
-  }
+@media (max-width: 1130px) {
+	#container {
+		margin:auto;
+	}
 }

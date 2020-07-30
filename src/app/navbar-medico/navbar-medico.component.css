@@ -16,7 +16,7 @@ body {
   bottom:0;
   height:100%;
   left:0;
-  width:250px;
+  width:280px;
   overflow:hidden;
   -webkit-transition:width .05s linear;
   transition:width .0s linear;
@@ -67,10 +67,13 @@ div.content {
   overflow: hidden;
 }
 
- .sidebar-header .user-pic img {
+.sidebar-header .user-pic img {
   object-fit: cover;
-  height: 100%;
-  width: 100%;
+  width: 55px;
+  height: 55px;
+  
+  
+  
 }
 
  .sidebar-header .user-info {

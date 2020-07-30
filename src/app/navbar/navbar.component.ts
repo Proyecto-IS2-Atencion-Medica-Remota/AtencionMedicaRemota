@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { PasarDatosService } from "../pasar-datos.service";
+
 
 @Component({
   selector: 'app-navbar',
@@ -9,8 +9,8 @@ import { PasarDatosService } from "../pasar-datos.service";
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  public especialidad:string;
-  constructor(private router: Router,private data: PasarDatosService) { }
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -32,13 +32,4 @@ export class NavbarComponent implements OnInit {
     document.body.style.backgroundColor = "white";
   }
 
-  save(event) {
-    this.data.CambiarMensaje(event.target.value);
-    this.router.navigate(['/especialistas']);
-
-  }
-
-  mandarMensaje(){
-    this.data.CambiarMensaje(this.especialidad);
-  }
 }

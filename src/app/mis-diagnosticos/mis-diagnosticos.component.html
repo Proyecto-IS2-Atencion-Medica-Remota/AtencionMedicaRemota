@@ -1,53 +1,76 @@
 <app-navbar-paciente></app-navbar-paciente>
-<div class="container" *ngFor="let especialista of especialista$.data; let j = index">
-    <div class="column">
-        <div class="card-container">
-            <img class="round" src="https://randomuser.me/api/portraits/men/6.jpg" alt="user" />
-            <h3>{{especialista.apellidos}}</h3>
-            <h6>{{especialista.nombres}}</h6>
-            <div class="btn-group">
-                <button class="btn-success" (click)="getDiagnostico(modalDiagnostico)">Ver diagnóstico</button>
-                <button class="btn-light" (click)="openScrollableContent(modalTratamiento)">Ver tratamiento</button>
+<div id="container" >
+    <div class="pricingdiv">
+        <div *ngFor="let especialista of especialista$.data;">  <!-- por cada paciente del resultado de la consulta-->
+
+            <div class="card">
+                <div class="banner">
+                  <img class="round"src="{{especialista.imagen}}" alt="user" />
+                </div>
+                <div class="menu">
+                  <span></span><span></span><span></span>
+                </div>
+                <br />
+                <h2 class="name">{{especialista.apellidos}}<br />{{especialista.nombres}}</h2>
+                <div class="actions">
+                    <div class="follow-info">
+                        <h2 class="title" >Rut: {{especialista.rut_medico}}</h2>
+                    </div>
+                
+                  <li>
+                    <button class="button" (click)="getDiagnostico(modalDatos, especialista.rut_medico)">Ver detalles</button> 
+                  </li>     
+                </div> 
+
+                
             </div>
         </div>
-        
-        <footer>
-        </footer>
-        <ng-template #modalTratamiento let-modal>
-            <div class="modal-header">
-            <h4 class="modal-title">Tratamiento</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                {{especialista.tratamiento}}
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group">
-                    <button class="btn btn-success" form="miForm" name="submit" type="submit">Ingresar</button>
-                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
-                </div>
-            
-            </div>
-        </ng-template>
-        <ng-template #modalDiagnostico let-modal>
-            <div class="modal-header">
-            <h4 class="modal-title">Diagnóstico</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                {{especialista.diagnostico}}
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group">
-                    <button class="btn btn-success" form="miForm" name="submit" type="submit">Ingresar</button>
-                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
-                </div>
-            
-            </div>
-        </ng-template>
     </div>
+        
+        
+       
+        <ng-template #modalDatos let-modal>
+            <div class="modal-header">
+            <h4 class="modal-title">Diagnosticos y tratamientos</h4>
+            </div>
+            
+            
+            <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Diagnóstico</th>
+                    <th scope="col">Tratamiento</th>
+                    <th scope="col">Fecha</th>
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                  <tr *ngFor="let e of diagnosticos$.data">
+                    <td data-label="Diagnóstico:">
+                      <div class="box">
+                        {{e.diagnostico}}
+                      </div></td>
+                    <td data-label="Tratamiento:">
+                      <div class="box">
+                          {{e.tratamiento}}
+                        </div></td>
+                    
+                    <td data-label="Fecha:">{{e.fecha}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            
+            
+            
+        
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+                </div>
+            
+            </div>
+        </ng-template>
+        
 </div>

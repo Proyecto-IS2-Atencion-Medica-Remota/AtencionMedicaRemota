@@ -1,13 +1,14 @@
-
 <app-navbar-paciente *ngIf = "soy_paciente"></app-navbar-paciente>
 <app-navbar-medico *ngIf = "soy_medico"></app-navbar-medico>
 
 
 
+<div [id]="localCallId" class="local"></div>
+
+ <div *ngFor="let callId of remoteCalls" [id]="callId" class="remote"></div>
 
 
-
-    <div class="container-fluid h-100" style="margin-top: 5%;">
+    <div id="container">
         <div class="row centrado h-100">
             <div class="contacto-C">
                 <div class="card contacts_card">
@@ -17,46 +18,47 @@
                 <ul class="contacts">
                     <section *ngIf="soy_paciente">
                         <!--Se le puede poner la clase active al li para selecionarlo-->
-                        <li *ngFor = "let i of contactos_medicos.data;let j = index" (click)="setDestinatario(i.rut,j)">
+                        <a  href="javascript:void(0);" ><li *ngFor = "let i of contactos_medicos.data;let j = index" (click)="setDestinatario(i.rut,j)">
                             <div class="d-flex bd-highlight">
                                 <div class="img_cont">
-                                    <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                    <img src="{{i.imagen}}" class="rounded-circle user_img">
                                  <!-- <span class="online_icon"></span> -->  
                                 </div>
                                 <div class="user_info">
                                     <span>{{i.apellidos}}</span>
-                                    <p style="font-size: medium;">{{i.nombres}}</p>
+                                    <p style="font-size: 20px;">{{i.nombres}}</p>
                                 </div>
                             </div>
-                        </li>
+                        </li></a>
                     </section>
 
                     <section *ngIf = "soy_medico">
-                            <li *ngFor = "let i of contactos_pacientes.data; let j = index" (click)="setDestinatario(i.rut,j)">
+                        <a  href="javascript:void(0);" ><li *ngFor = "let i of contactos_pacientes.data; let j = index" (click)="setDestinatario(i.rut,j)">
                                 <div class="d-flex bd-highlight">
                                     <div class="img_cont">
-                                        <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                        <img src="{{i.imagen}}" class="rounded-circle user_img">
                                      <!-- <span class="online_icon"></span> -->  
                                     </div>
                                     <div class="user_info">
                                         <span>{{i.nombres}}</span>
-                                        <p style="font-size: medium;">{{i.apellidos}}</p>
+                                        <p style="font-size: 20px;">{{i.apellidos}}</p>
                                     </div>
                                 </div>
-                            </li>
+                        </li></a>
                     </section>
 
                 </ul>
 
                 </div>
                 <div class="card-footer"></div>
-            </div></div>
+                </div>
+            </div>
             <div class="chat">
                 <div class="card">
                     <div class="card-header msg_head">
                         <div class="d-flex bd-highlight" *ngIf="hay_seleccionado">
                             <div class="img_cont">
-                                <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                                <img src="{{imagen}}" class="rounded-circle user_img">
                                 <span class="online_icon"></span>
                             </div>
                             <div class="user_info">
@@ -101,22 +103,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col">
-
-            </div>
-            <div class="col">
-                <div [id]="localCallId" class="local"></div>
-
-                <div *ngFor="let callId of remoteCalls" [id]="callId" class="remote"></div>
             </div>
         </div>
     </div>

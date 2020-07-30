@@ -45,6 +45,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
   allmensajes:Historial[] = []
   //con el que se va a hablar
   hablando_con:string = ''
+  imagen:any;
   //si soy paciente aca van los medicos a los que puedo hablarle
   contactos_medicos:any=[]
   //si soy medico aca estan los pacientes a los que les puedo hablar
@@ -280,11 +281,17 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
       if(this.cookie.get(this.rut_url) === "Paciente"){
 
         for(let i of this.contactos_medicos.data){
-          if(i.rut === s)this.hablando_con = "Hablando con Dr. " + i.apellidos
+          if(i.rut === s){
+            this.hablando_con = "Hablando con Dr. " + i.apellidos;
+            this.imagen=i.imagen;
+          }
         }
       }else{
         for(let i of this.contactos_pacientes.data){
-          if(i.rut === s)this.hablando_con = "Hablando con "+ i.nombres
+          if(i.rut === s){
+            this.hablando_con = "Hablando con "+ i.nombres
+            this.imagen=i.imagen;
+          }
         }
       }
       this.userChat.to = s;

@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { AuthGuard } from './auth.guard';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { HomeMedicoComponent } from './home-medico/home-medico.component';
-import { HomePacienteComponent } from './home-paciente/home-paciente.component';
 import { RegistroComponent } from './registro/registro.component';
 import { EspecialistasComponent } from './especialistas/especialistas.component';
 import { VerEspecialistaComponent } from './ver-especialista/ver-especialista.component';
@@ -20,11 +18,11 @@ import { ChatComponent } from './chat/chat.component';
 import { MisPacientesComponent } from './mis-pacientes/mis-pacientes.component';
 import { MisDiagnosticosComponent } from './mis-diagnosticos/mis-diagnosticos.component';
 
+
+
 const routes: Routes = [
   {path:'', component: LoginComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'homePaciente', component: HomePacienteComponent ,canActivate: [AuthGuard]},
-  {path: 'homeMedico', component: HomeMedicoComponent, canActivate: [AuthGuard]},
   {path: 'registro', component: RegistroComponent},
   {path: 'registropaciente', component: RegistropacienteComponent},
   {path: 'registroespecialista', component: RegistroespecialistaComponent},
@@ -37,7 +35,7 @@ const routes: Routes = [
   {path: 'horarios/:id', component: HorariosComponent,canActivate: [AuthGuard]},
   {path: 'agendaMedico', component: AgendaMedicoComponent,canActivate: [AuthGuard]},
   {path: 'chat/:id', component: ChatComponent,canActivate: [AuthGuard]},
-  {path: 'misPacientes/:id', component: MisPacientesComponent,canActivate: [AuthGuard]},
+  {path: 'misPacientes', component: MisPacientesComponent,canActivate: [AuthGuard]},
   {path: 'misDiagnosticos/:id', component: MisDiagnosticosComponent, canActivate: [AuthGuard]},
 ];
 

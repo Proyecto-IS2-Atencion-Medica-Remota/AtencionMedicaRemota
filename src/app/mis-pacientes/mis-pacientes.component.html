@@ -1,61 +1,281 @@
 <app-navbar-medico></app-navbar-medico>
-<div class="container" *ngFor="let paciente of paciente$.data; let j = index">
-    <div class="column">
-        <div class="card-container">
-            <img class="round" src="https://randomuser.me/api/portraits/men/6.jpg" alt="user" />
-            <h3>{{paciente.apellidos}}</h3>
-            <h6>{{paciente.nombres}}</h6>
-            <div class="btn-group">
-                <button class="btn-success" (click)="openScrollableContent(modalDiagnostico)">Diagnósticar</button>
-                <button class="btn-light" (click)="openScrollableContent(longContent)">Ingresar tratamiento</button>
-            </div>
+<div id="container" >
+  
+        <div class="pricingdiv">
+          <div *ngFor="let paciente of paciente$.data; let j = index">  <!-- por cada paciente del resultado de la consulta-->
+  
+              <div class="card">
+                  <div class="banner">
+                    <img class="round"src="{{paciente.imagen}}" alt="user" />
+                  </div>
+                  <div class="menu">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <br />
+                  <h2 class="name">{{paciente.apellidos}}<br />{{paciente.nombres}}</h2>
+                  <div class="actions">
+                      <div class="follow-info">
+                          <h2 class="title" >Rut: {{paciente.rut_paciente}}</h2>
+                      </div>
+                  
+                    <li>
+                      <button class="button" (click)="getDiagnostico(modalDatos, paciente.rut_paciente)">Ver Detalles</button> 
+                      <button class="button" (click)="getHistorial(modalDatosMedicos, paciente.rut_paciente)">Ver Antecedentes</button> 
+                    </li>     
+                  </div> 
+  
+                  
+              </div>
+          </div>
+      </div>
+        <ng-template #modalDatosMedicos let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Detalles Médicos del paciente</h4>
+          </div>
+        <br>
+        <div class="container">
+          <div class="row" style="padding-left: 7%;">
+            <div class="col" >Peso: {{datos_generales.data[0].peso}}</div>
+            <div class="col">Estatura: {{datos_generales.data[0].estatura}}</div>
+            <div class="col">Grupo sanguineo: {{datos_generales.data[0].g_sanguineo}}</div>
+          </div>
         </div>
         
-        <footer>
-        </footer>
-        <ng-template #longContent let-modal>
+        
+        
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              
+              <table>
+                <thead>
+                  <tr>
+                    <th>Alergias</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let i of datos_alergias.data">
+                    {{i.nombre}}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col">
+              
+              <table>
+                <thead>
+                  <tr>
+                    <th>Intolerancias</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let i of datos_intolerancias.data">
+                    {{i.nombre}}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row">
+
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nombre Cirugia</th>
+                    <th>Fecha</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let i of datos_cirugias.data">
+                    <td>{{i.nombre}}</td>
+                    <td>{{i.fecha}}</td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+
+          <div class="row">
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre Preexistencia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let i of datos_preexistencias.data">
+                  <td>{{i.nombre}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="row">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre Medicamento</th>
+                  <th>Dosis</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let i of datos_medicamentos.data">
+                  <td>{{i.nombre}}</td>
+                  <td>{{i.dosis}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+        </ng-template>
+
+
+        <ng-template #modalDatos let-modal>
+           
             <div class="modal-header">
-            <h4 class="modal-title">Tratamiento</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <h4 class="modal-title">Diagnosticos y tratamientos</h4>
+            <button  class="add" (click)="addDiagnostico(modalAdd)" >Añadir</button>
             </div>
-            <div class="modal-body">
-                <form id="miForm" (keydown.enter)="$event.preventDefault()" [formGroup]="formulario" (ngSubmit)="submitTratamiento(formulario.value,paciente.rut)">
-                    <fieldset>
-                    <textarea class="form-control" placeholder="Describir tratamiento aquí...." formControlName = "tratamiento" required></textarea>
-                    </fieldset>
-                </form>
-            </div>
+            <table >
+                <thead>
+                  <tr>
+                    <th scope="col">Diagnóstico</th>
+                    <th scope="col">Tratamiento</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Acción</th>
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                  <tr *ngFor="let e of diagnosticos$.data; let j = index">
+                    <td data-label="Diagnóstico:">
+                      <div class="box" >
+                        {{e.diagnostico}}
+                      </div>
+                      
+
+                    </td>
+                    <td data-label="Tratamiento:" >
+                      <div class="box" >
+                        {{e.tratamiento}}
+                      </div>
+                
+                    </td>
+                    
+                    <td data-label="Fecha:">{{e.fecha}}</td>
+                    <div class="box" >
+                    <button  class="button" (click)="modificar(modalEdit, e.diagnostico,e.tratamiento, e.fecha2 )">Modificar</button>
+                    <button  class="button" (click)="eliminar(e.diagnostico,e.tratamiento,e.fecha2)">Eliminar</button>
+                  </div>
+
+                  </tr>
+                </tbody>
+              </table> 
+        
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button class="btn btn-success" form="miForm" name="submit" type="submit">Ingresar</button>
                     <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
                 </div>
             
             </div>
         </ng-template>
-        <ng-template #modalDiagnostico let-modal>
-            <div class="modal-header">
-            <h4 class="modal-title">Diagnóstico</h4>
-            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                <form id="miForm" (keydown.enter)="$event.preventDefault()" [formGroup]="formulario" (ngSubmit)="submitDiagnostico(formulario.value,paciente.rut)">
-                    <fieldset>
-                    <textarea class="form-control" placeholder="Describir diagnostico aquí...." formControlName = "diagnostico" required></textarea>
-                    </fieldset>
-                </form>
-            </div>
+
+        <ng-template #modalEdit let-modal>
+          <div class="modal-header">
+          <h4 class="modal-title">Diagnosticos y tratamientos</h4>
+          </div>
+          
+          <form  [formGroup]="editForm" (ngSubmit)="onSubmit(modalDatos)">
+            <fieldset>
+                
+                    <div class="row" >
+                      
+                        <label for="diagnostico">Diagnostico:</label>
+                        <textarea type="text" id="diagnostico" formControlName="diagnostico"cols="30" rows="5"></textarea>
+                        
+                                      
+                    </div>
+    
+                    
+                      <div class="row" >
+                        <label for="tratamiento">Tratamiento:</label>
+                        
+                        <textarea type="text" id="tratamiento" formControlName="tratamiento" cols="30" rows="5"></textarea>
+                      </div>
+                     
+                    
+                <button class="button" type="submit">Guardar cambios</button>
+              </fieldset>
+              
+
+              
+            </form>
+          
+            
+            
+            
+        
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button class="btn btn-success" form="miForm" name="submit" type="submit">Ingresar</button>
-                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cancelar</button>
                 </div>
             
             </div>
         </ng-template>
-    </div>
+
+        <ng-template #modalAdd let-modal>
+          <div class="modal-header">
+          <h4 class="modal-title">Añadir Diagnosticos y tratamientos</h4>
+          </div>
+
+          <form  [formGroup]="addForm" (ngSubmit)="addSubmit()">
+            <fieldset>
+                
+                    <div class="row" >
+                      
+                        <label for="diagnostico">Diagnostico:</label>
+                        <textarea type="text" id="diagnostico" formControlName="diagnostico"cols="30" rows="5"></textarea>
+                        
+                                      
+                    </div>
+    
+                    
+                      <div class="row" >
+                        <label for="tratamiento">Tratamiento:</label>
+                        
+                        <textarea type="text" id="tratamiento" formControlName="tratamiento" cols="30" rows="5"></textarea>
+                      </div>
+
+                      <div class="row" >
+                        <label for="fecha">Fecha:</label>
+                        
+                        <input type="date" id="fecha" formControlName="fecha" >
+                      </div>
+                     
+                    
+                <button class="button" type="submit">Añadir</button>
+              </fieldset>
+              
+
+              
+            </form>
+          
+          
+            
+            
+        
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cancelar</button>
+                </div>
+            
+            </div>
+        </ng-template>
+
+        
 </div>

@@ -3,25 +3,29 @@
 <div id="container" >
     <div class="pricingdiv">
         <div *ngFor="let especialista of especialistas$.data">  <!-- por cada paciente del resultado de la consulta-->
-        <ul class="theplan">
-            
-            <li class="title"><img  width="100px" height=" " src="./assets/images/logito.png"><br/><b>{{especialista.apellidos}}</b> <br />{{especialista.nombres}} </li>
-            
-            <li class="title2">
-                Rut: {{especialista.rut}} <br/>
-                {{especialista.especialidad}} <br/>
-                <!--Formación: {{especialista.formacionacademica}} <br/>
-                Experiencia: {{especialista.experiencia}} <br/>
-                N° citas médicas: {{especialista.cantcitasrealizadas}} <br/>
-                Disponibilidad: {{especialista.horariodisponible}} <br/>
-                Contacto: {{especialista.contacto}} <br/>-->
-                </li>
-                <li >
-                    <button class="button" [routerLink]="['/verEspecialista', especialista.rut]">Ver detalle</button> 
-                    <button class="button" [routerLink]="['/horarios', especialista.rut]">Ver Horarios</button> 
-                </li>
-        </ul>
-    </div>
-    
+
+            <div class="card">
+                <div class="banner">
+                  <img class="round"src="{{especialista.imagen}}" alt="user" />
+                </div>
+                <div class="menu">
+                  <span></span><span></span><span></span>
+                </div>
+                <br />
+                <h2 class="name">{{especialista.apellidos}}<br />{{especialista.nombres}}</h2>
+                <div class="actions">
+                    <div class="follow-info">
+                        <h2 class="title" >Rut: {{especialista.rut}}<br/> <br/>{{especialista.especialidad}}</h2>
+                    </div>
+                    <br/>
+                    <li >
+                        <button class="button" [routerLink]="['/verEspecialista', especialista.rut]">Ver detalle</button> 
+                        <button class="button" [routerLink]="['/horarios', especialista.rut]">Ver Horarios</button> 
+                    </li>
+
+                </div>
+            </div>
+        </div>
+        
     </div>
 </div>

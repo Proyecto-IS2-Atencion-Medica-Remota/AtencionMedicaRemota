@@ -1,9 +1,9 @@
 <div class="sidebar">
     
     <div class="sidebar-header">
-        <div class="user-pic">
-          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg" alt="User picture">
-        </div>
+      <div class="user-pic">
+        <img  src="{{paciente$.data[0].imagen}}" >
+      </div>
         <div class="user-info">
           <span class="user-name">{{paciente$.data[0].nombres}} <br/>
             <strong>{{paciente$.data[0].apellidos}}</strong>
@@ -13,8 +13,11 @@
     </div>
    
     <a class="active" routerLink="/perfilPaciente"><i class="fa fa-fw fa-user"></i> Perfil</a>
+    <a [routerLink]="['/misDiagnosticos', rut]"><i class="fa fa-fw fa-stethoscope" aria-hidden="true"></i> Mis Diagnósticos </a>
     <a routerLink="/especialistas"><i class="fa fa-fw fa-user-md" ></i> Especialistas</a>
+    
     <a [routerLink]="['/chat',rut]"><i class="fa fa-fw fa-comments" aria-hidden="true"></i> Chat </a>
+    
     
     
 

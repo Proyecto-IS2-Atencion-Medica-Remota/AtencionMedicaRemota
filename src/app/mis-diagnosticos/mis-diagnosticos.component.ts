@@ -10,7 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class MisDiagnosticosComponent implements OnInit {
   especialista$: any;
   rut: any;
-  diagnostico: any;
+  diagnosticos$: any;
   constructor(private http: HttpClient,private modalService: NgbModal) { 
     this.rut=localStorage.getItem('rut');
   }
@@ -19,26 +19,23 @@ export class MisDiagnosticosComponent implements OnInit {
     this.getEspecialistas();
   }
 
-  getEspecialistas(){
+  async getEspecialistas(){
     let params = new HttpParams().set("rut", this.rut);
-    this.http.get('http://localhost:8000/getEspecialistas',{headers: new HttpHeaders({
+    this.especialista$= await this.http.get('http://localhost:8000/getEspecialistas',{headers: new HttpHeaders({
       'Content-Type':'application/json'
-      }), params: params}).subscribe(resp =>
-      this.especialista$ = resp as []
-    )
+      }), params: params}).toPromise();
     console.log(this.especialista$);
     
+    
   }
-async getDiagnostico(contenido){
-  let params = new HttpParams().set("rut", this.rut);
-  this.diagnostico = await this.http.get('http://localhost:8000/getDiagnostico',{headers: new HttpHeaders({
-    'Content-Type':'application/json'
-    }), params: params}).toPromise();
+  async getDiagnostico(contenido, rut_medico){
+    let params = new HttpParams().set("rut_paciente", this.rut).set("rut_medico", rut_medico);
+    this.diagnosticos$ = await this.http.get('http://localhost:8000/getDiagnostico',{headers: new HttpHeaders({
+      'Content-Type':'application/json'
+      }), params: params}).toPromise();
+      
+      this.modalService.open(contenido,{ size: 'xl' });
+      console.log(this.diagnosticos$.data[0].tratamiento);
 
-    this.modalService.open(contenido);
-    console.log(this.diagnostico.data[0].tratamiento);
-  }
-  openScrollableContent(longContent) {
-    this.modalService.open(longContent);
   }
 }

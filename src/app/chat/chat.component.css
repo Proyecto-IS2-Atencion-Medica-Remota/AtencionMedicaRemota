@@ -1,5 +1,6 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
+
 *{
     box-sizing:border-box;
 }
@@ -8,108 +9,20 @@ body{
     font-family: 'Times New Roman', Times, serif;}
 
 #container {
-    border: solid 3px #000f25;
-    background:#ffffff;
     margin:0;
-    width: 850px;
+    width: 60%;
     height:600px;
     margin-top: 30px;
     margin-left: 270px;
     position: relative;
     overflow:hidden;
     font-family: 'Times New Roman', Times, serif;
+    align-content: center;
+    
 
   
 }
-aside{
-    width:260px;
-    height:800px;
-    background-image: linear-gradient(90deg,#215063d0 0%, #0a3749d0 100%);
-    background-image: -moz-linear-gradient(top, #215063d0 0%, #0a3749d0 100%);
-    background-image: -webkit-linear-gradient(top, #215063d0 0%, #0a3749d0 100%);
-    background-image: linear-gradient(to bottom, #215063d0 0%, #0a3749d0 100%);
-    display:inline-block;
-    font-size:20px;
-    vertical-align:top;
-}
-main{
-    width:490px;
-    height:600px;
-    display:inline-block;
-    font-size:15px;
-    vertical-align:top;
-}
 
-aside header{
-    padding:30px 20px;
-}
-aside input{
-    width:100%;
-    height:50px;
-    line-height:50px;
-    padding:0 50px 0 20px;
-    background-color:#5e616a;
-    border:none;
-    border-radius:3px;
-    color:#fff;
-    background-image:url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_search.png);
-    background-repeat:no-repeat;
-    background-position:170px;
-    background-size:40px;
-}
-aside input::placeholder{
-    color:#fff;
-}
-aside ul{
-    padding-left:0;
-    margin:0;
-    list-style-type:none;
-    overflow-y:scroll;
-    height:690px;
-}
-aside li{
-    padding:10px 0;
-    padding-left: 10%;
-    background-color: #347abdd0;
-    
-    border-bottom: solid 3px #000f25;
-    border-right: solid 3px #000f25;
-}
-aside li:hover{
-    background-image: linear-gradient(90deg,#1d4e77d0 0%, #0c2e49d0 100%);
-    background-image: -moz-linear-gradient(top, #1d4e77d0 0%, #0c2e49d0 100%);
-    background-image: -webkit-linear-gradient(top, #1d4e77d0 0%, #0c2e49d0 100%);
-    background-image: linear-gradient(to bottom, #1d4e77d0 0%, #0c2e49d0 100%);
-}
-h2.titulo{
-    width: 100%;
-    
-    background-color: #5ea5e7d0;
-}
-h2,h3{
-    margin:0;
-}
-aside li img{
-    border-radius:50%;
-    margin-left:20px;
-    margin-right:8px;
-}
-aside li div{
-    display:inline-block;
-    vertical-align:top;
-    margin-top:12px;
-}
-aside li h2{
-    font-size:20px;
-    color:#fff;
-    font-weight:normal;
-    margin-bottom:5px;
-}
-aside li h3{
-    font-size:18px;
-    color:#dbdbdb;
-    font-weight:normal;
-}
 
 .status{
     width:8px;
@@ -300,27 +213,27 @@ main footer a{
   }
 
   
-
-
 .centrado{
-    padding-left: 20%;
+    padding-left: 5%;
 }
 
 .contacto-C{
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 23%;
+    
+    width: 35%;
+    height:600px;
     padding-right: 0.5%;
+    font-size:20px;
 }
 
 
 .chat{
-    margin-top: auto;
-    margin-bottom: auto;
-    width: 45%;
+    
+    width: 60%;
+    height:600px;
+    font-size:20px;
 }
 .card{
-    height: 500px;
+    height: 100%;
     border-radius: 15px !important;
     background-color: rgba(0,0,0,0.4) !important;
 }
@@ -342,6 +255,7 @@ border-radius: 0 0 15px 15px !important;
 }
 .container{
     align-content: center;
+    
 }
 .search{
     border-radius: 15px 0 0 15px !important;
@@ -393,6 +307,14 @@ background-color: rgba(0,0,0,0.3) !important;
     width: 100% !important;
     padding: 5px 10px;
     margin-bottom: 15px !important;
+    font-size:20px;
+}
+
+.contacts li:hover{
+    background-image: linear-gradient(90deg,#1d4e77d0 0%, #0c2d49a1 100%);
+    background-image: -moz-linear-gradient(top, #1d4e77d0 0%, #0c2d49a1 100%);
+    background-image: -webkit-linear-gradient(top, #1d4e77d0 0%, #0c2d49a1 100%);
+    background-image: linear-gradient(to bottom, #1d4e77d0 0%, #0c2d49a1 100%);
 }
 .active{
     background-color: rgba(0,0,0,0.3);
@@ -435,6 +357,7 @@ background-color: #c23616 !important;
 margin-top: auto;
 margin-bottom: auto;
 margin-left: 15px;
+font-size: 20px;
 }
 .user_info span{
 font-size: 20px;
@@ -542,3 +465,4 @@ margin-bottom: 15px !important;
 }
 
 }
+  
