@@ -1,7 +1,7 @@
 <app-navbar-paciente></app-navbar-paciente>
 <div id="container" *ngFor="let paciente of paciente$.data">
 
-    <h1>&bull;Paciente: {{paciente.nombres}} {{paciente.apellidos}}&bull;</h1>
+    <h1 style="margin-top: 3%;">&bull;Paciente: {{paciente.nombres}} {{paciente.apellidos}}&bull;</h1>
     <div class="underline">
     </div>
     <div class="tabla" >
@@ -103,42 +103,116 @@
     </div>
 
     <div class="divmio" style="padding-left: 1;margin-top: 2%;">
-        <label style="font-size:large;">Cirugias y Transplantes</label>
-        <table align="center">
-            <tr>
-                <th>Nombre</th>
-                <th>Fecha</th>
-                <th class="tmio"><button type="button" class="btn btn-secondary" (click)="aCirugia()" >Agregar</button></th>
-            </tr>
-
-            <tr *ngIf="agregarCirugia">
-                <td>
-                    <input type="text"  [(ngModel)]="newCirugia" id ="cirugia" name= "cirugia" class="form-control">
-                </td>
-                <td>
-                    <input type="date"  [(ngModel)]="newFecha" id ="date" name= "date" class="form-control">
-                </td>
-                <td class="tmio">
-                    <button type="button" class="btn btn-success" (click)="saveCirugia()">Guardar</button>
-                </td>
-            </tr>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <label style="font-size:large;">Consumo de medicamentos</label>
+                    <table align="center">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Dosis</th>
+                            <th class="tmio"><button type="button" class="btn btn-secondary" (click)="aMedicamento()" >Agregar</button></th>
+                        </tr>
             
-            <tr *ngFor="let i of _hay_cirugias.data; let j = index">
-                <td>{{i.nombre}} </td>
-                <td>{{i.fecha}} </td>
-                <td class="tmio">
-                    <button type="button" class="btn btn-danger" style="align-content: flex-end;" *ngIf="borrarCirugia" (click) = "deleteCirugia(i.id,j)">Borrar</button>
-                </td>
-            </tr>
-
-        </table>
-    </div>
-<!-- por si se quiere agregar otro
-             <div class="divmio" style="padding-left: 1;margin-top: 2%;">
-       
-    
+                        <tr *ngIf="agregarMedicamento">
+                            <td>
+                                <input type="text"  [(ngModel)]="newMedicamento" id ="medicamento" name= "medicamento" class="form-control">
+                            </td>
+                            <td >
+                                <input type="text" [(ngModel)]="newDosis" id ="dosis" name= "dosis" class="form-control">
+                            </td>
+                            <td class="tmio">
+                                <button type="button" class="btn btn-success" (click)="saveMedicamento()">Guardar</button>
+                            </td>
+                        </tr>
+                        
+                        <tr *ngFor="let i of _hay_medicamentos.data; let j = index">
+                            <td>{{i.nombre}} </td>
+                            <td>{{i.dosis}} </td>
+                            <td class="tmio">
+                                <button type="button" class="btn btn-danger" style="align-content: flex-end;" *ngIf="borrarMedicamento" (click) = "deleteMedicamento(i.id,j)">Borrar</button>
+                            </td>
+                        </tr>
+            
+                    </table>
+                </div>
             </div>
+        </div>
+    </div>
+
+    <div class="divmio" style="padding-left: 1;margin-top: 2%;">
+        <div class="container">
+            <div class="row">
+
+                <div class="col">
+                    <label style="font-size:large;">Cirugias y Transplantes</label>
+                    <table align="center">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Fecha</th>
+                            <th class="tmio"><button type="button" class="btn btn-secondary" (click)="aCirugia()" >Agregar</button></th>
+                        </tr>
+            
+                        <tr *ngIf="agregarCirugia">
+                            <td>
+                                <input type="text"  [(ngModel)]="newCirugia" id ="cirugia" name= "cirugia" class="form-control">
+                            </td>
+                            <td >
+                                <input type="date" [(ngModel)]="newFecha" id ="date" name= "date" class="form-control">
+                            </td>
+                            <td class="tmio">
+                                <button type="button" class="btn btn-success" (click)="saveCirugia()">Guardar</button>
+                            </td>
+                        </tr>
+                        
+                        <tr *ngFor="let i of _hay_cirugias.data; let j = index">
+                            <td>{{i.nombre}} </td>
+                            <td>{{i.fecha}} </td>
+                            <td class="tmio">
+                                <button type="button" class="btn btn-danger" style="align-content: flex-end;" *ngIf="borrarCirugia" (click) = "deleteCirugia(i.id,j)">Borrar</button>
+                            </td>
+                        </tr>
+            
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label style="font-size:large;">Preexistencias</label>
+                    <table align="center">
+                        <tr>
+                            <th>Nombre</th>
+                            <th class="tmio"><button type="button" class="btn btn-secondary" (click)="aPreexistencia()" >Agregar</button></th>
+                        </tr>
+            
+                        <tr *ngIf="agregarPreexistencia">
+                            <td>
+                                <input type="text"  [(ngModel)]="newPreexistencia" id ="preexistencia" name= "preexistencia" class="form-control">
+                            </td>
+                            <td class="tmio">
+                                <button type="button" class="btn btn-success" (click)="savePreexistencia()">Guardar</button>
+                            </td>
+                        </tr>
+                        
+                        <tr *ngFor="let i of _hay_preexistencias.data; let j = index">
+                            <td>{{i.nombre}} </td>
+                            <td class="tmio">
+                                <button type="button" class="btn btn-danger" style="align-content: flex-end;" *ngIf="borrarPreexistencia" (click) = "deletePreexistencia(i.id,j)">Borrar</button>
+                            </td>
+                        </tr>
+            
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--
+    <div class="divmio" style="padding-left: 1;margin-top: 2%;">
+    </div>
 -->
+
+
    
 
 </div>

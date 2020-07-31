@@ -1,44 +1,34 @@
-<nav class="main-menu">
-    <ul>
-        <li>
-            <a>
-                <i class="fa fa-search" aria-hidden="true"></i>
-                <span class="nav-text">
-                    <input type="text" (keydown.enter)="save($event)">
-                </span>
-            </a>
-        </li>
-            
-        <li >
-            <a routerLink="/perfilPaciente">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                <span class="nav-text">
-                    Perfil Paciente
-                </span>
-            </a>
-          
-        </li>
-        <li >
-            <a routerLink="/especialistas">
-                <i class="fa fa-user-md" aria-hidden="true"></i>
-                <span class="nav-text">
-                    Especialistas
-                </span>
-            </a>
-            
-        </li>
-        
-        
+<div class="sidebar">
+    
+    <div class="sidebar-header">
+      <div class="user-pic">
+        <img  src="{{paciente$.data[0].imagen}}" >
+      </div>
+        <div class="user-info">
+          <span class="user-name">{{paciente$.data[0].nombres}} <br/>
+            <strong>{{paciente$.data[0].apellidos}}</strong>
+          </span>
+          <span class="user-role">Paciente</span>
+        </div>
+    </div>
+   
+    <a class="active" routerLink="/perfilPaciente"><i class="fa fa-fw fa-user"></i> Perfil</a>
+    <a [routerLink]="['/misDiagnosticos', rut]"><i class="fa fa-fw fa-stethoscope" aria-hidden="true"></i> Mis Diagnósticos </a>
+    <a routerLink="/especialistas"><i class="fa fa-fw fa-user-md" ></i> Especialistas</a>
+    
+    <a [routerLink]="['/chat',rut]"><i class="fa fa-fw fa-comments" aria-hidden="true"></i> Chat </a>
+    
+    
+    
+
+    <div class="sidebar-footer">
+        <a href="javascript:void(0);" (click)="logout()"><i class="fa fa-fw fa-power-off "></i> Cerrar Sesión </a>
+      </div>
+    
+  </div>
   
-    </ul>	
-    <ul class="logout">
-        <li>
-           <a href="javascript:void(0);" (click)="logout()">
-                 <i class="fa fa-power-off fa-2x"></i>
-                <span class="nav-text">
-                    Cerrar Sesión
-                </span>
-            </a>
-        </li>  
-    </ul>
-</nav>
+
+
+
+
+

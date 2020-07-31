@@ -1,62 +1,206 @@
 <app-navbar-paciente></app-navbar-paciente>
-
 <div id="container" *ngFor="let paciente of paciente$.data">
-    <h1>&bull;Paciente: {{paciente.nombres}} {{paciente.apellidos}}&bull;</h1>
-    <div class="underline">
-    </div>
-    <div class="tabla" >
-        <fieldset>
-            <legend>Datos Personales</legend>
-            <div class="row">
-                <div class="column" >
-                    <label >Nombres:</label> {{paciente.nombres}} 
-                 
-                </div>
-                <div class="column" >
-                  <label >Apellidos:</label> {{paciente.apellidos}}
-                 
-                </div>
-              </div>
-                
-            
-            <div class="row">
-                <div class="column" >
-                      <label >Rut:</label> {{paciente.rut}}
-                      
-                  </div>
-                <div class="column" >
-                      <label >Fecha de registro:</label> {{paciente.fecharegistro}} {{paciente.horaregistro}} 
-                     
-                      
-                     </div>
-                </div>
-                
-            
-            
-          </fieldset>
-       
-       
+  
 
-        <fieldset>
-            <legend>Contacto</legend>
-            <div class="row">
-                <div class="column" >
-                    <label >Fono:</label> {{paciente.contacto}}
-                    
-                </div>
-                <div class="column" >
-                    <label >Correo:</label> asasasas
-                </div>
-              </div>
-              
-            </fieldset>  
-              
-            
-              <button class="button" [routerLink]="['/detallesMedicos', paciente.rut]">Ver detalles médicos</button> 
-              <button class="button">Editar</button> 
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic|Open+Sans:300,400,500,700|Waiting+for+the+Sunrise|Shadows+Into+Light' rel='stylesheet' type='text/css'>
+
+<div class="wrapper">
+<div class="left">
+  <div class="card">
+    <div class="banner">
+      <img class="round"src="{{paciente.imagen}}" alt="user" />
+    </div>
+    <div class="menu">
+      <span></span><span></span><span></span>
+    </div>
+    <h2 class="name">{{paciente.nombres}}  <br />{{paciente.apellidos}}</h2>
+    <div class="title">Paciente</div>
+    <div class="actions">
+      <div class="follow-info">
+        <h2>Rut:</h2>
+        <h2>{{paciente.rut}}</h2>
+        
+      </div>
+      <div class="follow-info">
+        <h2>Fono:</h2>
+        <h2>{{paciente.contacto}}</h2>
+        
+      </div>
+      <div class="follow-info">
+        <h2>Correo:</h2>
+        <h2>{{paciente.correo}}</h2>
+        
+      </div>
+      <div class="follow-info">
+        <h2>Fecha de registro:</h2>
+        <h2>{{paciente.fecharegistro}} {{paciente.horaregistro}}</h2>
+        
+      </div>
+      
+      <button class="button">Editar Perfil</button>
+     
+      <input #imageInput type="file" (change)="imageInputChange(imageInput)" accept="image/*">
+         <button mat-raised-button color="primary" (click)="addImage()">Add Image</button>
+    </div>
+    </div>
+  </div>
+    
+
+  </div>
+ <div class="right">
+ 
+  <button class="datos" [routerLink]="['/detallesMedicos', paciente.rut]">Editar detalles médicos</button> 
+    <div class="inner">
+      <h3 class="experience-title">Datos Médicos Generales</h3>
+      <table >
+        <tbody>
+        <tr>
+        <td class="titulo">Estatura</td>
+        <td>{{datosMedicos$.data[0].estatura}}</td>
+        </tr>
+        <tr>
+        <td class="titulo">Peso</td>
+        <td>{{datosMedicos$.data[0].peso}}</td>
+        </tr>
+        <tr>
+        <td class="titulo">Grupo Sanguíneo</td>
+        <td>{{datosMedicos$.data[0].g_sanguineo}}</td>
+        </tr>
+        
+        </tbody>
+        </table>
+        <br />
+
+
+      <h3 class="experience-title">Enfermedades</h3>
+
+      <table >
+
+        <thead>
+          <tr>
+          <th>Nombre Enfermedad</th>
           
-             
-           
-        </div ><!-- // End form -->
-  </div><!-- // End #container -->
->
+          </tr>
+          </thead>
+        <tbody>
+        <tbody>
+        <tr *ngFor="let e of enfermedades$.data">
+        
+        <td>{{e.nombre}}</td>
+        </tr>
+
+        <tr *ngIf="enfermedades$.data.length== '0'">
+          <td>Sin enfermedades</td>
+          </tr>
+        
+        </tbody>
+        </table>
+        <br />
+
+
+      <h3 class="experience-title">Medicamentos</h3>
+      <table >
+        <thead>
+          <tr>
+          <th>Nombre Medicamento</th>
+          <th>Dosis</th>
+          </tr>
+          </thead>
+        <tbody>
+        <tr *ngFor="let e of medicamentos$.data">
+        <td>{{e.nombre}}</td>
+        <td>{{e.dosis}}</td>
+        </tr>
+
+        <tr *ngIf="medicamentos$.data.length== '0'">
+          <td>Sin medicamentos</td>
+          <td>Sin medicamentos</td>
+          </tr>
+        
+        </tbody>
+        </table>
+        <br />
+
+
+      <h3 class="experience-title">Alergias</h3>
+
+      <table >
+        <thead>
+          <tr>
+          <th>Nombre Alergia</th>
+          
+          </tr>
+          </thead>
+        <tbody>
+        <tr *ngFor="let e of alergias$.data">
+        
+        <td>{{e.nombre}}</td>
+        </tr>
+
+        <tr *ngIf="alergias$.data.length== '0'">
+          <td>Sin alergias</td>
+          </tr>
+        
+        </tbody>
+        </table>
+        <br />
+
+
+      <h3 class="experience-title">Intolerancias</h3>
+      <table >
+        <thead>
+          <tr>
+          <th>Nombre Intoleracia</th>
+          
+          </tr>
+          </thead>
+        <tbody>
+        <tr *ngFor="let e of intolerancias$.data">
+        
+        <td>{{e.nombre}}</td>
+        </tr>
+
+        <tr *ngIf="intolerancias$.data.length== '0'">
+          <td>Sin intolerancias</td>
+          </tr>
+        
+        </tbody>
+        </table>
+        <br />
+
+
+      <h3 class="experience-title">Cirugias y transplantes</h3>
+
+      <table >
+        <thead>
+          <tr>
+          <th>Nombre Cirugía o transplante</th>
+          <th>Fecha</th>
+          
+          </tr>
+          </thead>
+        <tbody>
+        <tr *ngFor="let e of cirugias$.data">
+        
+        <td>{{e.nombre}}</td>
+        <td>{{e.fecha}}</td>
+        </tr>
+
+        <tr *ngIf="cirugias$.data.length== '0'">
+          <td>Sin cirugias o transplantes</td>
+          <td>Sin cirugias o transplantes</td>
+          </tr>
+        
+        </tbody>
+        </table>
+        <br />
+      
+    </div>
+    
+  </div>
+  
+  
+  
+</div>
+ 
+  

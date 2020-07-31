@@ -1,10 +1,8 @@
-@import url(https://fonts.googleapis.com/css?family=Playfair+Display&display=swap);
 
-	html {
+html {
 	  -ms-text-size-adjust: 100%;
 	  -webkit-text-size-adjust: 100%;
-	  font-family: 'Playfair Display', serif;
-
+	  font-family: 'Times New Roman', Times, serif;
   }
 
   p{
@@ -31,16 +29,14 @@
 	  text-transform: none;
 	}
 	
-	button, input, select, textarea {
+	button, select, textarea {
         
 	  color: rgb(99, 97, 97);
 	  font: inherit;
 	  margin: 0;
 	}
 	
-	input {
-	  line-height: normal;
-	}
+	
 	
 	textarea {
 	  overflow: auto;
@@ -48,21 +44,19 @@
 	
 	#container {
 		border: solid 3px #000f25;
-		background-image: linear-gradient(90deg,#5199b6d0 0%, #10495fd0 100%);
-		background-image: -moz-linear-gradient(top, #5199b6d0 0%, #10495fd0 100%);
-		background-image: -webkit-linear-gradient(top, #5199b6d0 0%, #10495fd0 100%);
-		background-image: linear-gradient(to bottom, #5199b6d0 0%, #10495fd0 100%);
-	  max-width: 768px;
-	  margin: 60px auto;
-	  position: relative;
-	  font-family: 'Playfair Display', serif;
-	}
+    	background-image: linear-gradient(90deg,#71a7bdd0 0%, #0c6183d0 100%);
+		background-image: -moz-linear-gradient(top, #71a7bdd0 0%, #0c6183d0 100%);
+		background-image: -webkit-linear-gradient(top, #71a7bdd0 0%, #0c6183d0 100%);
+		background-image: linear-gradient(to bottom, #71a7bdd0 0%, #0c6183d0 100%);
+  		max-width: 80%;
+  		margin-top: 30px;
+		  margin-left: 290px;
+		  font-family: 'Times New Roman', Times, serif;		}
 	
 	form {
 	  padding: 37.5px;
 	  margin: 10px 0;
-	  font-family: 'Playfair Display', serif;
-
+	  font-family: 'Times New Roman', Times, serif;
 	}
 	
 	h1 {
@@ -71,13 +65,14 @@
 	  font-weight: 700;
 	  letter-spacing: 7px;
 	  text-align: center;
-	  text-transform: uppercase;
+	  margin-top: 5px;
+	 
 	}
 	
 	.underline {
 	  border-bottom: solid 2px #c4bebe;
 	  margin: -0.512em auto;
-	  margin-top: 5%;
+	  margin-top: 1%;
 	  width: 150px;
 	}
 	
@@ -88,45 +83,7 @@
 		width: 47%;
 	}
 	
-	input[type='text'], [type='password'],[type='email'],[type=date], select, textarea {
-
-		background: none;
-	  	border: none;
-		border-bottom: solid 2px #474544;
-		color: #ffffff;
-		font-size: 1.000em;
-	  	font-weight: 400;
-	  	letter-spacing: 1px;
-		margin: 0.5em 0 1em 0;
-		padding: 0 0 0.875em 0;
-		width: 100%;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
-		-ms-box-sizing: border-box;
-		-o-box-sizing: border-box;
-		box-sizing: border-box;
-		-webkit-transition: all 0.3s;
-		-moz-transition: all 0.3s;
-		-ms-transition: all 0.3s;
-		-o-transition: all 0.3s;
-		transition: all 0.3s;
-	}
 	
-	input[type='text']:focus, [type='password'], [type='email']:focus, [type=date]:focus,textarea:focus {
-		outline: none;
-		padding: 0 0 0.875em 0;
-	}
-	input{
-		
-		margin-left: 10px;
-		width: 48%;
-		
-		
-	 }
-	 input[type=number]{
-		width: 20%;
-		
-     }
 	
 	.message {
 		float: none;
@@ -142,12 +99,13 @@
 		width: 46%;
 		padding: 10px;
 		height: 75px;
-        margin-bottom: 5px;
-        border: 1px solid #ddd !important;
+		margin-bottom: 5px;
+		font-size:18px;
+        
         
 	  }
 	  .column2 {
-		
+		font-size:18px;
 		width: 95%;
 		padding: 10px;
 	  }
@@ -175,7 +133,7 @@
 	
 		legend
 		{
-			font-size:14px;
+			font-size:20px;
 			font-weight:bold;
 			margin-bottom: 0px; 
 			width: 35%; 
@@ -188,10 +146,11 @@
         
     label{
         
-		font-size:14px;
+		font-size:18px;
 		font-weight:bold;
 		margin-bottom: 0px; 
-		width: 35%; 
+		margin-left: 5px; 
+		margin-right: 5px; 
 		border: 1px solid rgb(0, 73, 102);
 		color: black;
 		border-radius: 4px; 
@@ -220,11 +179,7 @@
 	}
 	
 	
-	::-webkit-input-placeholder {
-		color: #e6dfdc;
-		font-family: 'Merriweather', serif;
-		font-size: 15px;
-	}
+	
 	
 	:-moz-placeholder { 
 		color: #ee6622;
@@ -236,12 +191,10 @@
 		opacity: 1;
 	}
 	
-	:-ms-input-placeholder {
-		color: #c9c3c3;
-	}
+	
 	form fieldset {
-        font-family: 'Helvetica', Arial, sans-serif;
-		font-size: 15px;
+		font-family: 'Times New Roman', Times, serif;		
+		font-size: 16px;
 		color:rgb(255, 255, 255);
         text-align: left;
         margin-left: 10px;
@@ -249,7 +202,7 @@
 	
 	  span{
 		color: #ebc5b2;
-		font-size: 15px;
+		font-size: 16px;
 		margin-top: 10px;
 	
 	}
@@ -264,7 +217,7 @@
 		color: #474544;
 		cursor: pointer;
 		display: inline-block;
-		font-family: 'Helvetica', Arial, sans-serif;
+		font-family: 'Times New Roman', Times, serif;		
 		font-size: 0.875em;
 		font-weight: bold;
 		outline: none;
@@ -281,13 +234,11 @@
 	  background: rgb(209, 89, 29);
 	  color: #F2F3EB;
 	}
-	@media screen and (max-width: 950px) {
+	@media screen and (max-width: 1130px) {
 		#container {
-		  margin: 60px auto;
-		  width: 90%;
+			margin: auto;
 		}
-		
-	  }
+	}
 
 	@media screen and (max-width: 720px) {
 		.column {
@@ -324,9 +275,7 @@
 	  
 	 
 	  
-	  input[type='text'], [type='password'], [type='email'], select, textarea {
-		font-size: 0.875em;
-	  }
+	  
     }
     
     

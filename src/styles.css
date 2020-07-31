@@ -1,4 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../src/font-awesome-4.7.0/css/font-awesome.min.css";
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-calendars/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-angular-schedule/styles/material.css';
 body{
     background-image: url(src/assets/images/fondo5.jpg);
 
@@ -10,3 +21,7 @@ body{
     min-height: 500px;
    
 }
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

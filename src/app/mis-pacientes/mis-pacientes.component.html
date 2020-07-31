@@ -1,0 +1,176 @@
+<app-navbar-medico></app-navbar-medico>
+<div id="container" >
+  
+        <div class="pricingdiv">
+          <div *ngFor="let paciente of paciente$.data; let j = index">  <!-- por cada paciente del resultado de la consulta-->
+  
+              <div class="card">
+                  <div class="banner">
+                    <img class="round"src="{{paciente.imagen}}" alt="user" />
+                  </div>
+                  <div class="menu">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <br />
+                  <h2 class="name">{{paciente.apellidos}}<br />{{paciente.nombres}}</h2>
+                  <div class="actions">
+                      <div class="follow-info">
+                          <h2 class="title" >Rut: {{paciente.rut_paciente}}</h2>
+                      </div>
+                  
+                    <li>
+                      <button class="button" (click)="getDiagnostico(modalDatos, paciente.rut_paciente)">Ver Detalles</button> 
+                    </li>     
+                  </div> 
+  
+                  
+              </div>
+          </div>
+      </div>
+
+        <ng-template #modalDatos let-modal>
+           
+            <div class="modal-header">
+            <h4 class="modal-title">Diagnosticos y tratamientos</h4>
+            <button  class="add" (click)="addDiagnostico(modalAdd)" >Añadir</button>
+            </div>
+            <table >
+                <thead>
+                  <tr>
+                    <th scope="col">Diagnóstico</th>
+                    <th scope="col">Tratamiento</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Acción</th>
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                  <tr *ngFor="let e of diagnosticos$.data; let j = index">
+                    <td data-label="Diagnóstico:">
+                      <div class="box" >
+                        {{e.diagnostico}}
+                      </div>
+                      
+
+                    </td>
+                    <td data-label="Tratamiento:" >
+                      <div class="box" >
+                        {{e.tratamiento}}
+                      </div>
+                
+                    </td>
+                    
+                    <td data-label="Fecha:">{{e.fecha}}</td>
+                    <div class="box" >
+                    <button  class="button" (click)="modificar(modalEdit, e.diagnostico,e.tratamiento, e.fecha2 )">Modificar</button>
+                    <button  class="button" (click)="eliminar(e.diagnostico,e.tratamiento,e.fecha2)">Eliminar</button>
+                  </div>
+
+                  </tr>
+                </tbody>
+              </table> 
+        
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+                </div>
+            
+            </div>
+        </ng-template>
+
+        <ng-template #modalEdit let-modal>
+          <div class="modal-header">
+          <h4 class="modal-title">Diagnosticos y tratamientos</h4>
+          </div>
+          
+          <form  [formGroup]="editForm" (ngSubmit)="onSubmit(modalDatos)">
+            <fieldset>
+                
+                    <div class="row" >
+                      
+                        <label for="diagnostico">Diagnostico:</label>
+                        <textarea type="text" id="diagnostico" formControlName="diagnostico"cols="30" rows="5"></textarea>
+                        
+                                      
+                    </div>
+    
+                    
+                      <div class="row" >
+                        <label for="tratamiento">Tratamiento:</label>
+                        
+                        <textarea type="text" id="tratamiento" formControlName="tratamiento" cols="30" rows="5"></textarea>
+                      </div>
+                     
+                    
+                <button class="button" type="submit">Guardar cambios</button>
+              </fieldset>
+              
+
+              
+            </form>
+          
+            
+            
+            
+        
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cancelar</button>
+                </div>
+            
+            </div>
+        </ng-template>
+
+        <ng-template #modalAdd let-modal>
+          <div class="modal-header">
+          <h4 class="modal-title">Añadir Diagnosticos y tratamientos</h4>
+          </div>
+
+          <form  [formGroup]="addForm" (ngSubmit)="addSubmit()">
+            <fieldset>
+                
+                    <div class="row" >
+                      
+                        <label for="diagnostico">Diagnostico:</label>
+                        <textarea type="text" id="diagnostico" formControlName="diagnostico"cols="30" rows="5"></textarea>
+                        
+                                      
+                    </div>
+    
+                    
+                      <div class="row" >
+                        <label for="tratamiento">Tratamiento:</label>
+                        
+                        <textarea type="text" id="tratamiento" formControlName="tratamiento" cols="30" rows="5"></textarea>
+                      </div>
+
+                      <div class="row" >
+                        <label for="fecha">Fecha:</label>
+                        
+                        <input type="date" id="fecha" formControlName="fecha" >
+                      </div>
+                     
+                    
+                <button class="button" type="submit">Añadir</button>
+              </fieldset>
+              
+
+              
+            </form>
+          
+          
+            
+            
+        
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cancelar</button>
+                </div>
+            
+            </div>
+        </ng-template>
+
+        
+</div>
