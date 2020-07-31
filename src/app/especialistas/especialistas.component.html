@@ -1,8 +1,64 @@
 <app-navbar-paciente></app-navbar-paciente>
 
 <div id="container" >
+    <div id="contenedorsuperior">
+        <div class="row align-items-center">
+            <div class="col-12 col-md-8">
+                <h1>Filtros para busqueda:</h1>
+                <label for="brows">Buscar:</label>
+                <input id="brows" type="text" class="form-control" placeholder="Search ..." name="filterPost" [(ngModel)]="filterPost"/>
+            </div>
+            <div class="col-6 col-md-4">
+                <div class="custom-control custom-checkbox">
+                    <label for="exampleFormControlSelect1">Especialidad:</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="opcionSeleccionado" [(ngModel)]="opcionSeleccionado" (change)="capturar()">
+                        <option selected value="todoslosprofesionales">Todos los Profesionales</option>
+                        <option value="Médico Cirujano">Médico Cirujano</option>
+                        <option value="Cirujano Dentista">Cirujano Dentista</option>
+                        <option value="Enfermera(o)">Enfermeras(os)</option>
+                        <option value="Matron(a)">Matronas(es)</option>
+                        <option value="Tecnólogo Médico">Tecnólogos Médicos</option>
+                        <option value="Psicólogo">Psicólogos</option>
+                        <option value="Kinesiólogo">Kinesiólogos</option>
+                        <option value="Farmacéutico y Químico Farmacéutico">Farmacéuticos y Químico Farmacéuticos</option>
+                        <option value="Bioquímico">Bioquímicos</option>
+                        <option value="Nutricionista">Nutricionistas</option>
+                        <option value="Fonoudiólogo">Fonoudiólogos</option>
+                        <option value="Terapeuta Ocupacional">Terapeutas Ocupacionales</option>
+                        <option value="Auxiliar Paramédico de Alimentación">Auxiliares Paramédicos de Alimentación</option>
+                        <option value="A.P. de Radiología, Radioterapia, Lab">A.P. de Radiología, Radioterapia, Lab</option>
+                        <option value="Auxiliar Paramédico de Odontología">Auxiliares Paramédicos de Odontología</option>
+                        <option value="Auxiliar Paramédico de Farmacia">Auxiliares Paramédicos de Farmacia</option>
+                        <option value="Auxiliar de Enfermería">Auxiliares de Enfermería</option>
+                        <option value="Técnico en Nivel Superior en Salud">Técnicos en Nivel Superior en Salud</option>
+                        <option value="Técnico en Salud">Técnicos en Salud</option>
+                        <option value="Técnico de Nivel Medio en Salud">Técnicos de Nivel Medio en Salud</option>
+                        <option value="Laboratista Dental">Laboratistas Dentales</option>
+                        <option value="Podólogo">Podólogos</option>
+                        <option value="Óptico">Ópticos</option>
+                        <option value="Contactólogo">Contactólogos</option>
+                        <option value="Homeópata">Homeópatas</option>
+                        <option value="Acupunturista">Acupunturistas</option>
+                        <option value="Naturópata">Naturópatas</option>
+                        <option value="Cosmetólogo">Cosmetólogos</option>
+                        <option value="Auxiliar de Farmacia Privada">Auxiliar de Farmacia Privada</option>
+                    </select>
+                    <label for="exampleFormControlSelect2">Valoracion:</label>
+                    <select class="form-control" id="exampleFormControlSelect1" name="rangeValoracion" [(ngModel)]="rangeValoracion">
+                        <option selected value="0">Cualquier valoración</option>
+                        <option value="1">0 - 1 Estrellas</option>
+                        <option value="2">1 - 2 Estrellas</option>
+                        <option value="3">2 - 3 Estrellas</option>
+                        <option value="4">3 - 4 Estrellas</option>
+                        <option value="5">4 - 5 Estrellas</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="pricingdiv">
-        <div *ngFor="let especialista of especialistas$.data">  <!-- por cada paciente del resultado de la consulta-->
+        <div *ngFor="let especialista of especialistas$.data | filter:filterPost:opcionSeleccionado:rangeValoracion">  <!-- por cada paciente del resultado de la consulta-->
 
             <div class="card">
                 <div class="banner">

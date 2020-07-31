@@ -1,11 +1,36 @@
+#supfilter{
+  display: flex;
+}
+
+#defaultIndeterminate2{
+  margin-left: 20px;
+}
+#contenedorsuperior{
+  background-color: #8ebbce;
+  padding-top: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: #30506e;
+  border-width: 5px;
+}
+
+label{
+  font-size: large;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  padding-left: 15px;
+}
 
 #container {
   max-width: 80%;
   margin-top: 30px;
   margin-left: 290px;
   position: relative;
-  
 }
+
 .pricingdiv{
   display: flex;
   flex-wrap: wrap;

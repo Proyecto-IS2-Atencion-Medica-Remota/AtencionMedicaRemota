@@ -11,6 +11,10 @@ export class EspecialistasComponent implements OnInit {
   especialistas$: any = [ ];
 
   constructor(private http: HttpClient) { }
+  filterPost = '';
+  opcionSeleccionado: string  = 'todoslosprofesionales';
+  verSeleccion: string        = '';
+  rangeValoracion = '0';
 
   ngOnInit(): void {
     this.getEspecialistas();
@@ -21,5 +25,9 @@ export class EspecialistasComponent implements OnInit {
       this.especialistas$ = resp as []
     )
     console.log(this.especialistas$.data)
+  }
+  capturar() {
+    // Pasamos el valor seleccionado a la variable verSeleccion
+    this.verSeleccion = this.opcionSeleccionado;
   }
 }

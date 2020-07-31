@@ -314,7 +314,7 @@ app.get('/datosCirugias', (req, res) => {
 
 app.get('/especialistas', (req, res) => {
     console.log("holaaaaaaaaaaa")
-       const select_query=`select u.nombres, u.apellidos, u.rut, e.especialidad, e.formacionacademica, e.experiencia, e.cantcitasrealizadas, e.horariodisponible, u.contacto ,u.imagen from especialista as e, usuario as u where e.rut=u.rut;`
+       const select_query=`select u.nombres, u.apellidos, u.rut, e.especialidad, e.formacionacademica, e.experiencia, e.cantcitasrealizadas, e.horariodisponible, e.valoracionpromedio, u.contacto ,u.imagen from especialista as e, usuario as u where e.rut=u.rut;`
     con.query(select_query, (err, result) => {
         console.log(result);
         if (err){
@@ -1164,7 +1164,7 @@ app.get('/getPaciente', (req, res) => {
 
 app.get('/getEspecialistas', (req, res) => {
     var id=req.param('rut');
-    const select_query=`SELECT c.rut_medico, u.nombres, u.apellidos, u.imagen FROM historial_citas as c,usuario as u WHERE c.rut_medico = u.rut and c.rut_paciente = '${id}' group by c.rut_medico ,u.nombres, u.apellidos,u.imagen;`
+    const select_query=`SELECT c.rut_medico, u.nombres, u.apellidos, u.imagen, u.valoracionpromedio FROM historial_citas as c,usuario as u WHERE c.rut_medico = u.rut and c.rut_paciente = '${id}' group by c.rut_medico ,u.nombres, u.apellidos,u.imagen;`
     con.query(select_query, (err, result) => {
      if (err){
            return res.send(err)
