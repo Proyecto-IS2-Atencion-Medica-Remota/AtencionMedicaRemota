@@ -48,6 +48,7 @@ import { AngularFireModule } from '@angular/fire';
 import { MessagingService } from './service/messaging.service';
 import { environment } from '../environments/environment';
 import { AsyncPipe } from '../../node_modules/@angular/common';
+import { NotificacionesComponent } from './notificaciones/notificaciones.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -75,6 +76,7 @@ export function tokenGetter() {
     ChatComponent,
     MisPacientesComponent,
     MisDiagnosticosComponent,
+    NotificacionesComponent,
   ],
   imports: [
     

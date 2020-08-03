@@ -18,6 +18,8 @@ export class NavbarMedicoComponent implements OnInit {
   message: any;
   token: any;
   notif: any;
+  notificaciones = [];
+  i = 0;
   public especialidad:string;
   constructor(private router: Router, public auth: AuthService,private http: HttpClient, private afMessaging: AngularFireMessaging, private messagingService: MessagingService, public cdr: ChangeDetectorRef) {
     this.rut=localStorage.getItem('rut');
@@ -29,7 +31,7 @@ export class NavbarMedicoComponent implements OnInit {
     this.messagingService.receiveMessage();
     this.message = this.messagingService.currentMessage;
     this.getToken();
-    this.setPeriodicRefresh(0.5);
+    this.getNotif();
   }
   
   requestPermission() {
@@ -38,11 +40,6 @@ export class NavbarMedicoComponent implements OnInit {
         (token) => { this.token = token;},
         (error) => { console.error(error); },  
       );
-  }
-  sendNotif(){
-    //this.messagingService.sendPushMessage("Hola","test",this.token);
-    this.message = this.messagingService.currentMessage;
-    //console.log("notificaciones activadas, "+this.token);
   }
   async getEspecialista(){
     console.log(this.rut);
@@ -68,16 +65,31 @@ export class NavbarMedicoComponent implements OnInit {
       }), params: params}).toPromise().then(resp =>
       this.token = resp
     )
-    console.log("asdadadada:",this.token.data.token);
-    console.log("cvbc");
   }
-  setPeriodicRefresh(minutes) {
-		setInterval(() => {
-			this.cdr.markForCheck();
-		}, minutes * 10 * 6000);
+  async getNotif(){
+    console.log("recibido nuevo mensaje");
+    let params = new HttpParams().set("rut", this.rut);
+    await this.http.get('http://localhost:8000/getNotif',{headers: new HttpHeaders({
+      'Content-Type':'application/json'
+      }), params: params}).toPromise().then(resp =>
+      this.notif = resp
+    )
+    for(var i = Object.keys(this.notif.data).length-1; i >= 0; i--){
+      this.notificaciones.push(this.notif.data[i].mensaje)
+    }
+    console.log("dljfclkxv");
   }
-
-  notificacion(){
-    console.log(this.message.value.notification.body);
+  sizeN(){
+    return Object.keys(this.notif.data).length;
+  }
+  async pushMsg(msg){
+    if(this.messagingService.currentMessage != null){
+      var auxm = msg;
+      await this.notificaciones.unshift(msg);
+      //console.log(msg);
+      this.messagingService.currentMessage.next(null);
+      //console.log(this.notif.data);
+      return this.i++;
+    }
   }
 }

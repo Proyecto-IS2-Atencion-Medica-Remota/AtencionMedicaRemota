@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { BehaviorSubject } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { AngularFireAuth } from '@angular/fire/auth';
 @Injectable()
 export class MessagingService {
   currentMessage = new BehaviorSubject(null);
 
-  constructor(private angularFireMessaging: AngularFireMessaging, private httpClient: HttpClient) {
+  constructor(private angularFireMessaging: AngularFireMessaging, private httpClient: HttpClient,private auth: AngularFireAuth) {
     this.angularFireMessaging.messaging.subscribe((_messaging) => {
       _messaging.onMessage = _messaging.onMessage.bind(_messaging);
       _messaging.onTokenRefresh = _messaging.onTokenRefresh.bind(_messaging);
@@ -15,6 +16,7 @@ export class MessagingService {
   requestPermission(rut) {
     this.angularFireMessaging.requestToken.subscribe(
       (token) => {
+        this.auth.auth.signInWithCustomToken(token);
         this.setToken(token,rut);
         console.log(token);
       },
@@ -23,10 +25,12 @@ export class MessagingService {
       }
     );
   }
-  
+  nullmsg(){
+    this.currentMessage = new BehaviorSubject(null);
+  }
   receiveMessage() {
     this.angularFireMessaging.messages.subscribe((payload) => {
-      //console.log('new message received. ', payload.notification.body);
+      console.log('new message received. ', payload);
       this.currentMessage.next(payload);
     });
   }
@@ -70,5 +74,12 @@ export class MessagingService {
       }
     );
   }
-  
+  postNotif(token: string, rut: string){
+    this.httpClient.post(`http://localhost:8000/postNotif`,[token,rut]).subscribe(
+      res=>{
+      },
+      err =>{
+      }
+    );
+  }
 }

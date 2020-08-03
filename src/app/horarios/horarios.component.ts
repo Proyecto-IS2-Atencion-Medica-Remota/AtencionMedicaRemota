@@ -455,7 +455,14 @@ export class HorariosComponent implements OnInit {
   async sendNotif(fecha,bloque){
     console.log("funca");
     await this.getToken();
+    var msg = "Tienes una nueva cita con "+this.rut_paciente+" el día:\n"+fecha+" en el "+bloque;
     this.messagingService.sendPushMessage("Hola","Tienes una nueva cita con "+this.rut_paciente+" el día:\n"+fecha+" en el "+bloque,this.token.data.token);
+    this.http.post(`http://localhost:8000/postNotif`,[msg,this.rut_medico]).subscribe(
+      res=>{
+      },
+      err =>{
+      }
+    );
   }
 
  async getToken(){

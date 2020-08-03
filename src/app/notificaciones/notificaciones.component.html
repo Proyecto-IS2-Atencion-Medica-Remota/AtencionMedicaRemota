@@ -1,0 +1,29 @@
+<div class="toggle"><div class="ico">↻</div></div>
+
+<div class="sidebar">
+  <h2>Notifications</h2>
+  <div class="notibox">
+    Wash the Car
+    <div class="cancel">✕</div>
+  </div>
+  <div class="notibox">
+    Do Laundry
+    <div class="cancel">✕</div>
+  </div>
+  <div class="notibox">
+    Feed the Cat
+    <div class="cancel">✕</div>
+  </div>
+</div>
+<script>
+    $(".toggle").click(function () {
+  console.log("toggling sidebar");
+    $(".sidebar").toggleClass('active');
+
+});
+$(".cancel").click(function () {
+  console.log("toggling visibility");
+    $(this).parent().toggleClass('gone');
+
+});
+</script>
