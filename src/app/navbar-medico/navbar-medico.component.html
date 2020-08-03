@@ -26,21 +26,42 @@
 
   
   <a [routerLink]="['/chat',rut]"><i class="fa fa-fw fa-comments" aria-hidden="true"></i> Chat</a>
-  <a><i class="fa fa-fw fa-bell" aria-hidden="true"></i>Notificaciones<span class="badge" *ngIf="(message)">{{sizeN()}}</span>
-    <div class="btn-group mr-3">
-      <div class="btn-group " ngbDropdown role="group" placement="right">
-        <button class="btn btn-outline dropdown-toggle-split" ngbDropdownToggle></button>
-        <div *ngIf="sizeN()>0" class="dropdown-menu custom" ngbDropdownMenu >
-          <div *ngIf="( message | async )"><b>{{message.value.notification.body}}{{pushMsg(message.value.notification.body)}}</b></div>
-            <div *ngFor="let notificacion of notificaciones;">
-              <b>{{notificacion}}</b>
-            </div>
+
+  <div id="collapseExample" [ngbCollapse]="isCollapsed">
+    <div class="card custom">
+      <div class="card-body card-c" *ngIf="notificaciones.length == 0">
+        <b>No tienes notificaciones</b>
+      </div>
+      <div class="card-body card-c" *ngIf="(message | async)">
+        <b>{{message.value.notification.body}}{{pushMsg(message.value.notification.body)}}</b>
+      </div>
+      <div *ngFor="let notificacion of notificaciones;">
+        <div class="card-body card-c">
+          <b>{{notificacion}}</b>
         </div>
       </div>
     </div>
-  </a>
+  </div>
   <div class="sidebar-footer">
-    <a href="javascript:void(0);" (click)="logout()"><i class="fa fa-fw fa-power-off "></i> Cerrar Sesión </a>
+    
+    <div class="dropdown" dropdown>
+      <a href="javascript:void(0);" (click)="clearNotif()"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+        <i class="fa fa-bell"></i>
+        <span class="badge badge-pill badge-warning notification" *ngIf="newnotif">!</span>
+      </a>
+      <div class="dropdown-menu notifications"  >
+        <div class="notifications-header">
+          <i class="fa fa-bell"></i>
+          Notifications
+        </div>
+        
+      </div>
+    </div>
+
+    <div>
+      <a href="javascript:void(0);" (click)="logout()"><i class="fa fa-fw fa-power-off "></i>Cerrar sesión </a>
+    </div>
   </div>
   
 

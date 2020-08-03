@@ -9,7 +9,7 @@ import { MessagingService } from 'src/app/service/messaging.service';
 @Component({
   selector: 'app-navbar-medico',
   templateUrl: './navbar-medico.component.html',
-  styleUrls: ['./navbar-medico.component.css'],
+  styleUrls: ['./navbar-medico.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarMedicoComponent implements OnInit {
@@ -19,7 +19,8 @@ export class NavbarMedicoComponent implements OnInit {
   token: any;
   notif: any;
   notificaciones = [];
-  i = 0;
+  public isCollapsed = true;
+  public newnotif = false;
   public especialidad:string;
   constructor(private router: Router, public auth: AuthService,private http: HttpClient, private afMessaging: AngularFireMessaging, private messagingService: MessagingService, public cdr: ChangeDetectorRef) {
     this.rut=localStorage.getItem('rut');
@@ -79,17 +80,18 @@ export class NavbarMedicoComponent implements OnInit {
     }
     console.log("dljfclkxv");
   }
-  sizeN(){
-    return Object.keys(this.notif.data).length;
+  clearNotif(){
+    this.isCollapsed = !this.isCollapsed
+    this.newnotif = false;
   }
   async pushMsg(msg){
     if(this.messagingService.currentMessage != null){
       var auxm = msg;
+      this.newnotif = true;
       await this.notificaciones.unshift(msg);
       //console.log(msg);
       this.messagingService.currentMessage.next(null);
       //console.log(this.notif.data);
-      return this.i++;
     }
   }
 }

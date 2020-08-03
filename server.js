@@ -886,7 +886,7 @@ app.get('/getNotif', (req, res) => {
     var id=req.param('rut');
     const select_query=`SELECT * FROM notificaciones as n WHERE n.rut_usuario = '${id}';`
     con.query(select_query, (err, result) => {
-        console.log("asd: "+result);
+        console.log("asd: "+result.rows);
      if (err){
            return res.send(err)
         }else{
@@ -917,6 +917,21 @@ app.post('/postNotif', (req,res) =>{
     });
     //console.log(req.body[0],req.body[1]);
     //console.log("updated");
+});
+
+app.get('/getNombre', (req, res) => {
+    var id=req.param('rut');
+    const select_query=`SELECT nombres,apellidos FROM usuario as u WHERE u.rut = '${id}';`
+    con.query(select_query, (err, result) => {
+        console.log("asd: "+result.rows.data);
+     if (err){
+           return res.send(err)
+        }else{
+            return res.json({
+                data: result.rows
+            })
+     }
+    });    
 });
 
 //Rodrigo

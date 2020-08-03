@@ -1,0 +1,53 @@
+<app-navbar-paciente></app-navbar-paciente>
+<div class="container" *ngFor="let especialista of especialista$.data; let j = index">
+    <div class="column">
+        <div class="card-container">
+            <img class="round" src="https://randomuser.me/api/portraits/men/6.jpg" alt="user" />
+            <h3>{{especialista.apellidos}}</h3>
+            <h6>{{especialista.nombres}}</h6>
+            <div class="btn-group">
+                <button class="btn-success" (click)="getDiagnostico(modalDiagnostico)">Ver diagnóstico</button>
+                <button class="btn-light" (click)="openScrollableContent(modalTratamiento)">Ver tratamiento</button>
+            </div>
+        </div>
+        
+        <footer>
+        </footer>
+        <ng-template #modalTratamiento let-modal>
+            <div class="modal-header">
+            <h4 class="modal-title">Tratamiento</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                {{especialista.tratamiento}}
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button class="btn btn-success" form="miForm" name="submit" type="submit">Ingresar</button>
+                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+                </div>
+            
+            </div>
+        </ng-template>
+        <ng-template #modalDiagnostico let-modal>
+            <div class="modal-header">
+            <h4 class="modal-title">Diagnóstico</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                {{especialista.diagnostico}}
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button class="btn btn-success" form="miForm" name="submit" type="submit">Ingresar</button>
+                    <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+                </div>
+            
+            </div>
+        </ng-template>
+    </div>
+</div>

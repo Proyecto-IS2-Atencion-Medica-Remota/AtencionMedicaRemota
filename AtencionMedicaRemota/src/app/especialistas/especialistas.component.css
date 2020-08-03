@@ -1,0 +1,230 @@
+
+#container {
+  border: solid 3px #000f25;
+  background-image: linear-gradient(90deg,#91d8f5d0 0%, #1587b4d0 100%);
+  background-image: -moz-linear-gradient(top, #91d8f5d0 0%, #1587b4d0 100%);
+  background-image: -webkit-linear-gradient(top, #91d8f5d0 0%, #1587b4d0 100%);
+  background-image: linear-gradient(to bottom, #91d8f5d0 0%, #1587b4d0 100%);
+  max-width: 80%;
+  margin-top: 30px;
+  margin-left: 270px;
+  position: relative;
+  
+}
+.pricingdiv{
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 16px;
+  justify-content: center;
+  font-family: 'Times New Roman', Times, serif;  
+  margin-top: 20px;
+}
+
+.pricingdiv ul.theplan{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  color: black;
+  width: 320px; /* width of each table */
+  
+  margin-right: 25px; /* spacing between tables */
+  margin-bottom: 2em;
+  border: 1px solid gray;
+  transition: all .5s;
+  background-image: linear-gradient(90deg,#55c9d8b9 0%, #27727cb9 100%);
+  	background-image: -moz-linear-gradient(top, #55c9d8b9 0%, #27727cb9 100%);
+  	background-image: -webkit-linear-gradient(top, #55c9d8b9 0%, #27727cb9 100%);
+  	background-image: linear-gradient(to bottom, #55c9d8b9 0%, #27727cb9 100%);
+}
+
+.pricingdiv ul.theplan:hover{ /* when mouse hover over pricing table */
+  transform: scale(1.05);
+  transition: all .5s;
+  z-index: 100;
+  box-shadow: 0 0 10px gray;
+}
+
+.pricingdiv ul.theplan .center{
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pricingdiv ul.theplan img{
+  max-width: 80%;
+  height: auto;
+  margin-left: 8%;
+  
+}
+
+.pricingdiv ul.theplan li{
+  padding: 15px 10px;
+  position: relative;
+  border-bottom: 1px solid #eee;
+  background: rgb(182, 194, 247);
+}
+
+.pricingdiv ul.theplan li.title{
+  font-weight: bold;
+  text-align: center;
+  padding: 20px 10px;
+  background-image: linear-gradient(90deg,#19d8fab9 0%, #1499b1b9 100%);
+  	background-image: -moz-linear-gradient(top, #19d8fab9 0%, #1499b1b9 100%);
+  	background-image: -webkit-linear-gradient(top, #19d8fab9 0%, #1499b1b9 100%);
+  	background-image: linear-gradient(to bottom, #19d8fab9 0%, #1499b1b9 100%);
+  color: white;
+  box-shadow: 0 -10px 5px rgba(0,0,0,.1) inset;
+  
+}
+.pricingdiv ul.theplan li.title2{
+  font-weight: bold;
+  text-align: center;
+  padding: 20px 10px;
+  background-image: linear-gradient(90deg,#1b47d6b9 0%, #163aafb9 100%);
+  background-image: -moz-linear-gradient(top, #1b47d6b9 0%, #163aafb9 100%);
+  background-image: -webkit-linear-gradient(top, #1b47d6b9 0%, #163aafb9 100%);
+  background-image: linear-gradient(to bottom, #1b47d6b9 0%, #163aafb9 100%);
+
+  color: white;
+  box-shadow: 0 -10px 5px rgba(0,0,0,.1) inset;
+  
+}
+
+.pricingdiv ul.theplan:nth-of-type(2) li.title{
+  background: rgb(196, 107, 48);
+  color: white;
+}
+    
+.pricingdiv ul.theplan:nth-of-type(3) li.title{
+  background: rgb(210, 117, 251);
+  color: white;
+}
+
+
+.pricingdiv ul.theplan li.title b{
+  font-size: 200%;
+}
+.pricingdiv ul.theplan li.pie{
+ 
+  background-image: linear-gradient(90deg,#2251b8b9 0%, #1c4191b9 100%);
+  	background-image: -moz-linear-gradient(top, #2251b8b9 0%, #1c4191b9 100%);
+  	background-image: -webkit-linear-gradient(top, #2251b8b9 0%, #1c4191b9 100%);
+  	background-image: linear-gradient(to bottom, #2251b8b9 0%, #1c4191b9 100%);
+  
+}
+
+.pricingdiv ul.theplan:last-of-type{ /* remove right margin in very last table */
+  margin-right: 0;
+}
+
+/*very last LI within each pricing UL */
+.pricingdiv ul.theplan li:last-of-type{
+  text-align: center;
+  margin-top: auto; /*align last LI (price botton li) to the very bottom of UL */
+}  
+
+.pricingdiv a.pricebutton{
+  background: rgb(228, 48, 48);
+  text-decoration: none;
+  padding: 10px;
+  display: inline-block;
+  margin: 10px auto;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+
+
+
+
+
+
+
+.button {
+  background-color: #9c83aa;/* Green */
+  border: none;
+  color: white;
+  padding: 0.75em 1.5em;
+  margin-left: 10%;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  cursor: pointer;
+  display: block;
+  margin-bottom: auto;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 80%;
+  margin-right: 10%;
+  margin-bottom: 10px;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  border-radius: 10px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  background-image: -moz-linear-gradient(left, #ec915c 0%, #bb2c3d 100%);
+background-image: -webkit-linear-gradient(left, #ec915c 0%, #bb2c3d 100%);
+background-image: linear-gradient(to right, #ec915c 0%, #bb2c3d 100%);
+transform: scale(1.05);
+  	transition: all .3s;
+  	z-index: 100;
+}
+
+
+.btn {
+  display: inline-block;
+  border-radius: 10px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 20px;
+  width: 300px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin-left: 7.6%;
+  margin-bottom: 10px;
+  font-family: 'Times New Roman', Times, serif;}
+.btn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+.btn span:after {
+content: '\00bb';  /* Entidades CSS. Para usar entidades HTML, use &#8594;*/
+position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+.btn:hover span {
+  padding-right: 25px;
+}
+.btn:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+@media screen and (max-width: 500px) {
+  .btn {
+    width: 250px;
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 1000px) {
+	#container {
+		margin-left: 10%;
+	}
+}
+

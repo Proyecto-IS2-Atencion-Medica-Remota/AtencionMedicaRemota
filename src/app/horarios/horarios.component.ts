@@ -67,6 +67,7 @@ export class HorariosComponent implements OnInit {
   bloque:any;
   borrar:boolean;
   token: any;
+  nombre_paciente: any;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Month;
 
@@ -95,6 +96,7 @@ export class HorariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHorario();
+    this.getNombre();
     console.log("hola")
     this.events = [];
   }
@@ -381,8 +383,10 @@ export class HorariosComponent implements OnInit {
     console.log(event.title, fecha)
   }
   agendarHora( event: CalendarEvent){
-    const fecha = this.datePipe.transform(event.start, 'yyyy-MM-dd');
+    console.log(this.nombre_paciente.data[0].nombres);
+    const fecha = this.datePipe.transform(event.start, 'fullDate');
     console.log(event.title, fecha)
+    var f = this.parseDate(fecha);
     if(event.title=="10:00-11:00"){
       this.bloque="bloque 1";
     }else if(event.title=="11:00-12:00"){
@@ -410,9 +414,9 @@ export class HorariosComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        //this.sendNotif(fecha,this.bloque);
         console.log(fecha);
         console.log(this.bloque);
+
         let params = new HttpParams().set("fecha", fecha).set("bloque",this.bloque).set("rut_medico", this.rut_medico).set("rut_paciente",this.rut_paciente);
         this.http.get('http://localhost:8000/agendarHora',{headers: new HttpHeaders({
           'Content-Type':'application/json'
@@ -422,8 +426,8 @@ export class HorariosComponent implements OnInit {
             'Hora agendada con éxito',
             'success'
             ).then((result) => {
-              this.sendNotif(fecha,this.bloque);
-              this.delay(1000).then(any=>{
+              this.sendNotif(f,event.title);
+              this.delay(1500).then(any=>{
                 location.reload();
               });
               //location.reload();
@@ -452,11 +456,13 @@ export class HorariosComponent implements OnInit {
       
     
   }
-  async sendNotif(fecha,bloque){
-    console.log("funca");
+  async sendNotif(fecha,hora){
+    hora = hora.split("-");
     await this.getToken();
-    var msg = "Tienes una nueva cita con "+this.rut_paciente+" el día:\n"+fecha+" en el "+bloque;
-    this.messagingService.sendPushMessage("Hola","Tienes una nueva cita con "+this.rut_paciente+" el día:\n"+fecha+" en el "+bloque,this.token.data.token);
+    var msg = "Tienes una nueva cita con: "+this.nombre_paciente.data[0].nombres+" "+this.nombre_paciente.data[0].apellidos+", el día "+fecha[0]+" "+fecha[2]
+    +" de "+fecha[1]+" del "+fecha[3]+" a las "+hora[0]+" hrs.";
+    console.log(msg);
+    this.messagingService.sendPushMessage("Hola",msg,this.token.data.token);
     this.http.post(`http://localhost:8000/postNotif`,[msg,this.rut_medico]).subscribe(
       res=>{
       },
@@ -476,12 +482,41 @@ export class HorariosComponent implements OnInit {
     //console.log("asdadadada: ",this.token.data.token);
     console.log("cvbc");
   }
-
+  async getNombre(){
+    let params = new HttpParams().set("rut", this.rut_paciente);
+    await this.http.get('http://localhost:8000/getNombre',{headers: new HttpHeaders({
+      'Content-Type':'application/json'
+      }), params: params}).toPromise().then(resp =>
+      this.nombre_paciente = resp
+    )
+  }
   async delay(ms: number) {
     await new Promise(resolve => setTimeout(()=>resolve(), ms)).then(()=>console.log("fired"));
   }
 
 
-
+  parseDate(fecha){
+    var f = fecha.split(/ |, | /);
+    if(f[0] == "Monday"){ f[0] = "Lunes";}
+    else if(f[0] == "Tuesday"){ f[0] = "Martes";}
+    else if(f[0] == "Wednesday"){ f[0] = "Miércoles";}
+    else if(f[0] == "Thursday"){ f[0] = "Jueves";}
+    else if(f[0] == "Friday"){ f[0] = "Viernes";}
+    else if(f[0] == "Saturday"){ f[0] = "Sábado";}
+    else if(f[0] == "Sunday"){ f[0] = "Domingo";}
+    if(f[1] == "January"){ f[1] = "Enero";}
+    else if(f[1] == "February"){ f[1] = "Febrero";}
+    else if(f[1] == "March"){ f[1] = "Marzo";}
+    else if(f[1] == "April"){ f[1] = "Abril";}
+    else if(f[1] == "May"){ f[1] = "Mayo";}
+    else if(f[1] == "June"){ f[1] = "Junio";}
+    else if(f[1] == "July"){ f[1] = "Julio";}
+    else if(f[1] == "August"){ f[1] = "Agosto";}
+    else if(f[1] == "September"){ f[1] = "Septiembre";}
+    else if(f[1] == "October"){ f[1] = "Octubre";}
+    else if(f[1] == "November"){ f[1] = "Noviembre";}
+    else if(f[1] == "December"){ f[1] = "Diciembre";}
+    return f;
+  }
   
 }

@@ -1,0 +1,281 @@
+
+html {
+	  -ms-text-size-adjust: 100%;
+	  -webkit-text-size-adjust: 100%;
+	  font-family: 'Times New Roman', Times, serif;
+  }
+
+  p{
+    margin: auto;
+  }
+  
+  img{
+    margin-top: 5%;
+    width: 40%;
+    height: 40%;
+   
+  }
+
+	body {
+	  background: #F2F3EB;
+	}
+	
+	button {
+	  overflow: visible;
+	  
+	}
+	
+	button, select {
+	  text-transform: none;
+	}
+	
+	button, select, textarea {
+        
+	  color: rgb(99, 97, 97);
+	  font: inherit;
+	  margin: 0;
+	}
+	
+	
+	
+	textarea {
+	  overflow: auto;
+	}
+	
+	#container {
+		border: solid 3px #000f25;
+    	background-image: linear-gradient(90deg,#71a7bdd0 0%, #0c6183d0 100%);
+		background-image: -moz-linear-gradient(top, #71a7bdd0 0%, #0c6183d0 100%);
+		background-image: -webkit-linear-gradient(top, #71a7bdd0 0%, #0c6183d0 100%);
+		background-image: linear-gradient(to bottom, #71a7bdd0 0%, #0c6183d0 100%);
+  		max-width: 80%;
+  		margin-top: 30px;
+  		margin-left: 270px;
+		  font-family: 'Times New Roman', Times, serif;		}
+	
+	form {
+	  padding: 37.5px;
+	  margin: 10px 0;
+	  font-family: 'Times New Roman', Times, serif;
+	}
+	
+	h1 {
+	  color: #dfdddd;
+	  font-size: 32px;
+	  font-weight: 700;
+	  letter-spacing: 7px;
+	  text-align: center;
+	  margin-top: 5px;
+	 
+	}
+	
+	.underline {
+	  border-bottom: solid 2px #c4bebe;
+	  margin: -0.512em auto;
+	  margin-top: 1%;
+	  width: 150px;
+	}
+	
+
+	
+	.email {
+		float: right;
+		width: 47%;
+	}
+	
+	
+	
+	.message {
+		float: none;
+	}
+	
+	.name {
+		float: left;
+		width: 47%;
+	}
+	.column {
+		
+		float: left;
+		width: 46%;
+		padding: 10px;
+		height: 75px;
+		margin-bottom: 5px;
+		font-size:18px;
+        
+        
+	  }
+	  .column2 {
+		font-size:18px;
+		width: 95%;
+		padding: 10px;
+	  }
+	  
+	  /* Clear floats after the columns */
+	
+	  .row:after {
+		content: "";
+		display: table;
+		clear: both;
+	  }
+
+	  
+	fieldset 
+	{
+		border: 2px solid rgb(16, 79, 138) !important;
+		margin: 0;
+		min-width:  0;
+		margin-bottom: 10px;
+		padding: 10px;       
+		position: relative;
+		border-radius:4px;
+		padding-left:10px!important;
+	}	
+	
+		legend
+		{
+			font-size:20px;
+			font-weight:bold;
+			margin-bottom: 0px; 
+			width: 35%; 
+			border: 1px solid rgb(0, 73, 102);
+			color: black;
+			border-radius: 4px; 
+			padding: 5px 5px 5px 10px; 
+			background-color: #d1d1d1b0;
+        }
+        
+    label{
+        
+		font-size:18px;
+		font-weight:bold;
+		margin-bottom: 0px; 
+		margin-left: 5px; 
+		margin-right: 5px; 
+		border: 1px solid rgb(0, 73, 102);
+		color: black;
+		border-radius: 4px; 
+		padding: 1px 1px 1px 5px; 
+		background-color: #3289c4b0;
+    }
+   
+	
+	select {
+	  background: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-32.png') no-repeat right;
+	  outline: none;
+	  -moz-appearance: none;
+	  -webkit-appearance: none;
+	}
+	
+	select::-ms-expand {
+	  display: none;
+	}
+	
+	.subject {
+	  width: 100%;
+	}
+
+	.option{
+		color: #696766;
+	}
+	
+	
+	
+	
+	:-moz-placeholder { 
+		color: #ee6622;
+		opacity: 1;
+	}
+	
+	::-moz-placeholder {
+		color: #474544;
+		opacity: 1;
+	}
+	
+	
+	form fieldset {
+		font-family: 'Times New Roman', Times, serif;		
+		font-size: 16px;
+		color:rgb(255, 255, 255);
+        text-align: left;
+        margin-left: 10px;
+      }
+	
+	  span{
+		color: #ebc5b2;
+		font-size: 16px;
+		margin-top: 10px;
+	
+	}
+
+	#form_button {
+		margin-left: 10px;
+		margin-top: 10px;
+        width: 46%;
+		background: none;
+		border: solid 2px #005d74;
+		background-color: #8fdbff;
+		color: #474544;
+		cursor: pointer;
+		display: inline-block;
+		font-family: 'Times New Roman', Times, serif;		
+		font-size: 0.875em;
+		font-weight: bold;
+		outline: none;
+		padding: 20px 35px;
+		text-transform: uppercase;
+	  	-webkit-transition: all 0.3s;
+		-moz-transition: all 0.3s;
+		-ms-transition: all 0.3s;
+		-o-transition: all 0.3s;
+		transition: all 0.3s;
+	}
+	
+	#form_button:hover {
+	  background: rgb(209, 89, 29);
+	  color: #F2F3EB;
+	}
+	@media screen and (max-width: 1000px) {
+		#container {
+			margin-left: 10%;
+		}
+	}
+
+	@media screen and (max-width: 720px) {
+		.column {
+		  width: 90%;
+		}
+		.column2 {
+			width: 90%;
+		  }
+	  }
+	
+	
+	
+	@media screen and (max-width: 480px) {
+	  h1 {
+		font-size: 26px;
+	  }
+	  
+	  
+	  
+	  #form_button {
+		padding: 15px 25px;
+	  }
+	}
+	
+	@media screen and (max-width: 420px) {
+	  h1 {
+		font-size: 18px;
+	  }
+	  
+	  .icon {
+		height: 35px;
+		width: 35px;
+	  }
+	  
+	 
+	  
+	  
+    }
+    
+    

@@ -17,7 +17,6 @@ body {
   height:100%;
   left:0;
   width:250px;
-  overflow:hidden;
   -webkit-transition:width .05s linear;
   transition:width .0s linear;
   -webkit-transform:translateZ(0) scale(1,1);
@@ -155,7 +154,8 @@ div.content {
   >div {
     flex-grow: 1;
     text-align: center;
-    height: 30px;
+    height: 60px;
+    border-left: 2px solid #6e7685;
     line-height: 30px;
     position: static;
     display: flex;
@@ -351,13 +351,14 @@ button, input, select, textarea {
   }
 
   .custom{
-    width: 300px;
-    height: 300px;
-    background: green;
-    position: relative;
-    margin-left:20px;
+    height: 628px;
+    overflow-y: scroll;
+    background-color: #0b75a5;
   }
 
+  .card-c{
+    border-bottom: 5px solid rgb(2, 3, 26);
+  }
 
 
 
