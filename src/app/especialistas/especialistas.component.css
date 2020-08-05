@@ -5,6 +5,10 @@
 #defaultIndeterminate2{
   margin-left: 20px;
 }
+#checkbutt{
+  display: block;
+}
+
 #contenedorsuperior{
   background-color: #8ebbce;
   padding-top: 7px;
@@ -22,6 +26,8 @@ label{
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 900;
   padding-left: 15px;
+  padding-bottom: 0px;
+  padding-top: 10px;
 }
 
 #container {
@@ -381,6 +387,14 @@ position: absolute;
   color: white;
   
   
+}
+
+.form-check-label{
+  padding-left: 1px;
+}
+
+#ordenanding{
+  padding-right: 10px;
 }
 
 

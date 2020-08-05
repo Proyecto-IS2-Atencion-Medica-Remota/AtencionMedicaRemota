@@ -4,13 +4,22 @@
     <div id="contenedorsuperior">
         <div class="row align-items-center">
             <div class="col-12 col-md-8">
-                <h1>Filtros para busqueda:</h1>
                 <label for="brows">Buscar:</label>
                 <input id="brows" type="text" class="form-control" placeholder="Search ..." name="filterPost" [(ngModel)]="filterPost"/>
             </div>
             <div class="col-6 col-md-4">
-                <div class="custom-control custom-checkbox">
-                    <label for="exampleFormControlSelect1">Especialidad:</label>
+                <label id="ordenanding">Ordenar por: </label>
+                <select class="form-control" id="exampleFormControlSelect1" name="opcionSeleccionado1" [(ngModel)]="opcionSeleccionado1" (change)="capturar()">
+                    <option value="opt1">Nombre</option>
+                    <option selected value="opt2">Apellido</option>
+                    <option value="opt3">Rut</option>
+                </select>  
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-12 col-md-8 align-items-center" id="checkbutt">
+                
+                <label for="exampleFormControlSelect1">Especialidad:</label>
                     <select class="form-control" id="exampleFormControlSelect1" name="opcionSeleccionado" [(ngModel)]="opcionSeleccionado" (change)="capturar()">
                         <option selected value="todoslosprofesionales">Todos los Profesionales</option>
                         <option value="Médico Cirujano">Médico Cirujano</option>
@@ -43,22 +52,24 @@
                         <option value="Cosmetólogo">Cosmetólogos</option>
                         <option value="Auxiliar de Farmacia Privada">Auxiliar de Farmacia Privada</option>
                     </select>
-                    <label for="exampleFormControlSelect2">Valoracion:</label>
-                    <select class="form-control" id="exampleFormControlSelect1" name="rangeValoracion" [(ngModel)]="rangeValoracion">
-                        <option selected value="0">Cualquier valoración</option>
-                        <option value="1">0 - 1 Estrellas</option>
-                        <option value="2">1 - 2 Estrellas</option>
-                        <option value="3">2 - 3 Estrellas</option>
-                        <option value="4">3 - 4 Estrellas</option>
-                        <option value="5">4 - 5 Estrellas</option>
-                    </select>
-                </div>
+            </div>
+            <div class="col-6 col-md-4">
+                <label for="exampleFormControlSelect2">Valoracion:</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="rangeValoracion" [(ngModel)]="rangeValoracion">
+                    <option selected value="0">Cualquier valoración</option>
+                    <option value="1">0 - 1 Estrellas</option>
+                    <option value="2">1 - 2 Estrellas</option>
+                    <option value="3">2 - 3 Estrellas</option>
+                    <option value="4">3 - 4 Estrellas</option>
+                    <option value="5">4 - 5 Estrellas</option>
+                </select>
+                
             </div>
         </div>
     </div>
     
     <div class="pricingdiv">
-        <div *ngFor="let especialista of especialistas$.data | filter:filterPost:opcionSeleccionado:rangeValoracion">  <!-- por cada paciente del resultado de la consulta-->
+        <div *ngFor="let especialista of especialistas$.data | filter:filterPost:opcionSeleccionado:rangeValoracion:opcionSeleccionado1">  <!-- por cada paciente del resultado de la consulta-->
 
             <div class="card">
                 <div class="banner">
