@@ -203,6 +203,23 @@ app.get('/perfilPaciente', (req, res) => {
     });
     
 });
+
+app.post('/setNombre',(req,res)=>{
+con.query('UPDATE usuario SET nombres = $1 WHERE rut = $2',[req.body[0],req.body[1]],(err,result)=>{})
+})
+
+app.post('/setApellido',(req,res)=>{
+con.query('UPDATE usuario SET apellidos = $1 WHERE rut = $2',[req.body[0],req.body[1]],(err,result)=>{})
+})
+
+app.post('/setCorreo',(req,res)=>{
+con.query('UPDATE usuario SET correo = $1 WHERE rut = $2',[req.body[0],req.body[1]],(err,result)=>{})
+})
+
+app.post('/setFono',(req,res)=>{
+con.query('UPDATE usuario SET contacto = $1 WHERE rut = $2',[req.body[0],req.body[1]],(err,result)=>{})
+})
+
 app.get('/datosMedicos', (req, res) => {
     const  id=req.query.rut;
     console.log("rut  "+id);

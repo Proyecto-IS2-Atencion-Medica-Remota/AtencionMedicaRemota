@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient ,HttpParams ,HttpHeaders} from '@angular/common/http';
 import { ImageService } from './../image.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-perfil-paciente',
@@ -17,7 +18,13 @@ export class PerfilPacienteComponent implements OnInit {
   alergias$:any =[];
   intolerancias$:any =[];
   cirugias$:any =[];
-  constructor( private http: HttpClient,private imageService:ImageService) { 
+
+  new_correo:any
+  new_fono:any
+  new_nombre:any
+  new_apellido:any
+
+  constructor(private modalService: NgbModal, private http: HttpClient,private imageService:ImageService) { 
     this.rut=localStorage.getItem('rut');
   }
 

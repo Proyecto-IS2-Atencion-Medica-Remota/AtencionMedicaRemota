@@ -44,6 +44,7 @@ import { MisDiagnosticosComponent } from './mis-diagnosticos/mis-diagnosticos.co
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
+import { EditarPacienteComponent } from './editar-paciente/editar-paciente.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -70,6 +71,7 @@ export function tokenGetter() {
     ChatComponent,
     MisPacientesComponent,
     MisDiagnosticosComponent,
+    EditarPacienteComponent,
     
   ],
   imports: [
