@@ -65,7 +65,7 @@ export class EditarPacienteComponent implements OnInit {
     this.checkoutForm.reset();
     console.warn('Your order has been submitted', customerData);
     this.datosPaciente.clear;
-    this.router.navigate(['/perfilPaciente']);
+location.reload()
   }
 
 }
