@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="col-md-4">
-        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'es' }}</h3>
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'es'}}</h3>
       </div>
       
     </div>
@@ -45,7 +45,7 @@
         [viewDate]="viewDate"
         [events]="events"
         [refresh]="refresh"
-       [dayStartHour]="10"
+        [dayStartHour]="10"
         [dayEndHour]="13"
         (dayClicked)="dayClicked($event.day)"
         (eventClicked)="agendarHora($event.event)"

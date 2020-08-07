@@ -74,9 +74,9 @@
 		background-image: -moz-linear-gradient(top, #71a7bdd0 0%, #0c6183d0 100%);
 		background-image: -webkit-linear-gradient(top, #71a7bdd0 0%, #0c6183d0 100%);
 		background-image: linear-gradient(to bottom, #71a7bdd0 0%, #0c6183d0 100%);
-  		max-width: 80%;
-  		margin-top: 30px;
-		  margin-left: 270px;
+		max-width: 80%;
+		margin-top: 30px;
+		margin-left: 290px;
 		  font-family: 'Times New Roman', Times, serif;	
 	}
 	
@@ -267,18 +267,18 @@ label{
 		background-color: #9c83aa;/* Green */
 		border: none;
 		color: white;
-		padding: 0.75em 1.5em;
-		margin-left: 10%;
+		padding: 1em 1.5em;
+		margin-left: 25%;
 		text-align: center;
 		text-decoration: none;
-		font-size: 12px;
+		font-size: 18px;
 		cursor: pointer;
 		display: block;
 		margin-bottom: auto;
 		font-weight: bold;
 		text-transform: uppercase;
-		width: 80%;
-		margin-right: 10%;
+		width: 50%;
+		
 		margin-bottom: 10px;
 		cursor: pointer;
 		-webkit-transition-duration: 0.4s; /* Safari */
@@ -297,13 +297,11 @@ label{
 			transition: all .3s;
 			z-index: 100;
 	  }
-	@media screen and (max-width: 950px) {
+	  @media screen and (max-width: 1130px) {
 		#container {
-		  margin: 60px auto;
-		  width: 90%;
+			margin: auto;
 		}
-		
-	  }
+	}
 
 	@media screen and (max-width: 720px) {
 		.column {

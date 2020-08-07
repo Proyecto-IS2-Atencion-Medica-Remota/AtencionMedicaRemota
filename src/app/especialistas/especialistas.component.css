@@ -1,3 +1,21 @@
+#supfilter{
+  display: flex;
+}
+
+#defaultIndeterminate2{
+  margin-left: 20px;
+}
+#contenedorsuperior{
+  background-color: #8ebbce;
+  padding-top: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: #30506e;
+  border-width: 5px;
+}
 
 #container {
   max-width: 80%;
@@ -140,7 +158,7 @@
 
 
 .button {
-  background-color: #9c83aa;/* Green */
+  background-color: #4ea5d8;
   border: none;
   color: white;
   padding: 0.75em 1.5em;
@@ -263,7 +281,7 @@ position: absolute;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  height: 8rem;
+  height: 7rem;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -271,8 +289,8 @@ position: absolute;
 }
 .card .banner img {
   background-color: #fff;
-  width: 11rem;
-  height: 11rem;
+  width: 9rem;
+  height: 9rem;
   box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);
   border-radius: 50%;
   transform: translateY(50%);
@@ -281,7 +299,7 @@ position: absolute;
 
 .card .menu {
   width: 100%;
-  height: 5.5rem;
+  height: 3.5rem;
   padding: 1rem;
   display: flex;
   align-items: flex-start;
@@ -289,61 +307,27 @@ position: absolute;
   position: relative;
   box-sizing: border-box;
 }
-.card .menu .opener {
-  width: 2.5rem;
-  height: 2.5rem;
-  position: relative;
-  border-radius: 50%;
-  transition: background-color 100ms ease-in-out;
-}
-.card .menu .opener:hover {
-  background-color: #f2f2f2;
-}
-.card .menu .opener span {
-  background-color: #404040;
-  width: 0.4rem;
-  height: 0.4rem;
-  position: absolute;
-  top: 0;
-  left: calc(50% - 0.2rem);
-  border-radius: 50%;
-}
-.card .menu .opener span:nth-child(1) {
-  top: 0.45rem;
-}
-.card .menu .opener span:nth-child(2) {
-  top: 1.05rem;
-}
-.card .menu .opener span:nth-child(3) {
-  top: 1.65rem;
-}
+
 .card h2.name {
   text-align: center;
-  padding: 0 2rem 0.5rem;
+  padding: 0 0.5rem 0.5rem;
   margin: 0;
 }
-.card .title {
-  color: #a0a0a0;
-  font-size: 0.85rem;
-  text-align: center;
-  padding: 0 2rem 1.2rem;
-}
 .card .actions {
-  padding: 0 2rem 1.2rem;
+  padding: 0 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   order: 99;
+  
 }
 .card .actions .follow-info {
-  height: 120px;
-  padding: 0 0 1rem;
-  display: flex;
+  height: 110px;
+  display: inline-block;
+  
 }
 .card .actions .follow-info h2 {
   text-align: center;
   width: 50%;
- 
-  box-sizing: border-box;
   font-size: 20px;
   color: #1c9eff;
   font-weight: bold;
@@ -352,11 +336,53 @@ position: absolute;
   width: 100%;
   font-weight: bold;
   text-align: center;
-  padding: 20px 10px;
+  padding: 10px 10px;
+  color: white;
+}
+
+.card .actions .follow-info h2.title2{
+  background-color: rgb(29, 126, 182);
+  width: 100%;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px 10px;
   color: white;
   
+
   
 }
+
+.star {
+  position: relative;
+  display: inline-block;
+  font-size: 2rem;
+  color: #d3d3d3;
+}
+.full {
+  color: #efb810;
+}
+.half {
+  position: absolute;
+  display: inline-block;
+  overflow: hidden;
+  color: #efb810;
+}
+
+ngb-rating{
+  
+  margin: auto;
+}
+
+.estrella{
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  
+  height: 50px;
+}
+
 
 
 

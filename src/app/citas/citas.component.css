@@ -1,0 +1,55 @@
+#container {
+    max-width: 800px;
+    margin-top: 30px;
+    margin-left: 30%;
+    position: relative;
+  }
+  @media screen and (max-width: 1130px) {
+    #container {
+      margin: auto;
+      max-width: 80%;
+    }
+  }
+
+
+  .citas{
+    height: 150px;
+    max-width: 100%;
+    margin: auto;
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 25px;
+    font-family: 'Times New Roman', Times, serif;  
+    background-color: #51bcca5d;
+    border: solid 3px #000f25;
+      
+}
+
+img { 
+  width: 130px;
+  height: 130px;
+  margin-top: 5px;
+  margin-left: 5px;
+  border-radius: 50%;
+}
+
+.topright {
+  margin-top: 10px;
+  margin-left: 20px;
+  font-size: 25px;
+}
+
+
+@media screen and (max-width: 913px) {
+  img{
+    width: 90px;
+    height: 90px;
+  }
+  .citas{
+    height: 200px;
+  }
+  .topright {
+    font-size: 20px;
+  }
+}

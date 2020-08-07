@@ -1,81 +1,108 @@
 <app-navbar-paciente></app-navbar-paciente>
 
 
-
+  <app-navbar-paciente></app-navbar-paciente>
 <div id="container" *ngFor="let especialista of especialista$.data">
-    <h1>&bull;Especialista: {{especialista.nombres}} {{especialista.apellidos}}&bull;</h1>
-    <div class="underline">
+  
+
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic|Open+Sans:300,400,500,700|Waiting+for+the+Sunrise|Shadows+Into+Light' rel='stylesheet' type='text/css'>
+
+<div class="wrapper">
+<div class="left">
+  <div class="card">
+    <div class="banner">
+      <img class="round"src="{{especialista.imagen}}" alt="user" />
     </div>
-    <form >
-        <fieldset>
-            <legend>Datos Personales</legend>
-            <div class="row">
-                <div class="column" >
-                    <label >Nombres:</label> {{especialista.nombres}} 
-                 
-                </div>
-                <div class="column" >
-                  <label >Apellidos:</label> {{especialista.apellidos}}
-                 
-                </div>
-              </div>
-                
-            
-            <div class="row">
-                <div class="column" >
-                      <label >Rut:</label> {{especialista.rut}}
-                      
-                  </div>
-                <div class="column" >
-                      <label >Fecha de registro:</label> {{especialista.fecharegistro}} {{especialista.horaregistro}} 
-                     
-                      
-                     </div>
-                </div>
-                
-            
-            
-          </fieldset>
-       
-          <fieldset>
-            <legend>Datos Médicos</legend>
-            <div class="row">
-                <div class="column" >
-                    <label >Especialidad:</label> {{especialista.especialidad}}
-                    
-                </div>
-                <div class="column" >
-                    <label >Formación Académica:</label> {{especialista.formacionacademica}}
-                </div>
-              </div>
+    <div class="menu">
+      <span></span><span></span><span></span>
+    </div>
+    <h2 class="name">{{especialista.nombres}}  <br />{{especialista.apellidos}}</h2>
+    <div class="title">Especialista</div>
+    <div class="actions">
+      <div class="follow-info">
+        <h2>Rut:</h2>
+        <h2>{{especialista.rut}}</h2>
+        
+      </div>
+      <div class="follow-info">
+        <h2>Fono:</h2>
+        <h2>{{especialista.contacto}}</h2>
+        
+      </div>
+      <div class="follow-info">
+        <h2>Correo:</h2>
+        <h2>{{especialista.correo}}</h2>
+        
+      </div>
+      <div class="follow-info">
+        <h2>Especialidad:</h2>
+        <h2>{{especialista.especialidad}}</h2>
+        
+      </div>
+      
+      <button class="button" [routerLink]="['/horarios', especialista.rut]">Ver Horarios</button> 
+     
+      
+         
+         
+    </div>
+    </div>
+  </div>
+    
 
-              <div class="row">
-                <div class="column" >
-                    <label >Experiencia Laboral:</label> {{especialista.experiencia}}
-                    
-                </div>
-                <div class="column" >
-                    <label>N° horas médicas realizadas:</label> {{especialista.cantcitasrealizadas}}
-                </div>
-              </div>
-              
-            </fieldset>  
+  </div>
+ <div class="right">
+ 
+    <div class="inner">
+      <h3 class="experience-title">Datos Adicionales</h3>
 
-        <fieldset>
-            <legend>Valoración</legend>
-            <div class="row2">
-                <div class="column" >
-                    <label >Valoración Promedio:</label> {{especialista.valoracionpromedio}}
-                    
+      <p>Formación Académica: {{especialista.formacionacademica}} </p>
+      <p>Experiencia Laboral: {{especialista.experiencia}} </p>
+      <p>N° citas médicas realizadas: {{especialista.cantcitasrealizadas}} </p>
+      <p>Valoración Promedio: {{especialista.valoracionpromedio}}</p>
+
+      <h3 class="experience-title">Calificaciones y opiniones</h3>
+      
+        <div class="recomendacion" *ngIf="recomendaciones$.data.length== '0'">
+            <div class="container" >
+                <div class="box">
+                    <span>Sin calificaciones y opiniones</span>
                 </div>
-                
+            </div>
+        </div>
+        <div class="recomendacion" *ngFor="let r of recomendaciones$.data;">
+          <div class="container">
+              <img src="{{r.imagen}}">
+              <div class="topright"> <h1>{{r.nombres}} {{r.apellidos}} </h1></div>  <br/>
+              
+              <div>
+                  <ngb-rating [(rate)]="r.valoracion"  [max]="5" [readonly]="true">
+  
+                      <ng-template let-fill="fill">
+                          <span class="star" [class.full]="fill === 100">
+                              <span class="half" [style.width.%]="fill">&#9733; </span>&#9733; 
+                          </span> 
+                      </ng-template>
+                  </ngb-rating>
               </div>
-              
-            </fieldset>  
-              
-           
-             
-           
-    </form><!-- // End form -->
-  </div><!-- // End #container -->
->
+              <span>{{r.fecha}}</span> <br/>
+              <div class="box">
+                  <span>{{r.comentario}}</span>
+              </div>
+          </div>
+          
+          
+          </div>
+        
+      
+    </div>
+    
+  </div>
+
+
+  
+  
+  
+  
+</div>
+ 

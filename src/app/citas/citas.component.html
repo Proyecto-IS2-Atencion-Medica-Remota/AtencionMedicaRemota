@@ -1,0 +1,27 @@
+<app-navbar-paciente *ngIf = "cargo =='Paciente'"></app-navbar-paciente>
+<app-navbar-medico *ngIf = "cargo =='Especialista'"></app-navbar-medico>
+
+<div id="container" *ngIf = "cargo =='Paciente'">
+    <div class="citas" *ngFor="let cita of citas$.data">
+        <img src="{{cita.imagen}}">
+        <div class="topright">
+            {{cita.nombres}} {{cita.apellidos}} <br/>
+            {{cita.rut_medico}} <br/> 
+            Fecha: {{cita.fecha}} - Bloque: {{cita.bloque}}
+        </div>
+        
+    </div>
+</div>
+
+<div id="container" *ngIf = "cargo =='Especialista'">
+    <div class="citas" *ngFor="let cita of citas$.data">
+        <img src="{{cita.imagen}}">
+        <div class="topright">
+            {{cita.nombres}} {{cita.apellidos}} <br/>
+            {{cita.rut_paciente}} <br/> 
+            Fecha: {{cita.fecha}} - Bloque: {{cita.bloque}}
+        </div>
+        
+    </div>
+</div>
+

@@ -5,6 +5,9 @@ import swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe ,registerLocaleData } from '@angular/common';
+import { AngularFireMessaging } from '@angular/fire/messaging';
+import { MessagingService } from 'src/app/service/messaging.service';
+
 import localeEs from '@angular/common/locales/es';
 registerLocaleData(localeEs);
 
@@ -61,7 +64,8 @@ export class HorariosComponent implements OnInit {
   horarios$:any=[];
   bloque:any;
   borrar:boolean;
-
+  nombre_paciente: any;
+  token: any;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Month;
 
@@ -90,7 +94,7 @@ export class HorariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHorario();
-    
+    this.getNombre();
     console.log("hola")
     this.events = [];
   }
@@ -101,12 +105,10 @@ export class HorariosComponent implements OnInit {
   
   activeDayIsOpen: boolean = false;
 
-  constructor(private rutaActiva: ActivatedRoute, private http: HttpClient,private datePipe: DatePipe) { 
+  constructor(private modalService: NgbModal,private rutaActiva: ActivatedRoute, private http: HttpClient,private datePipe: DatePipe,private afMessaging: AngularFireMessaging, private messagingService: MessagingService) { 
     this.rut_medico=this.rutaActiva.snapshot.paramMap.get('id');
     this.rut_paciente=localStorage.getItem('rut');
-    console.log(this.rut_medico);
-
-    
+    console.log(this.rut_medico); 
   }
   borrarHora(action: string, event: CalendarEvent): void {
     console.log(action, event);
@@ -319,6 +321,8 @@ export class HorariosComponent implements OnInit {
 
   
 
+  
+
   async getHorario(){
     let params = new HttpParams().set("rut", this.rut_medico);
     
@@ -377,6 +381,10 @@ export class HorariosComponent implements OnInit {
   }
   agendarHora( event: CalendarEvent){
     console.log(event.color)
+    const fecha = this.datePipe.transform(event.start, 'fullDate');
+    console.log(event.title, fecha)
+    var f = this.parseDate(fecha);
+    
     const swalWithBootstrapButtons = swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
@@ -420,7 +428,10 @@ export class HorariosComponent implements OnInit {
               'success'
             ).then((result) => {
               
-              location.reload();
+              this.sendNotif(f,event.title);
+              this.delay(1500).then(any=>{
+                location.reload();
+              });
             }),
             error => swalWithBootstrapButtons.fire(
               'Error',
@@ -452,6 +463,69 @@ export class HorariosComponent implements OnInit {
       
       
     
+  }
+
+  async sendNotif(fecha,hora){
+    hora = hora.split("-");
+    await this.getToken();
+    var msg = "Tienes una nueva cita con: "+this.nombre_paciente.data[0].nombres+" "+this.nombre_paciente.data[0].apellidos+", el día "+fecha[0]+" "+fecha[2]
+    +" de "+fecha[1]+" del "+fecha[3]+" a las "+hora[0]+" hrs.";
+    console.log(msg);
+    this.messagingService.sendPushMessage("Hola",msg,this.token.data.token);
+    this.http.post(`http://localhost:8000/postNotif`,[msg,this.rut_medico]).subscribe(
+      res=>{
+      },
+      err =>{
+      }
+    );
+  }
+
+ async getToken(){
+    console.log("gettoken");
+    let params = new HttpParams().set("rut", this.rut_medico);
+    await this.http.get('http://localhost:8000/getToken',{headers: new HttpHeaders({
+      'Content-Type':'application/json'
+      }), params: params}).toPromise().then(resp =>
+      this.token = resp
+    )
+    //console.log("asdadadada: ",this.token.data.token);
+    console.log("cvbc");
+  }
+  async getNombre(){
+    let params = new HttpParams().set("rut", this.rut_paciente);
+    await this.http.get('http://localhost:8000/getNombre',{headers: new HttpHeaders({
+      'Content-Type':'application/json'
+      }), params: params}).toPromise().then(resp =>
+      this.nombre_paciente = resp
+    )
+  }
+  async delay(ms: number) {
+    await new Promise(resolve => setTimeout(()=>resolve(), ms)).then(()=>console.log("fired"));
+  }
+
+
+  parseDate(fecha){
+    var f = fecha.split(/ |, | /);
+    if(f[0] == "Monday"){ f[0] = "Lunes";}
+    else if(f[0] == "Tuesday"){ f[0] = "Martes";}
+    else if(f[0] == "Wednesday"){ f[0] = "Miércoles";}
+    else if(f[0] == "Thursday"){ f[0] = "Jueves";}
+    else if(f[0] == "Friday"){ f[0] = "Viernes";}
+    else if(f[0] == "Saturday"){ f[0] = "Sábado";}
+    else if(f[0] == "Sunday"){ f[0] = "Domingo";}
+    if(f[1] == "January"){ f[1] = "Enero";}
+    else if(f[1] == "February"){ f[1] = "Febrero";}
+    else if(f[1] == "March"){ f[1] = "Marzo";}
+    else if(f[1] == "April"){ f[1] = "Abril";}
+    else if(f[1] == "May"){ f[1] = "Mayo";}
+    else if(f[1] == "June"){ f[1] = "Junio";}
+    else if(f[1] == "July"){ f[1] = "Julio";}
+    else if(f[1] == "August"){ f[1] = "Agosto";}
+    else if(f[1] == "September"){ f[1] = "Septiembre";}
+    else if(f[1] == "October"){ f[1] = "Octubre";}
+    else if(f[1] == "November"){ f[1] = "Noviembre";}
+    else if(f[1] == "December"){ f[1] = "Diciembre";}
+    return f;
   }
   
 }

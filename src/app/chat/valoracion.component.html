@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h4 class="modal-title">Valoración de la atención</h4>
+  </div>
+  <div class="modal-body">
+    <div id="container" >
+        <p>Si deseas puedes valorar la calidad de la atención y dejar un comentario.</p>
+          <ng-template #t let-fill="fill">
+            <span class="star" [class.full]="fill === 100">
+              <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+            </span>
+          </ng-template>
+        
+        <form [formGroup]="valoracionForm" (ngSubmit)="valorar()">
+          <ngb-rating [(rate)]="currentRate" [starTemplate]="t"  [max]="5" formControlName="valoracion"></ngb-rating> <br/>
+          <textarea type="text" id="comentario" formControlName="comentario" cols="30" rows="5" placeholder="Escribir un comentario"></textarea>
+          <button class="button" type="submit">Valorar</button>    
+        </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+  </div>

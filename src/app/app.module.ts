@@ -34,16 +34,29 @@ import { EditarEspecialistaComponent } from './editar-especialista/editar-especi
 import { HorariosComponent } from './horarios/horarios.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgendaMedicoComponent } from './agenda-medico/agenda-medico.component';
-import { ChatComponent } from './chat/chat.component';
+import { ChatComponent, NgbdModalContent } from './chat/chat.component';
 
 import { NgxAgoraModule } from 'ngx-agora';
 import { MisPacientesComponent } from './mis-pacientes/mis-pacientes.component';
 import { MisDiagnosticosComponent } from './mis-diagnosticos/mis-diagnosticos.component';
+import { CitasComponent } from './citas/citas.component';
 
 
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
+
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireModule } from '@angular/fire';
+import { MessagingService } from './service/messaging.service';
+import { environment } from '../environments/environment';
+import { AsyncPipe } from '../../node_modules/@angular/common';
+
+
+import { FilterPipe } from './pipes/filter.pipe';
+import { EditarPacienteComponent } from './editar-paciente/editar-paciente.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -70,7 +83,10 @@ export function tokenGetter() {
     ChatComponent,
     MisPacientesComponent,
     MisDiagnosticosComponent,
-    
+    NgbdModalContent,
+    CitasComponent,
+    FilterPipe,
+    EditarPacienteComponent,
   ],
   imports: [
     
@@ -100,7 +116,10 @@ export function tokenGetter() {
     MatInputModule,
     MatFormFieldModule,
     MatCardModule,
-    
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireMessagingModule,
+    AngularFireModule.initializeApp(environment.firebase),
     
    
     NgxAgoraModule.forRoot({AppID:'a4e11f3ef92b479d91bc1139ffe207ac'}),
@@ -108,7 +127,9 @@ export function tokenGetter() {
   providers: [
     AuthService,
     AuthGuard,
-    CookieService
+    CookieService,
+    MessagingService,
+    AsyncPipe
   ],
   bootstrap: [AppComponent]
 })

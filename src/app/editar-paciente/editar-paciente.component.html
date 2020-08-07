@@ -1,6 +1,6 @@
-<app-navbar-medico></app-navbar-medico>
-<div id="container" *ngFor="let especialista of especialista$.data">
-    <h1>&bull;{{especialista.nombres}} {{especialista.apellidos}}&bull;</h1>
+<app-navbar-paciente></app-navbar-paciente>
+<div id="container" *ngFor="let paciente of paciente$.data">
+    <h1>&bull;{{paciente.nombres}} {{paciente.apellidos}}&bull;</h1>
     <div class="underline"></div>
     
     <div class="tabla" > 
@@ -31,28 +31,24 @@
                   <label for="contacto">Contacto:</label>
                   <input  type="text" id="contacto" formControlName="contacto" >
                 </div>
+
+                <div class="column">
+                    <label for="correo">Correo:</label>
+                    <input  type="email" id="correo" formControlName="correo" >
+                </div>
+
               </div>
           </fieldset>
               
               
             
-          <fieldset>
-            <legend>Experiencia</legend>
-            <div class="row">
-                <div class="column" >
-                    <label for="estudios">Estudios:</label>
-                    <input type="text" id="estudios" formControlName="estudios" >
-                </div>
-                <div class="column" >
-                    <label for="experiencia">Experiencia laboral:</label>
-                    <input type="text" id="experiencia" formControlName="experiencia" >
-                </div>
-              </div>
-              
-            </fieldset>
-            <button class="button" [routerLink]="['/editarEspecialista', especialista.rut]" type="submit">Guardar cambios</button>
+
+          
+            <button class="button" [routerLink]="['/editarPaciente']" type="submit">Guardar cambios</button>
+            <button type="button" class="button" [routerLink]="['/perfilPaciente']">Volver</button>
+        
           </form>
-          <button type="button" class="button" [routerLink]="['/perfilMedico']">Volver</button> 
+          <!-- // End form <button type="button" class="button" [routerLink]="['/perfilPaciente']">Volver</button> -->
           
              
            

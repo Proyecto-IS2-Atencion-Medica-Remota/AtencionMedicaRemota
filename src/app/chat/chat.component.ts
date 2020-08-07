@@ -1,4 +1,4 @@
-import { Component, OnInit,AfterViewInit, OnDestroy, AfterViewChecked,ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit,AfterViewInit, OnDestroy, AfterViewChecked, ElementRef, ViewChild, Input } from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import { ChatServiceService } from '.././chat-service.service'
 import { Inject } from '@angular/core'; 
@@ -6,10 +6,68 @@ import { CookieService } from 'ngx-cookie-service'
 import { HttpClient } from '@angular/common/http';
 import {Historial} from '../modelos/historial'
 import { DOCUMENT } from '@angular/common';
-
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 //videochat
 import { NgxAgoraService, Stream, AgoraClient, ClientEvent } from 'ngx-agora'
-import Swal from 'sweetalert2'
+import { FormBuilder } from '@angular/forms';
+import swal from 'sweetalert2'
+
+
+
+@Component({
+  selector: 'ngbd-modal-content',
+  templateUrl: './valoracion.component.html',
+  styleUrls: ['./valoracion.component.css'], 
+
+  
+})
+
+export class NgbdModalContent {
+  @Input() rut_paciente;
+  @Input() rut_medico;
+  currentRate = 1.35;
+  valoracionForm;
+  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private http: HttpClient) {
+    this.valoracionForm = this.formBuilder.group({
+      valoracion: '',
+      comentario: ''
+    });
+  }
+
+  valorar(){
+    console.log(this.currentRate)
+    console.log(this.valoracionForm.value)
+    console.log(this.rut_paciente)
+    console.log(this.rut_medico)
+    
+    const swalWithBootstrapButtons = swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    console.log(this.rut_medico,this.rut_paciente)
+    this.http.post(`http://localhost:8000/addRecomendacion`,[this.rut_paciente,this.rut_medico,this.valoracionForm.value]).subscribe(
+      resp => swalWithBootstrapButtons.fire(
+        'Realizado!',
+        'Valoración realizada con éxito',
+        'success'
+      ).then((result) => {
+        
+        location.reload();
+      }),
+      error => swalWithBootstrapButtons.fire(
+        'Error',
+        'Ocurrió un error al realizar la valoración',
+        'error'
+      )
+    );
+  }
+
+}
+
 
 @Component({
   selector: 'app-chat',
@@ -21,8 +79,12 @@ import Swal from 'sweetalert2'
     NgxAgoraService
   ],
 })
+
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, AfterViewInit{
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+ 
+  rut_paciente: any;
+  rut_medico: any;
 
   public rut:any;
   userChat = {
@@ -76,12 +138,16 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
   private elementRef: ElementRef, 
   private router: ActivatedRoute,
   private chatService: ChatServiceService,
-  private agoraService:NgxAgoraService ) { 
+  private agoraService:NgxAgoraService ,
+  private modalService: NgbModal) { 
     
+    if(localStorage.getItem('cargo')=="Paciente"){
+      this.rut_paciente=localStorage.getItem('rut');
+    }
     this.uid = Math.floor(Math.random()*1000)
     
 
-  //  this.chatService.setR(this.router.snapshot.paramMap.get("rut"))
+    // this.chatService.setR(this.router.snapshot.paramMap.get("rut"))
     this.rut_url = this.router.snapshot.paramMap.get("id");
     this.getContactos();
     this.chatService.emit("setConectado",true);
@@ -140,7 +206,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
     })
 
     this.chatService.socket.on('llamando',(data)=>{
-      Swal.fire({
+      swal.fire({
         title: 'Llamada entrante',
         icon: 'warning',
         showCancelButton: true,
@@ -279,9 +345,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
 
     setDestinatario(s:string,j:any){
       if(this.cookie.get(this.rut_url) === "Paciente"){
-
+        
         for(let i of this.contactos_medicos.data){
           if(i.rut === s){
+            this.rut_medico=i.rut;
             this.hablando_con = "Hablando con Dr. " + i.apellidos;
             this.imagen=i.imagen;
           }
@@ -320,18 +387,24 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
 
     start(){
 
-     this.client = this.agoraService.createClient({ mode: 'live', codec: 'h264' });
-    this.assignClientHandlers();
-    this.localStream = this.agoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
-    this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
+      this.client = this.agoraService.createClient({ mode: 'live', codec: 'h264' });
+      this.assignClientHandlers();
+      this.localStream = this.agoraService.createStream({ streamID: this.uid, audio: true, video: true, screen: false });
+      this.initLocalStream(() => this.join(uid => this.publish(), error => console.error(error)));
 
     }
     stop(){
-      
+
       this.localStream.stop()
       this.localStream.close()
       this.client.leave()
       this.localStream = null
+      if(this.cookie.get(this.rut_url) === "Paciente"){
+        console.log("soy paciente");
+        const modalRef = this.modalService.open(NgbdModalContent,{ size: 'xl' });
+        modalRef.componentInstance.rut_paciente = this.rut_paciente;
+        modalRef.componentInstance.rut_medico = this.rut_medico;
+      }
     }
 
     llamar(){
@@ -348,7 +421,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked, After
     terminar_llamada(){
       this.chatService.emit('terminar-llamada',this.salaVideo2)
       this.chatService.emit('terminar-llamada',this.salaVideo)
-
     }
     misMensajes(){
       this.chatService.emit(this.eventName,[this.userChat , this.room ]);

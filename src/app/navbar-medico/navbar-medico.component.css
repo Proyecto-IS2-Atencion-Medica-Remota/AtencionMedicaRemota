@@ -192,3 +192,103 @@ div.content {
     float: none;
   }
 }
+
+
+
+.window-notice {
+  background: rgba(33, 41, 52, .85);
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  position: fixed;
+  z-index: 999;
+ 
+  
+}
+
+.window-notice .content {
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(33, 41, 52, .75);
+  box-sizing: content-box;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 600px;
+  min-width: 320px !important;
+  overflow:scroll;
+  height:500px;
+  position: relative;
+  width: 100%;
+  padding: 2rem;
+  font-size: 15px;
+}
+
+.window-notice .content .header {
+  
+  font-size: 15px;
+  display: inline-block;
+}
+
+.window-notice .content .header a {
+  
+  float: right;
+  font-size: 20px;
+}
+.window-notice .content .header  p{
+  font-size: 30px;
+  float: left;
+}
+
+.card{
+  background-image: linear-gradient(90deg,#55c9d8b9 0%, #2ca0afb9 100%);
+  background-image: -moz-linear-gradient(top, #55c9d8b9 0%, #2ca0afb9 100%);
+  background-image: -webkit-linear-gradient(top, #55c9d8b9 0%, #2ca0afb9 100%);
+  background-image: linear-gradient(to bottom, #55c9d8b9 0%, #2ca0afb9 100%);
+  margin: 10px;
+  font-size: 18px;
+  height: 100px;
+}
+
+a.notificacion{
+  display: inline-block;
+}
+span.not{
+  background-color: orange;
+  color: black;
+  padding: 2px 8px;
+	border-radius: 80%;
+}
+.card button {
+  background-color: #4ea5d8;
+  border: none;
+  color: white;
+  padding: 0.75em 1.5em;
+  margin-left: 55%;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  cursor: pointer;
+  display: block;
+  margin-bottom: auto;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 40%;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  border-radius: 10px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.card button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+  background-image: -moz-linear-gradient(left, #ec915c 0%, #bb2c3d 100%);
+background-image: -webkit-linear-gradient(left, #ec915c 0%, #bb2c3d 100%);
+background-image: linear-gradient(to right, #ec915c 0%, #bb2c3d 100%);
+transform: scale(1.05);
+  	transition: all .3s;
+  	z-index: 100;
+}

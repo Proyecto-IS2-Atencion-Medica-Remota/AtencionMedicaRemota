@@ -22,6 +22,14 @@ export class MisPacientesComponent implements OnInit {
   diagnosticos$: any;
   editar:any;
   diagEdit$:any;
+
+
+  datos_generales:any
+  datos_intolerancias:any
+  datos_alergias:any
+  datos_cirugias:any
+  datos_preexistencias:any
+  datos_medicamentos:any
   constructor(private modalService: NgbModal,private http: HttpClient,private formBuilder: FormBuilder,private datePipe: DatePipe) { 
     this.formulario = this.formBuilder.group({
       tratamiento:  '',
@@ -65,6 +73,19 @@ export class MisPacientesComponent implements OnInit {
       console.log(this.diagnosticos$.data);
 
   }
+
+  async getHistorial(contenido,rut_paciente){
+    this.datos_medicamentos = await this.http.get(`http://localhost:8000/get_medicamentos/${rut_paciente}`).toPromise()
+    this.datos_generales= await this.http.get(`http://localhost:8000/get_ge/${rut_paciente}`).toPromise()
+    this.datos_intolerancias= await this.http.get(`http://localhost:8000/get_intolerancias/${rut_paciente}`).toPromise()
+    this.datos_alergias = await this.http.get(`http://localhost:8000/get_alergias/${rut_paciente}`).toPromise()
+    this.datos_cirugias= await this.http.get(`http://localhost:8000/get_cirugias/${rut_paciente}`).toPromise()
+    this.datos_preexistencias= await this.http.get(`http://localhost:8000/get_preexistencias/${rut_paciente}`).toPromise()
+    
+    this.modalService.open(contenido,{ size: 'xl' });
+    console.log(this.datos_medicamentos,this.datos_generales,this.datos_intolerancias,this.datos_alergias,this.datos_cirugias,this.datos_preexistencias)
+  }
+
   submitDiagnostico(customerData,paciente) {
     this.http.post(`http://localhost:8000/postDiagnostico`,[customerData.diagnostico,paciente,this.rut_medico]).subscribe(
       res=>{

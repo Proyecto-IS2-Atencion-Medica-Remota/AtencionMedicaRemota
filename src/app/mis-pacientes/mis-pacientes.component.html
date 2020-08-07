@@ -20,6 +20,7 @@
                   
                     <li>
                       <button class="button" (click)="getDiagnostico(modalDatos, paciente.rut_paciente)">Ver Detalles</button> 
+                      <button class="button" (click)="getHistorial(modalDatosMedicos, paciente.rut_paciente)">Ver Antecedentes</button> 
                     </li>     
                   </div> 
   
@@ -27,6 +28,116 @@
               </div>
           </div>
       </div>
+
+  <ng-template #modalDatosMedicos let-modal>
+
+    
+      <div class="modal-header">
+        <h4 class="modal-title">Detalles Médicos del paciente</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <br>
+      <table >
+        <tbody>
+        <tr>
+        <td class="titulo">Estatura</td>
+        <td>{{datos_generales.data[0].estatura}}</td>
+        </tr>
+        <tr>
+        <td class="titulo">Peso</td>
+        <td>{{datos_generales.data[0].peso}}</td>
+        </tr>
+        <tr>
+        <td class="titulo">Grupo Sanguíneo</td>
+        <td>{{datos_generales.data[0].g_sanguineo}}</td>
+        </tr>
+        
+        </tbody>
+      </table>
+
+      
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre Enfermedad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of datos_preexistencias.data">
+            <td>{{i.nombre}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre Medicamento</th>
+            <th>Dosis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of datos_medicamentos.data">
+            <td>{{i.nombre}}</td>
+            <td>{{i.dosis}}</td>
+          </tr>
+        </tbody>
+      </table>
+       
+      <table>
+        <thead>
+          <tr>
+            <th>Alergias</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of datos_alergias.data">
+            {{i.nombre}}
+          </tr>
+        </tbody>
+      </table>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>Intolerancias</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of datos_intolerancias.data">
+            {{i.nombre}}
+          </tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre Cirugia</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of datos_cirugias.data">
+            <td>{{i.nombre}}</td>
+            <td>{{i.fecha}}</td>
+          </tr>
+        </tbody>
+      </table>
+            
+      <div class="modal-footer">
+        <div class="btn-group">
+            <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+        </div>
+    
+      </div>
+  </ng-template>
+
 
         <ng-template #modalDatos let-modal>
            

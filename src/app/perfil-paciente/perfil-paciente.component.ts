@@ -17,8 +17,10 @@ export class PerfilPacienteComponent implements OnInit {
   alergias$:any =[];
   intolerancias$:any =[];
   cirugias$:any =[];
+  
   constructor( private http: HttpClient,private imageService:ImageService) { 
     this.rut=localStorage.getItem('rut');
+    
   }
 
   ngOnInit(): void {
@@ -109,11 +111,7 @@ export class PerfilPacienteComponent implements OnInit {
 
     this.http.post('http://localhost:8000/setImagen',[this.rut,url]).subscribe()
     location.reload();
-     
-    
-    
-}
-
+  }
 
 
 }

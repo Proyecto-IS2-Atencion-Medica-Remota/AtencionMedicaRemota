@@ -37,10 +37,12 @@
         
       </div>
       
-      <button class="button">Editar Perfil</button>
+      <button class="button" routerLink="/editarPaciente">Editar Perfil</button>
      
       <input #imageInput type="file" (change)="imageInputChange(imageInput)" accept="image/*">
          <button mat-raised-button color="primary" (click)="addImage()">Add Image</button>
+         
+         
     </div>
     </div>
   </div>
@@ -198,6 +200,9 @@
     </div>
     
   </div>
+
+
+  
   
   
   

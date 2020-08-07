@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient ,HttpParams ,HttpHeaders} from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+
 @Component({
   selector: 'app-mis-diagnosticos',
   templateUrl: './mis-diagnosticos.component.html',
@@ -17,7 +18,11 @@ export class MisDiagnosticosComponent implements OnInit {
     
   ngOnInit(): void {
     this.getEspecialistas();
+   
+
   }
+
+  
 
   async getEspecialistas(){
     let params = new HttpParams().set("rut", this.rut);

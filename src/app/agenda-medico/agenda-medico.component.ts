@@ -275,6 +275,7 @@ export class AgendaMedicoComponent implements OnInit {
     console.log(event.title, fecha)
   }
   agendarHora( event: CalendarEvent){
+    console.log("hola")
     const fecha = this.datePipe.transform(event.start, 'yyyy-MM-dd');
     console.log(event.title, fecha)
     

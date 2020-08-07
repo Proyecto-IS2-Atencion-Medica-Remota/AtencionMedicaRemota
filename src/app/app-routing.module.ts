@@ -17,6 +17,8 @@ import { AgendaMedicoComponent } from './agenda-medico/agenda-medico.component';
 import { ChatComponent } from './chat/chat.component';
 import { MisPacientesComponent } from './mis-pacientes/mis-pacientes.component';
 import { MisDiagnosticosComponent } from './mis-diagnosticos/mis-diagnosticos.component';
+import { CitasComponent } from './citas/citas.component';
+import { EditarPacienteComponent } from './editar-paciente/editar-paciente.component'
 
 
 
@@ -37,6 +39,9 @@ const routes: Routes = [
   {path: 'chat/:id', component: ChatComponent,canActivate: [AuthGuard]},
   {path: 'misPacientes', component: MisPacientesComponent,canActivate: [AuthGuard]},
   {path: 'misDiagnosticos/:id', component: MisDiagnosticosComponent, canActivate: [AuthGuard]},
+  {path: 'misCitas', component: CitasComponent, canActivate: [AuthGuard]},
+  {path: 'editarPaciente', component: EditarPacienteComponent, canActivate: [AuthGuard]},
+
 ];
 
 @NgModule({

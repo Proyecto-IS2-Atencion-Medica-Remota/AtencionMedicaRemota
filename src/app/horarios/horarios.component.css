@@ -18,10 +18,17 @@ div.btn{
 }
 h3 {
 	font-family: 'Times New Roman', Times, serif;
-	margin-top: 10px;
+	margin-top: 15px;
   	text-transform: uppercase;
-	margin: 0 0 10px;
+	
 }
+
+
+  
+  pre {
+	background-color: #f5f5f5;
+	padding: 15px;
+  }
 
 @media screen and (max-width: 1130px) {
 	#container {

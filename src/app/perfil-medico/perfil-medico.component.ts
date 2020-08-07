@@ -13,11 +13,14 @@ export class PerfilMedicoComponent implements OnInit {
   imageFile: File;
   rut: any;
   especialista$ :any ;
+  recomendaciones$: any;
+
   constructor(private http: HttpClient,private imageService:ImageService) {
     this.rut=localStorage.getItem('rut');
   }
   ngOnInit(): void {
     this.getEspecialista();
+    this.getRecomendaciones();
   }
 
   getEspecialista(){
@@ -50,6 +53,14 @@ export class PerfilMedicoComponent implements OnInit {
      
     
     
-}
+  }
+
+  async getRecomendaciones(){
+    let params = new HttpParams().set("rut", this.rut);
+    this.recomendaciones$ = await this.http.get('http://localhost:8000/misRecomendaciones',{headers: new HttpHeaders({
+      'Content-Type':'application/json'
+      }), params: params}).toPromise();
+    console.log(this.recomendaciones$);
+  }
 
 }

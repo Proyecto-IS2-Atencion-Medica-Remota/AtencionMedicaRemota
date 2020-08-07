@@ -108,3 +108,16 @@
             </div>
         </div>
     </div>
+
+    <ng-template #modalValoracion let-modal>
+        <div class="modal-header">
+        <h4 class="modal-title">Diagnosticos y tratamientos</h4>
+        </div>
+        
+        <div class="modal-footer">
+            <div class="btn-group">
+                <button type="button" form="miForm" class="btn btn-light" (click)="modal.close('Close click')">Cerrar</button>
+            </div>
+        
+        </div>
+    </ng-template>

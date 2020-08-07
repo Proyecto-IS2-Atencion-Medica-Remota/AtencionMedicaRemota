@@ -65,13 +65,18 @@ p {
   }
   
 
+  table.col{
+    max-width: 40%;
+    margin: auto;
+    
+  }
 
-table {
+  table {
     
     border-collapse: collapse;
     margin: auto;
     padding: 0;
-    
+    margin-bottom: 8px;
     width: 90%;
     table-layout: fixed;
     border: 5px solid #afafaf;
@@ -124,10 +129,22 @@ table {
     text-align: center;
     border-left: 2px solid #948473;
   }
+
+  table tbody tr td.titulo {
+    background: #afa396;
+    background: -moz-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
+    background: -webkit-linear-gradient(top, #afa396 0%, #9e9081 66%, #948473 100%);
+    background: linear-gradient(to bottom, #afa396 0%, #9e9081 66%, #948473 100%);
+    font-size: 18px;
+    font-weight: bold;
+    color: #F0F0F0;
+    text-align: center;
+    border-left: 2px solid #948473;
+    }
   
   
   .button {
-    background-color: #9c83aa;/* Green */
+    background-color: #4ea5d8;
     border: none;
     color: white;
     padding: 1em 1.5em;
@@ -154,6 +171,9 @@ table {
     background-image: -moz-linear-gradient(left, #ec915c 0%, #bb2c3d 100%);
     background-image: -webkit-linear-gradient(left, #ec915c 0%, #bb2c3d 100%);
     background-image: linear-gradient(to right, #ec915c 0%, #bb2c3d 100%);
+    transform: scale(1.05);
+      transition: all .3s;
+      z-index: 100;
   }
   
   
@@ -401,10 +421,32 @@ table {
      }
 
      .row {
-      width: 100%;
-      padding: 10px;
-      font-size:18px;
+        width: 100%;
+        margin: auto;
+        font-size:18px;
      }
+
+  .col{
+    
+    max-width: 47%;
+   margin: auto;
+  }
+
+  .datos{
+    background-color: blue;
+    max-width: 80%;
+    margin: auto;
+  }
+
+  h3 {
+    color: #66cc99;
+    text-align: left;
+    text-transform: uppercase;
+    margin-left: 10px;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    font-weight: 400;
+    }
 
     
 	input[type='text'], [type='password'],[type='email'],[type=date], select, textarea {
@@ -446,6 +488,8 @@ table {
     margin-left: 7.6%;
     margin-bottom: 10px;
     font-family: 'Playfair Display', serif;
+
+    
   }
   .add span {
     cursor: pointer;
@@ -453,21 +497,14 @@ table {
     position: relative;
     transition: 0.5s;
   }
-  .add span:after {
-  content: '\00bb';  /* Entidades CSS. Para usar entidades HTML, use &#8594;*/
-  position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
-  }
-  .add:hover span {
+  
+  .add:hover {
     padding-right: 25px;
+    transform: scale(1.05);
+    transition: all .3s;
+    z-index: 100;
   }
-  .add:hover span:after {
-    opacity: 1;
-    right: 0;
-  }
+  
   
   @media screen and (max-width: 500px) {
     .add {
